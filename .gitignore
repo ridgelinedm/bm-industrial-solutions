@@ -1,0 +1,13 @@
+# Original photography and logo source files (128 MB). Kept out of the repo —
+# the processed web assets in assets/img/ are committed and are all the site
+# needs. You only need _inbox/ back if you want to re-run _build/images.py.
+_inbox/
+
+# Scratch output from contact sheets and local checks
+.work/
+mobile-test.html
+debug.html
+_dbg.html
+
+.DS_Store
+Thumbs.db

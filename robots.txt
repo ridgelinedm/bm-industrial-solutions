@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ridgelinedm.github.io/bm-industrial-solutions/sitemap.xml
