@@ -44,7 +44,7 @@ def reviews_section(limit=12, alt=True, title=None, lead=None):
     if lead is None:
         if avg and total:
             lead = (f"{total} reviews on Google, averaging {avg} out of 5. "
-                    "These are pulled straight from the profile, not selected highlights.")
+                    "Pulled straight from our Google Business Profile.")
         else:
             lead = "Pulled straight from our Google Business Profile."
 
@@ -148,7 +148,7 @@ def emergency_band():
         "Technician working on industrial equipment during an after-hours emergency call",
         "24/7 emergency service",
         "When it fails at 2am, you still get a technician",
-        "Breakdowns do not respect business hours. Our emergency line runs 24 hours a day, seven days a week. You reach someone who can diagnose the problem and dispatch, not an answering service taking a message for Monday.",
+        "Breakdowns do not respect business hours. Our emergency line runs 24 hours a day, seven days a week. You reach someone who can diagnose the problem and dispatch a technician.",
         f'<div class="btn-row"><a class="btn btn--primary btn--lg" href="tel:{COMPANY["phone_href"]}">{R.icon("phone", 18, 2.2)} {COMPANY["phone"]}</a>'
         f'<a class="btn btn--on-dark btn--lg" href="{R.url("contact")}">Request a quote</a></div>'
     )}
@@ -248,7 +248,7 @@ def page_home():
         "Owner-operated",
         "You talk to the person doing the work",
         "<p>BM Industrial Solutions is run by " + COMPANY["owner"] + ", a hands-on technician with over a decade in the field. There is no service manager relaying messages between you and a technician who has never seen your plant.</p>"
-        "<p>That has a practical consequence: the person who quotes the job is the person accountable for it, and decisions get made on the floor instead of routed through a branch office.</p>",
+        "<p>That has a practical consequence: the person who quotes the job is the person accountable for it, and decisions get made on the floor where the work is.</p>",
         flip=True,
     )}
   </div>
@@ -260,7 +260,7 @@ def page_home():
                     "The same process whether it is a 2am breakdown or a planned installation.")}
     {R.steps_block([
         ("phone", "You call", "One number, answered 24/7. Tell us what stopped and we will tell you what it likely is and when we can be there."),
-        ("search", "We diagnose", "On site, we work the whole system, not just the component that failed, so the repair addresses the cause."),
+        ("search", "We diagnose", "On site, we work the whole system, so the repair addresses whatever caused the failure."),
         ("list", "You get options", "Repair cost, replacement cost and the reasoning behind our recommendation. The decision stays yours."),
         ("file", "We finish and document", "The work gets completed, tested and written up, so you know what was done and what to watch."),
     ])}
@@ -282,7 +282,7 @@ def page_home():
             "surface": "red",
             "tag": "Down right now?",
             "title": "Stopped production does not wait for <em>business hours</em>",
-            "body": "The emergency line runs 24 hours a day, seven days a week, including holidays. You reach someone who can diagnose and dispatch, not an answering service taking a message.",
+            "body": "The emergency line runs 24 hours a day, seven days a week, including holidays. You reach someone who can diagnose and dispatch.",
             "label": f"Call {COMPANY['phone']}",
             "href": f"tel:{COMPANY['phone_href']}",
         },
@@ -296,7 +296,7 @@ def page_home():
         ("Do you really answer the phone at night?",
          f"<p>Yes. The emergency line runs 24 hours a day, including weekends and holidays. You reach someone who can assess the problem and dispatch. Call <a href=\"tel:{COMPANY['phone_href']}\">{COMPANY['phone']}</a>.</p>"),
         ("Which compressor brands do you service?",
-         "<p>Gardner Denver, Sullair, Ingersoll Rand, Kaeser, Atlas Copco, CompAir/LeRoi, Quincy, Champion, Curtis and Saylor-Beall, plus most other platforms. We are independent, so we recommend what the application needs rather than what a dealer agreement requires.</p>"),
+         "<p>Gardner Denver, Sullair, Ingersoll Rand, Kaeser, Atlas Copco, CompAir/LeRoi, Quincy, Champion, Curtis and Saylor-Beall, plus most other platforms. We are independent, so the recommendation answers to your application.</p>"),
         ("Can you handle a whole project, or only service calls?",
          f"<p>Both. We do emergency repairs, scheduled maintenance, and complete installation projects including rigging, equipment setting and the process piping that connects it. <a href=\"{R.url('services/mechanical-contracting')}\">See mechanical contracting</a>.</p>"),
         ("Do you work around production schedules?",
@@ -417,7 +417,7 @@ def page_services():
         ("Do we have to use you for all four services?",
          "<p>No. Plenty of customers use us only for compressed air. The four lines exist because they overlap constantly in practice, but you are not obligated to consolidate anything.</p>"),
         ("Are you a dealer for a particular manufacturer?",
-         "<p>No, and that is deliberate. Being independent means we can recommend the equipment your application actually calls for instead of the line we are contracted to sell.</p>"),
+         "<p>No, and that is deliberate. Being independent means we can recommend the equipment your application actually calls for.</p>"),
         ("Can you quote a project from drawings?",
          f"<p>We can start from drawings, but for anything involving existing plant we will want a site walk before committing to a number. Send what you have through the <a href=\"{R.url('contact')}\">contact form</a> and we will tell you what else we need.</p>"),
         ("How do you charge?",
@@ -437,7 +437,7 @@ def page_services():
                     "Whether it is an emergency call or a planned installation.")}
     {R.steps_block([
         ("phone", "You call", "One number, answered 24/7, by someone who can actually assess the problem."),
-        ("search", "We diagnose", "The whole system gets checked, not just the part that failed."),
+        ("search", "We diagnose", "The whole system gets checked, top to bottom."),
         ("list", "You get options", "Repair versus replace, with the reasoning and the cost of each."),
         ("file", "We finish and document", "Tested, commissioned and written up before we leave."),
     ])}
@@ -660,7 +660,7 @@ def page_service_areas():
     {R.split(
         "service-truck-trailer",
         "BM Industrial Solutions service truck and equipment trailer at a job site",
-        "Regional, not national",
+        "A region we can cover",
         "Close enough to actually show up",
         "<p class='lead'>A national service network sounds reassuring right up until the nearest technician is four hours away and already on another call.</p>"
         "<p>We deliberately work a region we can cover properly. Holly Hill sits between the Lowcountry and the Midlands, which puts Charleston, North Charleston, Summerville, Columbia and Sumter all inside a comfortable response radius, and puts the rest of the Carolinas and Georgia within reach for scheduled work.</p>",
@@ -678,7 +678,7 @@ def page_service_areas():
         + emergency_band()
         + R.cta_panel(
             "Not sure if you are in range?",
-            "Tell us where you are and what you need. If we are not the right people for the job, we will say so rather than waste your time.",
+            "Tell us where you are and what you need. If we are not the right people for the job, we will say so.",
         )
     )
 
@@ -824,14 +824,14 @@ def page_about():
     values = f"""<section class="section">
   <div class="container">
     {R.section_head("How we work", "Six commitments we actually <em>keep</em>",
-                    "These are not aspirations on a wall. They are the reason customers consolidate work with us.")}
+                    "These are the reason customers consolidate work with us.")}
     {R.featurelist([
-        ("user", "You get the owner, not a queue",
-         "The person quoting the work is the person doing it or supervising it. Decisions get made on your floor rather than routed through a branch office three counties away."),
+        ("user", "The owner picks up",
+         "The person quoting the work is the person doing it or supervising it. Decisions get made on your floor while we are standing in it."),
         ("search", "Diagnosis before parts",
          "Swapping components until the symptom goes away is expensive and it does not hold. We work the system methodically and fix the cause, which is why we are not back next quarter for the same fault."),
         ("layers", "Independent of manufacturers",
-         "We are not a dealer for anybody. The recommendation you get is based on what your application needs, not on a distribution agreement we are trying to satisfy."),
+         "We are not a dealer for anybody. The recommendation you get is based on what your application needs."),
         ("file", "Written down, handed over",
          "What was checked, what was changed, what the readings were and what is trending toward a problem. A record you can plan a budget against."),
         ("clock", "Answered around the clock",
@@ -942,7 +942,7 @@ def page_contact():
         <article class="card card--ink reveal" style="margin-top:1rem">
           <div class="card__icon">{R.icon('bolt', 26, 2)}</div>
           <h3 class="h4">Down right now?</h3>
-          <p>Do not wait on the form. Call the emergency line. It is answered 24 hours a day, including weekends and holidays, and you will reach someone who can dispatch rather than take a message for Monday.</p>
+          <p>Do not wait on the form. Call the emergency line. It is answered 24 hours a day, including weekends and holidays, and you will reach someone who can dispatch.</p>
           <div class="card__foot"><a class="btn btn--light btn--sm" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 16, 2.2)} Call {COMPANY['phone']}</a></div>
         </article>
       </div>

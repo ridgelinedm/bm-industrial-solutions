@@ -54,6 +54,22 @@ Almost everything lives in `_build/content.py`. To change a service
 description, a FAQ answer or the phone number, edit it there and re-run the
 build. Nothing needs to be edited in the generated HTML; it is overwritten.
 
+**Two house rules for copy.** Both exist because they are the fingerprints of
+machine-written text, and this site should not read that way.
+
+1. **No em dashes.** Use a colon when a list follows, parentheses for a genuine
+   aside, a full stop when the clause can stand alone, otherwise a comma.
+2. **No "X, not Y" antithesis.** Say the thing directly instead of defining it
+   against its opposite. "You get a technician, not a ticket number" becomes
+   "a technician picks up the phone." The same applies to "not just X but Y",
+   "instead of", and "rather than" when it is used for rhetorical contrast
+   rather than a real comparison. "Measured in hours rather than days" is a
+   genuine comparison and is fine; "diagnose the cause rather than repeating
+   the repair" was rhetoric and got rewritten.
+
+Verbatim customer reviews are exempt from both. They are quotes from named
+people and are rendered as written.
+
 ### Adding photos
 
 1. Drop originals into `_inbox/photos/`.
