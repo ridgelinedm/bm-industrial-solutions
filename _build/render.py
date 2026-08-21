@@ -147,7 +147,7 @@ def nav(active):
     <a class="nav__logo" href="{url('')}" aria-label="{esc(COMPANY['name'])} — home">
       <img src="{BASE}/assets/img/logo/logo-full-color.png" alt="{esc(COMPANY['name'])}" width="200" height="65">
     </a>
-    <nav aria-label="Primary"><ul class="nav__menu">{''.join(links)}</ul></nav>
+    <nav class="nav__nav" aria-label="Primary"><ul class="nav__menu">{''.join(links)}</ul></nav>
     <div class="nav__actions">
       <a class="nav__phone" href="tel:{COMPANY['phone_href']}">{icon('phone', 16, 2.2)}{COMPANY['phone']}</a>
       <a class="btn btn--primary btn--sm" href="{url('contact')}">Request a quote</a>
@@ -229,7 +229,7 @@ def footer():
     </div>
     <div class="footer__bar">
       <p>&copy; <span id="year">2026</span> {esc(COMPANY['legal_name'])}. All rights reserved.</p>
-      <p>{esc(COMPANY['street'])} · {COMPANY['city']}, {COMPANY['state']} {COMPANY['zip']}</p>
+      <p>{COMPANY['city']}, {COMPANY['state']} {COMPANY['zip']} · Serving SC, GA &amp; NC</p>
     </div>
   </div>
 </footer>"""
@@ -239,20 +239,29 @@ def footer():
 # Section builders
 # --------------------------------------------------------------------------
 def section_head(eyebrow=None, title=None, lead=None, center=False, wide=False, level=2):
-    parts = []
+    """Section intro.
+
+    Left-aligned heads with supporting copy render as two columns — heading on
+    the left, the lead on the right — which is how the reference site handles
+    them and stops the right half of the section reading as dead space.
+    """
+    eyebrow_html = ""
     if eyebrow:
         c = "eyebrow eyebrow--center" if center else "eyebrow"
-        parts.append(f'<p class="{c}">{esc(eyebrow)}</p>')
-    if title:
-        parts.append(f'<h{level} class="display-2">{title}</h{level}>')
-    if lead:
-        parts.append(f'<p class="lead">{lead}</p>')
+        eyebrow_html = f'<p class="{c}">{esc(eyebrow)}</p>'
+    title_html = f'<h{level} class="display-2">{title}</h{level}>' if title else ""
+    lead_html = f'<p class="lead">{lead}</p>' if lead else ""
+
+    if lead and title and not center:
+        return (f'<div class="section-head section-head--split reveal">'
+                f'<div>{eyebrow_html}{title_html}</div><div>{lead_html}</div></div>')
+
     cls = "section-head"
     if center:
         cls += " section-head--center"
     if wide:
         cls += " section-head--wide"
-    return f'<div class="{cls} reveal">{"".join(parts)}</div>'
+    return f'<div class="{cls} reveal">{eyebrow_html}{title_html}{lead_html}</div>'
 
 
 def crumbs(trail):
@@ -281,6 +290,84 @@ def services_grid(slugs=None, tint_index=None):
     items = SERVICES if slugs is None else [SERVICE_BY_SLUG[x] for x in slugs]
     cards = "".join(service_card(s, tint=(i == tint_index)) for i, s in enumerate(items))
     return f'<div class="grid grid--{4 if len(items) % 4 == 0 or len(items) > 3 else len(items)}">{cards}</div>'
+
+
+def tag(text, variant="red"):
+    return f'<span class="tag tag--{variant}">{esc(text)}</span>'
+
+
+# Which tag variant reads correctly on each bento surface.
+_TAG_ON = {"ink": "onink", "photo": "onink", "red": "onred"}
+
+
+def bento_card(spec):
+    """One colour-blocked panel. `title` and `body` may contain inline HTML."""
+    surface = spec.get("surface", "bone")
+    span = spec.get("span", 1)
+    classes = ["bento__card", f"bento__card--w{span}", f"bento__card--{surface}", "reveal"]
+
+    bg = ""
+    if surface == "photo" and spec.get("photo"):
+        slug, alt = spec["photo"]
+        bg = f'<div class="bento__bg">{photo(slug, alt, sizes="(max-width: 680px) 100vw, 55vw")}</div>'
+
+    media = ""
+    if spec.get("media"):
+        slug, alt = spec["media"]
+        classes.append("has-media")
+        media = f'<div class="bento__media">{photo(slug, alt, sizes="(max-width: 680px) 100vw, 32vw")}</div>'
+
+    hit = ""
+    if spec.get("path"):
+        hit = f'<a class="hit" href="{url(spec["path"])}" aria-label="{esc(spec.get("aria") or _strip_tags(spec["title"]))}"></a>'
+
+    tag_html = tag(spec["tag"], _TAG_ON.get(surface, "red")) if spec.get("tag") else ""
+
+    cta_html = ""
+    if spec.get("cta"):
+        cta_html = (f'<div class="bento__cta"><span class="arrow-link">'
+                    f'{esc(spec["cta"])} {icon("arrow", 16, 2.4)}</span></div>')
+
+    return (f'<article class="{" ".join(classes)}">{hit}{bg}'
+            f'<div class="bento__body">{tag_html}'
+            f'<h3 class="bento__title">{spec["title"]}</h3>'
+            f'<p>{spec["body"]}</p>{cta_html}</div>{media}</article>')
+
+
+def bento(specs):
+    return f'<div class="bento">{"".join(bento_card(s) for s in specs)}</div>'
+
+
+def featurelist(items):
+    """items: (icon_name, title, body_html) — deliberately no card chrome."""
+    out = []
+    for ic, title, body in items:
+        out.append(
+            f'<div class="featurelist__item reveal">'
+            f'<div class="featurelist__icon">{icon(ic, 28, 2)}</div>'
+            f'<h3>{esc(title)}</h3><p>{body}</p></div>'
+        )
+    return f'<div class="featurelist">{"".join(out)}</div>'
+
+
+def promo_card(spec):
+    surface = spec.get("surface", "ink")
+    gear = ""
+    if spec.get("gear", True):
+        gear = (f'<img class="promo__gear" src="{BASE}/assets/img/logo/icon-color.png" '
+                f'alt="" aria-hidden="true" loading="lazy" width="618" height="473">')
+    tag_html = tag(spec["tag"], _TAG_ON.get(surface, "red")) if spec.get("tag") else ""
+    href = spec["href"]
+    if not href.startswith(("tel:", "mailto:", "http")):
+        href = url(href)
+    btn = spec.get("btn_class", "btn btn--light")
+    return (f'<div class="promo promo--{surface} reveal">{gear}{tag_html}'
+            f'<h3 class="promo__title">{spec["title"]}</h3><p>{spec["body"]}</p>'
+            f'<div class="promo__btn"><a class="{btn}" href="{href}">{spec["label"]}</a></div></div>')
+
+
+def promo_duo(a, b):
+    return f'<div class="promo-duo">{promo_card(a)}{promo_card(b)}</div>'
 
 
 def stats_block(items, ink=False):
@@ -363,8 +450,8 @@ def cta_panel(title, lead, primary=("Request a quote", "contact"), secondary=Tru
         <p class="eyebrow">Ready when you are</p>
         <h2 class="display-2">{title}</h2>
         <p class="lead">{lead}</p>
-        <div class="btn-row">
-          <a class="btn btn--primary btn--lg" href="{url(primary[1])}">{esc(primary[0])}</a>
+        <div class="btn-row" style="--ring-gap:var(--ink-900);--ring-line:#fff">
+          <a class="btn btn--primary btn--lg btn--ring" href="{url(primary[1])}">{esc(primary[0])}</a>
           {sec}
         </div>
       </div>
@@ -413,9 +500,10 @@ def local_business_schema():
         "logo": SITE_URL + "/assets/img/logo/logo-full-color.png",
         "slogan": COMPANY["tagline"],
         "founder": {"@type": "Person", "name": COMPANY["owner"]},
+        # No street address is published, so the schema stays at locality level
+        # rather than repeating the town name as a street.
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": COMPANY["street"],
             "addressLocality": COMPANY["city"],
             "addressRegion": COMPANY["state"],
             "postalCode": COMPANY["zip"],
@@ -509,6 +597,7 @@ def document(title, description, path, body, active="", schemas=None, og_image=N
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="{BASE}/assets/css/site.css">
+<script>if('IntersectionObserver' in window)document.documentElement.classList.add('reveal-on');</script>
 {schema_tags}
 </head>
 <body>

@@ -57,15 +57,60 @@ def testimonials_section():
 </section>"""
 
 
-def four_pillars_section(title, lead, eyebrow="What we do", alt=False):
-    cards = "".join(
-        R.service_card(SERVICE_BY_SLUG[p], tint=(i == 1)) for i, p in enumerate(PILLARS)
-    )
+# Bento layout for the service lines. Sizes and surfaces are deliberately
+# uneven — the asymmetry and the solid colour blocks are the whole point, and a
+# row of five identical cards is exactly what this replaces.
+BENTO_LAYOUT = {
+    "services/air-compressor-services": dict(
+        span=2, surface="ink", tag="Compressed air",
+        title="Air compressor <em>systems</em>",
+        media=("compressor-warehouse-system",
+               "Rotary screw air compressor system and distribution piping in a manufacturing plant"),
+    ),
+    "services/hydraulics-services": dict(
+        span=1, surface="red", tag="Hydraulics", title="Hydraulics",
+    ),
+    "services/mechanical-contracting": dict(
+        span=1, surface="bone", tag="Mechanical", title="Mechanical <em>contracting</em>",
+    ),
+    "services/process-piping": dict(
+        span=2, surface="photo", tag="Piping", title="Process <em>piping</em>",
+        photo=("piping-blue-process-lines",
+               "Industrial process piping with isolation valves and filtration vessels"),
+    ),
+    "services/preventive-maintenance": dict(
+        span=2, surface="mist", tag="Stay ahead of it",
+        title="Preventive <em>maintenance</em>",
+        media=("compressor-matched-pair",
+               "Matched pair of well-maintained rotary screw compressors under a maintenance agreement"),
+    ),
+}
+
+
+def services_showcase(title, lead, eyebrow="What we do", alt=False):
+    specs = []
+    for p in PILLARS + ["services/preventive-maintenance"]:
+        s = SERVICE_BY_SLUG[p]
+        cfg = BENTO_LAYOUT[p]
+        specs.append({
+            "path": p,
+            "aria": s["title"],
+            "title": cfg["title"],
+            "body": s["short"],
+            "cta": "Explore",
+            "tag": cfg.get("tag"),
+            "span": cfg["span"],
+            "surface": cfg["surface"],
+            "media": cfg.get("media"),
+            "photo": cfg.get("photo"),
+        })
     cls = "section section--alt" if alt else "section"
+    # Pages whose hero already states the heading pass None and get a bare grid.
+    head = R.section_head(eyebrow, title, lead) if (title or lead or eyebrow) else ""
     return f"""<section class="{cls}">
   <div class="container">
-    {R.section_head(eyebrow, title, lead)}
-    <div class="grid grid--4">{cards}</div>
+    {head}
+    {R.bento(specs)}
   </div>
 </section>"""
 
@@ -122,7 +167,7 @@ def page_home():
     <div class="hero__grid">
       <div class="hero__copy">
         <p class="eyebrow">Industrial service · SC · GA · NC</p>
-        <h1 class="display-1">Your plant runs on air, oil and pressure. We keep all three moving.</h1>
+        <h1 class="display-1">Your plant runs on air, oil and pressure. We keep all three <em>moving</em>.</h1>
         <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping from one owner-operated crew — with a 24/7 emergency line that a technician actually answers.</p>
         <div class="btn-row">
           <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a quote</a>
@@ -152,7 +197,7 @@ def page_home():
     {R.stats_block([
         ("<em>4</em>", "Service lines under one contractor — air, hydraulics, mechanical and piping"),
         ("<em>3</em>", "States covered by regular field service: South Carolina, Georgia and North Carolina"),
-        ("10<em>+</em>", "Years of hands-on technician experience behind every job we take"),
+        ("<em>10+</em>", "Years of hands-on technician experience behind every job we take"),
         ("<em>1</em>", "Phone number, one point of contact, and the owner on the other end of it"),
     ])}
   </div>
@@ -161,7 +206,7 @@ def page_home():
     why = f"""<section class="section">
   <div class="container">
     {R.section_head("Why plants consolidate with us",
-                    "Four trades, one contractor, nobody to point at",
+                    "Four trades, one contractor, <em>nobody to point at</em>",
                     "When compressed air, hydraulics, rigging and piping are split across four vendors, every problem lands in the gap between them. We close the gap by covering all four.")}
     {R.split(
         "rigging-vessel-lift",
@@ -197,26 +242,26 @@ def page_home():
   </div>
 </section>"""
 
-    pm = f"""<section class="section section--tint">
+    pm = f"""<section class="section">
   <div class="container">
-    <div class="split reveal">
-      <div class="split__media">
-        {R.photo("compressor-matched-pair", "Matched pair of well-maintained rotary screw compressors under a preventive maintenance agreement", sizes="(max-width: 860px) 100vw, 45vw")}
-      </div>
-      <div class="split__copy">
-        <p class="eyebrow">Preventive maintenance</p>
-        <h2 class="display-3">Nearly every emergency we get called to was preventable</h2>
-        <p class="lead">Scheduled inspections across your compressed air, hydraulic and mechanical equipment — plus priority response on the day something fails anyway.</p>
-        {R.ticks([
-            "Intervals set by your run hours and environment, not a generic calendar.",
-            "Every visit documented, so problems get caught while they are still cheap.",
-            "Agreement customers go to the front of the emergency queue.",
-        ])}
-        <div class="btn-row">
-          <a class="btn btn--dark" href="{R.url('services/preventive-maintenance')}">How agreements work</a>
-        </div>
-      </div>
-    </div>
+    {R.promo_duo(
+        {
+            "surface": "ink",
+            "tag": "Stay ahead of it",
+            "title": "Nearly every emergency we get called to was <em>preventable</em>",
+            "body": "Scheduled inspections across your compressed air, hydraulic and mechanical equipment, on intervals set by your run hours — plus priority response on the day something fails anyway.",
+            "label": "How agreements work",
+            "href": "services/preventive-maintenance",
+        },
+        {
+            "surface": "red",
+            "tag": "Down right now?",
+            "title": "Stopped production does not wait for <em>business hours</em>",
+            "body": "The emergency line runs 24 hours a day, seven days a week, including holidays. You reach someone who can diagnose and dispatch, not an answering service taking a message.",
+            "label": f"Call {COMPANY['phone']}",
+            "href": f"tel:{COMPANY['phone_href']}",
+        },
+    )}
   </div>
 </section>"""
 
@@ -244,8 +289,8 @@ def page_home():
         hero
         + R.brandwall()
         + stats
-        + four_pillars_section(
-            "Everything your plant needs from one contractor",
+        + services_showcase(
+            "Everything your plant needs from <em>one contractor</em>",
             "Four service lines that overlap constantly in practice. Most customers start with one and consolidate the rest once they see how much coordination it removes.",
         )
         + emergency_band()
@@ -282,7 +327,7 @@ def page_services():
     <div class="pagehero__inner">
       {R.crumbs(trail)}
       <p class="eyebrow eyebrow--center">Services</p>
-      <h1 class="display-1">Four trades. One contractor. No gaps between them.</h1>
+      <h1 class="display-1">Four trades. One contractor. <em>No gaps</em> between them.</h1>
       <p class="lead">Compressed air, hydraulics, mechanical contracting and process piping — plus preventive maintenance to keep all of it out of the emergency queue.</p>
       <div class="btn-row btn-row--center">
         <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a quote</a>
@@ -292,23 +337,29 @@ def page_services():
   </div>
 </section>"""
 
-    pillar_cards = "".join(
-        R.service_card(SERVICE_BY_SLUG[p], tint=(i == 1)) for i, p in enumerate(PILLARS)
-    )
-    pm_card = R.service_card(SERVICE_BY_SLUG["services/preventive-maintenance"])
+    # The hero above already carries the heading, so the showcase runs bare.
+    grid = services_showcase(None, None, eyebrow=None)
 
-    grid = f"""<section class="section">
+    triage = f"""<section class="section section--tight">
   <div class="container">
-    <div class="grid grid--4">{pillar_cards}</div>
-    <div class="grid grid--2" style="margin-top:clamp(1rem,0.5rem + 1.4vw,1.75rem)">
-      {pm_card}
-      <article class="card card--ink reveal">
-        <div class="card__icon">{R.icon('bolt', 26, 2)}</div>
-        <h3 class="h4">Not sure which one you need?</h3>
-        <p>Most problems do not arrive neatly labelled. Water at the tool could be a dryer, a drain or the piping. Describe what is actually happening and we will work out which trade it belongs to.</p>
-        <div class="card__foot"><a class="btn btn--light btn--sm" href="{R.url('contact')}">Describe the problem</a></div>
-      </article>
-    </div>
+    {R.promo_duo(
+        {
+            "surface": "ink",
+            "tag": "Start here",
+            "title": "Not sure which one you <em>need</em>?",
+            "body": "Most problems do not arrive neatly labelled. Water at the tool could be a dryer, a drain or the piping. Describe what is actually happening and we will work out which trade it belongs to.",
+            "label": "Describe the problem",
+            "href": "contact",
+        },
+        {
+            "surface": "red",
+            "tag": "Already know?",
+            "title": "Skip straight to a <em>quote</em>",
+            "body": "Equipment make and model, what it is doing, and how urgent it is. That is enough for us to come back with scope, timing and a number.",
+            "label": f"Call {COMPANY['phone']}",
+            "href": f"tel:{COMPANY['phone_href']}",
+        },
+    )}
   </div>
 </section>"""
 
@@ -352,6 +403,7 @@ def page_services():
         hero
         + R.brandwall()
         + grid
+        + triage
         + subs
         + emergency_band()
         + f"""<section class="section">
@@ -563,7 +615,7 @@ def page_service_areas():
 
     main = f"""<section class="section">
   <div class="container">
-    {R.section_head("Primary markets", "Where we work most",
+    {R.section_head("Primary markets", "Where we work <em>most</em>",
                     "These are the areas we cover regularly, with dedicated pages for what each one tends to need.")}
     {R.areas_grid()}
   </div>
@@ -593,7 +645,7 @@ def page_service_areas():
 
     body = (
         hero + main + more + why
-        + four_pillars_section(
+        + services_showcase(
             "The same four services everywhere we go",
             "Whatever market you are in, the scope does not change — air, hydraulics, mechanical contracting and process piping from one contractor.",
             eyebrow="What we bring", alt=True,
@@ -667,7 +719,7 @@ def page_area(a):
 
     body = (
         hero + overview
-        + four_pillars_section(
+        + services_showcase(
             f"Every service, available in {a['city']}",
             "The full scope travels with us. No sub-contracting the parts of the job that are inconvenient.",
             eyebrow="Services",
@@ -711,7 +763,7 @@ def page_about():
     <div class="pagehero__inner">
       {R.crumbs(trail)}
       <p class="eyebrow">About</p>
-      <h1 class="display-1">Locally owned. Personally committed. Professionally built.</h1>
+      <h1 class="display-1">Locally owned. Personally committed. <em>Professionally built.</em></h1>
       <p class="lead">BM Industrial Solutions is an owner-operated industrial service company in Holly Hill, South Carolina. The person who quotes your job is the person accountable for it.</p>
     </div>
   </div>
@@ -733,12 +785,12 @@ def page_about():
 
     stats = f"""<section class="section section--ink">
   <div class="container">
-    {R.section_head("What that means in practice", "Small company, serious scope",
+    {R.section_head("What that means in practice", "Small company, <em>serious scope</em>",
                     "Enough capability to take the whole job, small enough that you always know who is doing it.")}
     {R.stats_block([
         ("<em>4</em>", "Service lines — compressed air, hydraulics, mechanical contracting and process piping"),
         ("<em>3</em>", "States covered by regular field service"),
-        ("10<em>+</em>", "Years of hands-on technician experience"),
+        ("<em>10+</em>", "Years of hands-on technician experience"),
         ("<em>24/7</em>", "Emergency coverage, including weekends and holidays"),
     ])}
   </div>
@@ -746,30 +798,22 @@ def page_about():
 
     values = f"""<section class="section">
   <div class="container">
-    {R.section_head("How we work", "Four commitments we actually keep",
+    {R.section_head("How we work", "Six commitments we actually <em>keep</em>",
                     "These are not aspirations on a wall. They are the reason customers consolidate work with us.")}
-    <div class="grid grid--2">
-      <article class="card reveal">
-        <div class="card__icon">{R.icon('user', 26, 2)}</div>
-        <h3 class="h4">You get the owner, not a queue</h3>
-        <p>The person quoting the work is the person doing it or supervising it. Decisions get made on your floor rather than routed through a branch office three counties away.</p>
-      </article>
-      <article class="card card--tint reveal">
-        <div class="card__icon">{R.icon('search', 26, 2)}</div>
-        <h3 class="h4">Diagnosis before parts</h3>
-        <p>Swapping components until the symptom goes away is expensive and it does not hold. We work the system methodically and fix the cause, which is why we are not back next quarter for the same fault.</p>
-      </article>
-      <article class="card reveal">
-        <div class="card__icon">{R.icon('layers', 26, 2)}</div>
-        <h3 class="h4">Independent of manufacturers</h3>
-        <p>We are not a dealer for anybody. That means the recommendation you get is based on what your application needs, not on a distribution agreement we are trying to satisfy.</p>
-      </article>
-      <article class="card reveal">
-        <div class="card__icon">{R.icon('file', 26, 2)}</div>
-        <h3 class="h4">Written down, handed over</h3>
-        <p>What was checked, what was changed, what the readings were and what is trending toward a problem. A record you can plan a budget against.</p>
-      </article>
-    </div>
+    {R.featurelist([
+        ("user", "You get the owner, not a queue",
+         "The person quoting the work is the person doing it or supervising it. Decisions get made on your floor rather than routed through a branch office three counties away."),
+        ("search", "Diagnosis before parts",
+         "Swapping components until the symptom goes away is expensive and it does not hold. We work the system methodically and fix the cause, which is why we are not back next quarter for the same fault."),
+        ("layers", "Independent of manufacturers",
+         "We are not a dealer for anybody. The recommendation you get is based on what your application needs, not on a distribution agreement we are trying to satisfy."),
+        ("file", "Written down, handed over",
+         "What was checked, what was changed, what the readings were and what is trending toward a problem. A record you can plan a budget against."),
+        ("clock", "Answered around the clock",
+         "The emergency line runs 24 hours a day, including weekends and holidays, because that is when equipment actually decides to fail."),
+        ("truck", "The whole scope travels",
+         "Air, hydraulics, rigging and piping arrive together. No sub-contracting the half of the job that is inconvenient."),
+    ])}
   </div>
 </section>"""
 
@@ -824,7 +868,7 @@ def page_contact():
     <div class="pagehero__inner">
       {R.crumbs(trail)}
       <p class="eyebrow">Contact</p>
-      <h1 class="display-1">Tell us what stopped working</h1>
+      <h1 class="display-1">Tell us what <em>stopped working</em></h1>
       <p class="lead">If equipment is down right now, call — the emergency line runs 24 hours a day and you will reach someone who can dispatch. For quotes, planned work and everything else, the form is the fastest route.</p>
     </div>
   </div>
@@ -1002,7 +1046,7 @@ def page_404():
       </div>
     </div>
   </div>
-</section>""" + four_pillars_section(
+</section>""" + services_showcase(
         "What you were probably looking for",
         "Air compressors, hydraulics, mechanical contracting and process piping.",
         eyebrow="Services", alt=True,

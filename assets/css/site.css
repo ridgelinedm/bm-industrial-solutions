@@ -142,6 +142,22 @@ ul, ol { padding: 0; list-style: none; }
 .section-head--wide { max-width: 78ch; }
 .section-head > * + * { margin-top: 1.25rem; }
 
+/* Heading left, supporting copy right — the reference site's default for any
+   section intro that has both. */
+.section-head--split {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(1.25rem, 1rem + 3vw, 4.5rem);
+  align-items: end;
+}
+.section-head--split > * + * { margin-top: 0; }
+.section-head--split .eyebrow { margin-bottom: 1.25rem; }
+.section-head--split .lead { max-width: 46ch; }
+@media (max-width: 860px) {
+  .section-head--split { grid-template-columns: 1fr; gap: 1.25rem; align-items: start; }
+}
+
 .stack > * + * { margin-top: 1.25rem; }
 .stack-sm > * + * { margin-top: 0.6rem; }
 .stack-lg > * + * { margin-top: 2rem; }
@@ -323,29 +339,35 @@ ul, ol { padding: 0; list-style: none; }
   transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 .nav.is-stuck { border-bottom-color: var(--border); box-shadow: 0 2px 20px rgba(35, 31, 32, 0.06); }
+.nav .container { max-width: 1400px; }
 .nav__inner {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  min-height: 78px;
+  gap: clamp(1.5rem, 2.5vw, 3rem);
+  min-height: 86px;
 }
 .nav__logo { flex: none; display: flex; align-items: center; }
 .nav__logo img { width: clamp(158px, 15vw, 200px); }
-.nav__menu { display: flex; align-items: center; gap: 0.35rem; margin-left: auto; }
+/* Auto margins on the nav element itself centre the menu in the space between
+   the logo and the actions. Putting them on the inner <ul> did nothing, which
+   left the whole bar bunched against the left edge. */
+.nav__nav { margin-inline: auto; }
+.nav__menu { display: flex; align-items: center; gap: clamp(0.25rem, 0.9vw, 1.1rem); }
 .nav__link {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.6rem 0.85rem;
+  padding: 0.65rem 1.05rem;
   border-radius: 999px;
   font-size: var(--fs-sm);
   font-weight: 500;
   color: var(--ink);
+  white-space: nowrap;
   transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
 }
 .nav__link:hover { background: var(--grey-100); }
 .nav__link[aria-current="page"], .nav__link.is-active { color: var(--red); font-weight: 600; }
-.nav__actions { display: flex; align-items: center; gap: 0.75rem; flex: none; }
+.nav__actions { display: flex; align-items: center; gap: clamp(0.75rem, 1.2vw, 1.35rem); flex: none; }
 .nav__phone {
   display: inline-flex;
   align-items: center;
@@ -577,24 +599,25 @@ ul, ol { padding: 0; list-style: none; }
   font-weight: 600;
   margin-bottom: 1.75rem;
 }
+/* Set as a muted wordmark wall rather than a row of chips — closer to how the
+   reference site handles its customer logos, and honest given we do not have
+   licensed logo art for these manufacturers. */
 .brandwall__list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.6rem 0.75rem;
+  align-items: center;
+  gap: clamp(1.1rem, 0.4rem + 2.4vw, 3.25rem);
 }
 .brandwall__list li {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(0.9375rem, 0.85rem + 0.35vw, 1.125rem);
-  letter-spacing: -0.01em;
-  color: var(--grey-600);
-  padding: 0.5rem 1.05rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+  font-size: clamp(1rem, 0.88rem + 0.6vw, 1.4rem);
+  letter-spacing: -0.018em;
+  color: var(--grey-400);
+  transition: color 0.2s var(--ease);
 }
-.brandwall__list li:hover { color: var(--ink); border-color: var(--grey-400); }
+.brandwall__list li:hover { color: var(--ink); }
 
 /* --- Cards ---------------------------------------------------------------- */
 .grid { display: grid; gap: clamp(1rem, 0.5rem + 1.4vw, 1.75rem); }
@@ -618,19 +641,14 @@ ul, ol { padding: 0; list-style: none; }
 }
 .card--link:hover { background: var(--white); border-color: var(--border); transform: translateY(-4px); box-shadow: var(--shadow); }
 .card--link:hover .arrow-link svg { transform: translateX(5px); }
+/* Bare icon rather than the ubiquitous icon-in-a-rounded-white-square. */
 .card__icon {
-  width: 52px; height: 52px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  background: var(--white);
+  display: block;
   color: var(--red);
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.25rem;
   flex: none;
-  box-shadow: var(--shadow-sm);
 }
-.card--link:hover .card__icon { background: var(--red); color: var(--white); }
-.card__icon svg { width: 26px; height: 26px; }
+.card__icon svg { width: 30px; height: 30px; }
 .card h3 { margin-bottom: 0.7rem; }
 .card p { color: var(--text-muted); font-size: var(--fs-sm); }
 .card__foot { margin-top: auto; padding-top: 1.5rem; }
@@ -639,11 +657,10 @@ ul, ol { padding: 0; list-style: none; }
 
 /* Tinted variants used to break up long card runs */
 .card--tint { background: var(--red-tint); }
-.card--tint .card__icon { background: var(--white); }
 .card--ink { background: var(--ink-900); color: var(--white); }
 .card--ink h3 { color: var(--white); }
 .card--ink p { color: rgba(255, 255, 255, 0.7); }
-.card--ink .card__icon { background: rgba(255, 255, 255, 0.1); color: #ff6b70; box-shadow: none; }
+.card--ink .card__icon { color: #ff6b70; }
 .card--outline { background: var(--white); border-color: var(--border); }
 
 /* Card with photo on top */
@@ -675,13 +692,13 @@ ul, ol { padding: 0; list-style: none; }
 /* --- Stats ---------------------------------------------------------------- */
 .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1.5rem, 0.5rem + 3vw, 3.5rem); }
 @media (max-width: 900px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 440px) { .stats { grid-template-columns: 1fr; } }
+@media (max-width: 360px) { .stats { grid-template-columns: 1fr; } }
 .stat__num {
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 1.5rem + 4.4vw, 4.5rem);
+  font-size: clamp(3rem, 1.5rem + 5.4vw, 5.5rem);
   font-weight: 800;
-  letter-spacing: -0.045em;
-  line-height: 0.95;
+  letter-spacing: -0.05em;
+  line-height: 0.92;
   color: var(--ink);
 }
 .section--ink .stat__num { color: var(--white); }
@@ -817,8 +834,8 @@ ul, ol { padding: 0; list-style: none; }
   transition: border-color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
 .area:hover { border-color: var(--grey-400); transform: translateY(-3px); box-shadow: var(--shadow-sm); }
-.area__name { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.015em; }
-.area__meta { font-size: var(--fs-xs); color: var(--grey-500); margin-top: 0.1rem; }
+.area__name { display: block; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.015em; }
+.area__meta { display: block; font-size: var(--fs-xs); color: var(--grey-500); margin-top: 0.2rem; }
 .area svg { color: var(--red); flex: none; }
 .area--plain { background: var(--grey-50); border-color: transparent; }
 .area--plain:hover { transform: none; box-shadow: none; border-color: var(--border); }
@@ -964,12 +981,230 @@ a.contact-item:hover { background: var(--red-tint); }
   body { padding-bottom: 4.75rem; }
 }
 
-/* --- Scroll reveal -------------------------------------------------------- */
-.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
-.reveal.is-in { opacity: 1; transform: none; }
+/* ==========================================================================
+   Bento system
+   The reference site's defining move: an asymmetric grid of solid colour-
+   blocked panels at mixed sizes, each one a headline + short copy + imagery
+   bleeding to the edge. Its palette is lavender/yellow/pink; ours is the only
+   palette the brand owns — ink, red, and two industrial neutrals — plus the
+   photography doing the work the illustrations do over there.
+   ========================================================================== */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.9rem, 0.5rem + 1vw, 1.5rem);
+}
+.bento__card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  min-height: clamp(300px, 24vw, 392px);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.bento__card--w1 { grid-column: span 1; }
+.bento__card--w2 { grid-column: span 2; }
+.bento__card--w3 { grid-column: span 3; }
+.bento__card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+
+.hit { position: absolute; inset: 0; z-index: 3; border-radius: inherit; }
+
+.bento__body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  padding: clamp(1.5rem, 1rem + 1.4vw, 2.35rem);
+}
+.bento__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.06;
+  font-size: clamp(1.45rem, 1.05rem + 1.4vw, 2.05rem);
+  text-wrap: balance;
+}
+.bento__body p { font-size: var(--fs-sm); line-height: 1.6; }
+.bento__cta { margin-top: auto; padding-top: 1.1rem; }
+.bento__media { margin-top: auto; overflow: hidden; }
+.bento__media img, .bento__media picture { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Wide cards run copy beside the image; narrow ones stack it underneath. */
+.bento__card--w2.has-media, .bento__card--w3.has-media { flex-direction: row; align-items: stretch; }
+.bento__card--w2.has-media .bento__body { flex: 1 1 54%; }
+.bento__card--w2.has-media .bento__media { flex: 1 1 46%; margin-top: 0; }
+.bento__card--w3.has-media .bento__body { flex: 1 1 46%; }
+.bento__card--w3.has-media .bento__media { flex: 1 1 54%; margin-top: 0; }
+.bento__card--w1 .bento__media img { aspect-ratio: 16 / 10; }
+
+/* Surfaces */
+.bento__card--ink { background: var(--ink-900); color: var(--white); }
+.bento__card--ink p { color: rgba(255, 255, 255, 0.68); }
+.bento__card--ink .arrow-link { color: #ff6b70; }
+.bento__card--red { background: var(--red); color: var(--white); }
+.bento__card--red p { color: rgba(255, 255, 255, 0.84); }
+.bento__card--red .arrow-link { color: var(--white); }
+.bento__card--bone { background: #efece6; color: var(--ink); }
+.bento__card--mist { background: #e4e8ea; color: var(--ink); }
+.bento__card--bone p, .bento__card--mist p { color: var(--grey-600); }
+.bento__card--outline { background: var(--white); border: 1px solid var(--border); color: var(--ink); }
+.bento__card--outline p { color: var(--grey-600); }
+
+/* Full-bleed photo surface with a scrim so the copy stays readable */
+.bento__card--photo { color: var(--white); }
+.bento__bg { position: absolute; inset: 0; z-index: -2; }
+.bento__bg img { width: 100%; height: 100%; object-fit: cover; }
+.bento__card--photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(158deg, rgba(18, 15, 16, 0.94) 0%, rgba(18, 15, 16, 0.74) 46%, rgba(18, 15, 16, 0.32) 100%);
+}
+.bento__card--photo p { color: rgba(255, 255, 255, 0.76); }
+.bento__card--photo .arrow-link { color: #ff6b70; }
+
+@media (max-width: 1040px) {
+  .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bento__card--w3 { grid-column: span 2; }
+}
+@media (max-width: 680px) {
+  .bento { grid-template-columns: 1fr; }
+  .bento__card--w1, .bento__card--w2, .bento__card--w3 { grid-column: span 1; }
+  .bento__card--w2.has-media, .bento__card--w3.has-media { flex-direction: column; }
+  .bento__card--w2.has-media .bento__media img,
+  .bento__card--w3.has-media .bento__media img { aspect-ratio: 16 / 10; }
+  /* The diagonal scrim leaves the middle of a tall narrow card too light for
+     copy, so switch to a vertical one. */
+  .bento__card--photo::before {
+    background: linear-gradient(180deg, rgba(18, 15, 16, 0.93) 0%, rgba(18, 15, 16, 0.82) 55%, rgba(18, 15, 16, 0.62) 100%);
+  }
+}
+
+/* --- Category tags -------------------------------------------------------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 0.42rem 0.85rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.tag--red { background: var(--red-tint); color: var(--red-700); }
+.tag--onink { background: rgba(255, 255, 255, 0.14); color: var(--white); }
+.tag--onred { background: rgba(255, 255, 255, 0.22); color: var(--white); }
+.tag--ink { background: rgba(35, 31, 32, 0.07); color: var(--ink); }
+
+/* --- Accented words inside headlines -------------------------------------- */
+.display-1 em, .display-2 em, .display-3 em,
+.bento__title em, .promo__title em {
+  font-style: normal;
+  color: var(--red);
+}
+.section--ink .display-2 em, .cta-panel .display-2 em,
+.bento__card--ink .bento__title em, .bento__card--photo .bento__title em,
+.promo--ink .promo__title em { color: #ff5a60; }
+/* On a red ground the accent has to invert or it disappears entirely. */
+.bento__card--red .bento__title em,
+.promo--red .promo__title em { color: var(--ink-900); }
+
+/* --- Ring button ---------------------------------------------------------- */
+/* The reference site's most recognisable control: a filled pill sitting inside
+   an offset outline, with a gap of the background colour between the two. */
+.btn--ring {
+  box-shadow: 0 0 0 4px var(--ring-gap, #fff), 0 0 0 6px var(--ring-line, var(--ink));
+}
+.btn--ring:hover {
+  box-shadow: 0 0 0 4px var(--ring-gap, #fff), 0 0 0 7.5px var(--ring-line, var(--ink));
+}
+
+/* --- Bare feature list (no card chrome) ----------------------------------- */
+.featurelist {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(2rem, 1rem + 2.5vw, 3.25rem) clamp(1.75rem, 1rem + 2vw, 3rem);
+}
+@media (max-width: 900px) { .featurelist { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .featurelist { grid-template-columns: 1fr; } }
+.featurelist__icon { color: var(--red); margin-bottom: 1.05rem; }
+.featurelist h3 {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  margin-bottom: 0.55rem;
+}
+.featurelist p { font-size: var(--fs-sm); color: var(--text-muted); }
+.section--ink .featurelist h3 { color: var(--white); }
+.section--ink .featurelist p { color: rgba(255, 255, 255, 0.65); }
+.section--ink .featurelist__icon { color: #ff6b70; }
+
+/* --- Two-up promo panels -------------------------------------------------- */
+.promo-duo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 0.5rem + 1.2vw, 1.5rem);
+}
+@media (max-width: 800px) { .promo-duo { grid-template-columns: 1fr; } }
+.promo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  padding: clamp(2rem, 1.2rem + 2.4vw, 3.25rem);
+  min-height: clamp(276px, 21vw, 340px);
+  display: flex;
+  flex-direction: column;
+}
+.promo > * + * { margin-top: 1.05rem; }
+.promo__gear + * { margin-top: 0; }
+.promo__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-size: clamp(1.55rem, 1.1rem + 1.7vw, 2.3rem);
+  text-wrap: balance;
+}
+.promo p { font-size: var(--fs-sm); line-height: 1.6; }
+.promo__btn { margin-top: auto; padding-top: 1.75rem; }
+.promo--ink { background: var(--ink-900); color: var(--white); }
+.promo--ink p { color: rgba(255, 255, 255, 0.7); }
+.promo--red { background: var(--red); color: var(--white); }
+.promo--red p { color: rgba(255, 255, 255, 0.85); }
+.promo__gear {
+  position: absolute;
+  right: -9%;
+  bottom: -26%;
+  width: min(19rem, 60%);
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: -1;
+}
+.promo--red .promo__gear { filter: brightness(0) invert(1); opacity: 0.14; }
+
+/* --- Scroll reveal --------------------------------------------------------
+   Content is visible by default. The hidden-then-revealed state only applies
+   once the inline head script confirms IntersectionObserver exists, so a JS
+   failure, a blocked script or an old browser can never leave the page blank. */
+.reveal-on .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal-on .reveal.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .btn:hover, .card--link:hover, .area:hover { transform: none; }
+  .reveal-on .reveal { opacity: 1; transform: none; transition: none; }
+  .btn:hover, .card--link:hover, .area:hover, .bento__card:hover { transform: none; }
 }
 
 /* --- Print ---------------------------------------------------------------- */

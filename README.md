@@ -110,9 +110,27 @@ do not skip it.
 ## Design notes
 
 Brand colours were sampled from the logo artwork: red `#CE171E`, ink `#231F20`,
-grey `#686868`. Type is Archivo (display) over Inter (body). The layout follows
-the reference site's rhythm — generous section spacing, oversized headlines,
-tinted card surfaces and alternating white/off-white bands.
+grey `#686868`. Type is Archivo (display) over Inter (body).
+
+The layout follows the reference site's language rather than just its spacing:
+
+- **Bento grid** (`.bento`) — the service lines render as an asymmetric grid of
+  solid colour-blocked panels at mixed widths, with photography bleeding to the
+  card edge. The reference uses lavender/yellow/pink; we use the only palette
+  the brand owns — ink, red, and two industrial neutrals (`#efece6` bone,
+  `#e4e8ea` mist) — plus a full-bleed photo surface. Layout is configured in
+  `BENTO_LAYOUT` in `_build/build.py`.
+- **Ring button** (`.btn--ring`) — a filled pill inside an offset outline with a
+  gap of background colour between, driven by `--ring-gap` and `--ring-line`.
+- **Split section heads** — any left-aligned heading with supporting copy
+  automatically renders as two columns, heading left and lead right.
+- **Accented headline words** — `<em>` inside a heading prints in brand red, and
+  inverts on red and ink grounds so it never disappears into its background.
+- **Bare icon grids** (`.featurelist`) and muted wordmark walls instead of the
+  boxed-icon card and chip-row patterns they replaced.
+
+Accent colours are deliberately limited to the brand palette. If you add a new
+surface, check the `em` accent still has contrast against it.
 
 Accessibility and performance basics are in place: one `<h1>` per page, alt text
 on every image, visible focus rings, `prefers-reduced-motion` honoured, skip

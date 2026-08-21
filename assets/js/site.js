@@ -57,6 +57,15 @@
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
     reveals.forEach(function (el) { io.observe(el); });
+
+    // Backstop: if the observer has not delivered for something after a few
+    // seconds (headless capture, an odd viewport, a throttled tab), show it
+    // anyway. Content must never be permanently invisible.
+    setTimeout(function () {
+      document.querySelectorAll(".reveal:not(.is-in)").forEach(function (el) {
+        el.classList.add("is-in");
+      });
+    }, 2500);
   }
 
   /* --- Contact form ------------------------------------------------------
