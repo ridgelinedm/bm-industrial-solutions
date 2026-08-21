@@ -20,7 +20,7 @@ sys.path.insert(0, HERE)
 import render as R  # noqa: E402
 from content import (  # noqa: E402
     COMPANY, SERVICES, SERVICE_BY_SLUG, PILLARS, AREAS, AREA_BY_SLUG,
-    EXTENDED_AREAS, TESTIMONIALS,
+    EXTENDED_AREAS, REVIEWS,
 )
 
 # Directories the build owns and will clear before writing.
@@ -30,29 +30,54 @@ GENERATED_DIRS = ["services", "service-areas", "about", "contact"]
 # --------------------------------------------------------------------------
 # Shared blocks
 # --------------------------------------------------------------------------
-def testimonials_section():
-    """Renders only when real reviews have been added to content.py."""
-    if not TESTIMONIALS:
+def reviews_section(limit=12, alt=True, title=None, lead=None):
+    """Google reviews imported by _build/reviews.py. Renders nothing if empty."""
+    revs = REVIEWS.get("reviews") or []
+    if not revs:
         return ""
+
+    avg = REVIEWS.get("average")
+    total = REVIEWS.get("total") or REVIEWS.get("count") or len(revs)
+
+    if title is None:
+        title = "What customers actually <em>say</em>"
+    if lead is None:
+        if avg and total:
+            lead = (f"{total} reviews on Google, averaging {avg} out of 5. "
+                    "These are pulled straight from the profile, not selected highlights.")
+        else:
+            lead = "Pulled straight from our Google Business Profile."
+
     cards = []
-    for quote, name, role, stars in TESTIMONIALS:
-        initials = "".join(p[0] for p in name.split()[:2]).upper()
-        s = "".join(R.star_icon() for _ in range(stars))
-        cards.append(f"""<article class="quote reveal">
-  <div class="quote__stars" aria-label="{stars} out of 5">{s}</div>
-  <p>{quote}</p>
-  <div class="quote__by">
-    <span class="quote__avatar" aria-hidden="true">{initials}</span>
-    <span><span class="quote__name">{R.esc(name)}</span><br><span class="quote__meta">{R.esc(role)}</span></span>
-  </div>
-</article>""")
-    return f"""<section class="section section--alt">
+    for r in revs[:limit]:
+        initials = "".join(p[0] for p in r["name"].split()[:2] if p[:1].isalpha()).upper() or "G"
+        meta = "Google review" + (f", {r['date']}" if r.get("date") else "")
+        cards.append(
+            f'<article class="review">{R.stars(r["rating"])}'
+            f'<p>{R.esc(r["text"])}</p>'
+            f'<div class="review__by">'
+            f'<span class="review__avatar" aria-hidden="true">{R.esc(initials)}</span>'
+            f'<span><span class="review__name">{R.esc(r["name"])}</span>'
+            f'<span class="review__meta">{R.esc(meta)}</span></span></div></article>'
+        )
+
+    summary = ""
+    if avg:
+        summary = f"""<div class="reviews__summary reveal">
+      <span class="reviews__score">{avg}</span>
+      <span class="reviews__scoremeta">
+        {R.stars(avg)}
+        <span class="reviews__count"><strong>{total} reviews</strong> on Google</span>
+      </span>
+      <a class="btn btn--outline" href="{COMPANY['google_reviews_url']}" target="_blank" rel="noopener">Read them on Google {R.icon('arrow', 16, 2.4)}</a>
+    </div>"""
+
+    cls = "section section--alt" if alt else "section"
+    return f"""<section class="{cls}">
   <div class="container">
-    {R.section_head("In their words", "Plants that stopped shopping around", "The work speaks for itself, but it helps to hear it from the people whose production depends on it.")}
-    <div class="grid grid--3">{''.join(cards)}</div>
-    <div class="btn-row" style="margin-top:2.5rem">
-      <a class="btn btn--outline" href="{COMPANY['google_reviews_url']}" target="_blank" rel="noopener">Read more reviews on Google {R.icon('arrow', 16, 2.4)}</a>
-    </div>
+    {R.section_head("Reviews", title, lead)}
+    {summary}
+    <div class="reviews__grid reveal">{''.join(cards)}</div>
   </div>
 </section>"""
 
@@ -234,10 +259,10 @@ def page_home():
     {R.section_head("How it works", "No mystery, no runaround",
                     "The same process whether it is a 2am breakdown or a planned installation.")}
     {R.steps_block([
-        ("You call", "One number, answered 24/7. Tell us what stopped and we will tell you what it likely is and when we can be there."),
-        ("We diagnose", "On site, we work the whole system, not just the component that failed, so the repair addresses the cause."),
-        ("You get options", "Repair cost, replacement cost and the reasoning behind our recommendation. The decision stays yours."),
-        ("We finish and document", "The work gets completed, tested and written up, so you know what was done and what to watch."),
+        ("phone", "You call", "One number, answered 24/7. Tell us what stopped and we will tell you what it likely is and when we can be there."),
+        ("search", "We diagnose", "On site, we work the whole system, not just the component that failed, so the repair addresses the cause."),
+        ("list", "You get options", "Repair cost, replacement cost and the reasoning behind our recommendation. The decision stays yours."),
+        ("file", "We finish and document", "The work gets completed, tested and written up, so you know what was done and what to watch."),
     ])}
   </div>
 </section>"""
@@ -297,8 +322,8 @@ def page_home():
         + why
         + steps
         + pm
-        + testimonials_section()
-        + areas_strip()
+        + reviews_section()
+        + areas_strip(alt=False)
         + faq_section
         + R.cta_panel(
             "Tell us what stopped working",
@@ -411,10 +436,10 @@ def page_services():
     {R.section_head("How it works", "The same process every time",
                     "Whether it is an emergency call or a planned installation.")}
     {R.steps_block([
-        ("You call", "One number, answered 24/7, by someone who can actually assess the problem."),
-        ("We diagnose", "The whole system gets checked, not just the part that failed."),
-        ("You get options", "Repair versus replace, with the reasoning and the cost of each."),
-        ("We finish and document", "Tested, commissioned and written up before we leave."),
+        ("phone", "You call", "One number, answered 24/7, by someone who can actually assess the problem."),
+        ("search", "We diagnose", "The whole system gets checked, not just the part that failed."),
+        ("list", "You get options", "Repair versus replace, with the reasoning and the cost of each."),
+        ("file", "We finish and document", "Tested, commissioned and written up before we leave."),
     ])}
   </div>
 </section>"""
@@ -835,6 +860,7 @@ def page_about():
     body = (
         hero + owner + stats + values + R.brandwall() + work
         + emergency_band()
+        + reviews_section(limit=9)
         + areas_strip(alt=False)
         + R.cta_panel(
             "Work with a contractor who picks up the phone",

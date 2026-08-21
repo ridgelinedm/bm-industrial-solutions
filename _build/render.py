@@ -62,6 +62,8 @@ _ICON_PATHS = {
     "star": '<path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>',
     "search": '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
     "file": '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 13h6"/><path d="M9 17h6"/>',
+    "list": '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',
+    "quote": '<path d="M10 11H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v7a4 4 0 0 1-4 4"/><path d="M19 11h-4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v7a4 4 0 0 1-4 4"/>',
 }
 
 
@@ -75,11 +77,19 @@ def icon(name, size=24, stroke=2, cls=""):
     )
 
 
-def star_icon():
+def star_icon(empty=False):
+    cls = ' class="is-empty"' if empty else ""
     return (
-        '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
+        f'<svg{cls} width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
         '<path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>'
     )
+
+
+def stars(rating, out_of=5):
+    """Filled stars up to `rating`, greyed for the remainder."""
+    rating = max(0, min(out_of, int(round(rating or 0))))
+    marks = "".join(star_icon(empty=(i >= rating)) for i in range(out_of))
+    return f'<span class="stars" role="img" aria-label="{rating} out of {out_of}">{marks}</span>'
 
 
 # --------------------------------------------------------------------------
@@ -378,9 +388,14 @@ def stats_block(items, ink=False):
 
 
 def steps_block(items):
+    """items: (icon_name, title, body)."""
     out = []
-    for title, body in items:
-        out.append(f'<div class="step reveal"><h3 class="h4">{esc(title)}</h3><p>{body}</p></div>')
+    for ic, title, body in items:
+        out.append(
+            f'<div class="step reveal">'
+            f'<div class="step__icon">{icon(ic, 28, 2)}</div>'
+            f'<h3 class="h4">{esc(title)}</h3><p>{body}</p></div>'
+        )
     return f'<div class="steps">{"".join(out)}</div>'
 
 

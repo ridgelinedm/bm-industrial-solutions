@@ -101,11 +101,51 @@ do not skip it.
    degrades gracefully: `assets/js/site.js` detects the placeholder and opens a
    pre-filled email instead, so it is never a dead end.
 
-2. **Testimonials.** `TESTIMONIALS` in `_build/content.py` is an empty list, and
-   the testimonials section does not render while it is empty. Add real,
-   attributed reviews as `(quote, name, role, stars)` tuples and they will
-   appear on the homepage. They were deliberately left blank rather than
-   invented.
+2. **The "Read them on Google" link.** `google_reviews_url` in
+   `_build/content.py` currently points at a Google *search* for the business,
+   not the review profile itself. Replace it with the real profile link (Google
+   Business Profile gives you one under "Get more reviews"). The location ID in
+   the export is not the same as the place ID, so it cannot be derived.
+
+## Reviews
+
+Reviews are imported from a Google Business Profile export. They are never
+hand-written: if `_build/reviews.json` is missing or empty, the reviews section
+does not render at all.
+
+```bash
+# 1. Drop the export into _inbox/reviews/ (or leave it loose in _inbox/
+#    as long as the filename starts with "review"). .json or .csv both work.
+python3 _build/reviews.py     # 2. parse it into _build/reviews.json
+python3 _build/build.py       # 3. rebuild the pages
+```
+
+`_build/reviews.py` understands the Business Profile API shape (nested
+`reviewer.displayName`, word ratings like `"FIVE"`, ISO `createTime`), a flat
+JSON array, or a CSV with any sensible header naming. It de-duplicates across
+files, drops star-only ratings that have no comment to display, and sorts
+longest-first so the masonry fills evenly.
+
+Two counts come out of it: `count` is reviews with written text (what gets
+rendered as cards) and `total` is every rating on the profile (what the
+headline score is calculated from), so the "N reviews" figure matches Google
+rather than the number of cards on screen.
+
+The raw exports stay in `_inbox/`, which is git-ignored — they carry your
+account and location IDs. Only the parsed `reviews.json` is committed.
+
+Review text is rendered verbatim. The importer strips two things that are
+decoration rather than content: a leading row of star emoji some people type,
+and a trailing rule like `————`. Punctuation *inside* a review is left exactly
+as written, because these are attributed quotes from named people.
+
+Set `ABBREVIATE_SURNAMES = True` at the top of `_build/reviews.py` to render
+"Jane D." instead of full names.
+
+**No `aggregateRating` schema.** The star rating is displayed but deliberately
+not marked up in structured data. Google disallows self-serving review markup
+on `LocalBusiness`, and adding it risks a manual action against the whole
+site's rich results. The reviews still work as social proof for humans.
 
 ## Design notes
 
