@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BM Industrial Solutions — design system
+   BM Industrial Solutions: design system
    Brand: red #CE171E, ink #231F20, grey #686868 (sampled from the logo)
    Layout language borrows the reference site's generous section rhythm,
    oversized display type, and tinted card surfaces.
@@ -48,7 +48,7 @@
   --fs-sm: 0.9375rem;
   --fs-xs: 0.8125rem;
 
-  /* Rhythm — the reference site's defining trait is how much air it leaves */
+  /* Rhythm: the reference site's defining trait is how much air it leaves */
   --section-y: clamp(4.5rem, 2rem + 8vw, 8.75rem);
   --section-y-lg: clamp(6rem, 2.5rem + 11vw, 12rem);
   --container: 1240px;
@@ -142,7 +142,7 @@ ul, ol { padding: 0; list-style: none; }
 .section-head--wide { max-width: 78ch; }
 .section-head > * + * { margin-top: 1.25rem; }
 
-/* Heading left, supporting copy right — the reference site's default for any
+/* Heading left, supporting copy right. The reference site's default for any
    section intro that has both. */
 .section-head--split {
   max-width: none;
@@ -186,11 +186,9 @@ ul, ol { padding: 0; list-style: none; }
 .muted { color: var(--text-muted); }
 .text-red { color: var(--red); }
 
-/* The logo's wordmark is oblique — the eyebrow chip echoes that slant. */
+/* Plain letterspaced label. No leading rule; the colour carries it. */
 .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
+  display: block;
   font-family: var(--font-display);
   font-size: var(--fs-xs);
   font-weight: 700;
@@ -198,17 +196,8 @@ ul, ol { padding: 0; list-style: none; }
   text-transform: uppercase;
   color: var(--red);
 }
-.eyebrow::before {
-  content: "";
-  width: 26px;
-  height: 3px;
-  background: var(--red);
-  transform: skewX(-24deg);
-  flex: none;
-}
-.eyebrow--center { justify-content: center; }
+.eyebrow--center { text-align: center; }
 .section--ink .eyebrow { color: #ff6b70; }
-.section--ink .eyebrow::before { background: #ff6b70; }
 
 .prose p { color: var(--text-muted); }
 .prose > * + * { margin-top: 1.35rem; }
@@ -599,7 +588,7 @@ ul, ol { padding: 0; list-style: none; }
   font-weight: 600;
   margin-bottom: 1.75rem;
 }
-/* Set as a muted wordmark wall rather than a row of chips — closer to how the
+/* Set as a muted wordmark wall rather than a row of chips, closer to how the
    reference site handles its customer logos, and honest given we do not have
    licensed logo art for these manufacturers. */
 .brandwall__list {
@@ -669,23 +658,10 @@ ul, ol { padding: 0; list-style: none; }
 .card--photo .card__body { padding: clamp(1.35rem, 1rem + 1vw, 1.85rem); display: flex; flex-direction: column; flex: 1; }
 
 /* --- Numbered steps ------------------------------------------------------- */
-.steps { display: grid; gap: clamp(1.25rem, 0.5rem + 2vw, 2.5rem); grid-template-columns: repeat(4, minmax(0, 1fr)); counter-reset: step; }
+.steps { display: grid; gap: clamp(1.5rem, 0.5rem + 2.4vw, 3rem); grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 980px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
-.step { position: relative; padding-top: 2.25rem; border-top: 2px solid var(--border); counter-increment: step; }
-.step::before {
-  content: "0" counter(step);
-  position: absolute;
-  top: -1px;
-  left: 0;
-  padding-top: 0.9rem;
-  font-family: var(--font-display);
-  font-size: 0.8125rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  color: var(--red);
-}
-.step::after { content: ""; position: absolute; top: -2px; left: 0; width: 2.5rem; height: 2px; background: var(--red); }
+.step { padding-top: 1.6rem; border-top: 1px solid var(--border); }
 .step h3 { margin-bottom: 0.6rem; }
 .step p { font-size: var(--fs-sm); color: var(--text-muted); }
 
@@ -887,7 +863,7 @@ a.contact-item:hover { background: var(--red-tint); }
 .form__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 @media (max-width: 560px) { .form__row { grid-template-columns: 1fr; } }
 .field { display: block; }
-/* Space only the form's own children — fields inside a row are spaced by the
+/* Space only the form's own children. Fields inside a row are spaced by the
    grid gap, and giving them margins knocks the two columns out of alignment. */
 .form > .field + .field,
 .form > .form__row + .field,
@@ -986,7 +962,7 @@ a.contact-item:hover { background: var(--red-tint); }
    The reference site's defining move: an asymmetric grid of solid colour-
    blocked panels at mixed sizes, each one a headline + short copy + imagery
    bleeding to the edge. Its palette is lavender/yellow/pink; ours is the only
-   palette the brand owns — ink, red, and two industrial neutrals — plus the
+   palette the brand owns (ink, red, and two industrial neutrals) plus the
    photography doing the work the illustrations do over there.
    ========================================================================== */
 .bento {

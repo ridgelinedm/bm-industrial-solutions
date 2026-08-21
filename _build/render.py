@@ -2,7 +2,7 @@
 """HTML component vocabulary for the BM Industrial Solutions site.
 
 Everything here returns plain HTML strings. build.py composes pages out of
-these; content.py holds the copy. No runtime dependencies — the output is
+these; content.py holds the copy. No runtime dependencies; the output is
 static HTML that GitHub Pages serves directly.
 """
 import html
@@ -37,7 +37,7 @@ def canonical(path):
 
 
 # --------------------------------------------------------------------------
-# Icons — Lucide-style 24px strokes, inlined so there is no icon-font request
+# Icons: Lucide-style 24px strokes, inlined so there is no icon-font request
 # --------------------------------------------------------------------------
 _ICON_PATHS = {
     "gauge": '<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
@@ -144,7 +144,7 @@ def nav(active):
 
     return f"""<header class="nav">
   <div class="container nav__inner">
-    <a class="nav__logo" href="{url('')}" aria-label="{esc(COMPANY['name'])} — home">
+    <a class="nav__logo" href="{url('')}" aria-label="{esc(COMPANY['name'])} home">
       <img src="{BASE}/assets/img/logo/logo-full-color.png" alt="{esc(COMPANY['name'])}" width="200" height="65">
     </a>
     <nav class="nav__nav" aria-label="Primary"><ul class="nav__menu">{''.join(links)}</ul></nav>
@@ -203,7 +203,7 @@ def footer():
         <div class="footer__logo">
           <img src="{BASE}/assets/img/logo/logo-full-reversed.png" alt="{esc(COMPANY['name'])}" width="210" height="68" loading="lazy">
         </div>
-        <p class="footer__blurb">{esc(COMPANY['tagline'])} Owner-operated industrial service out of {COMPANY['city']}, {COMPANY['state']} — compressed air, hydraulics, mechanical contracting and process piping under one number.</p>
+        <p class="footer__blurb">{esc(COMPANY['tagline'])} Owner-operated industrial service out of {COMPANY['city']}, {COMPANY['state']}. Compressed air, hydraulics, mechanical contracting and process piping under one number.</p>
         <div class="footer__contact">
           <a href="tel:{COMPANY['phone_href']}">{icon('phone', 17, 2.2)} {COMPANY['phone']}</a>
           <a href="mailto:{COMPANY['email']}">{icon('mail', 17, 2.2)} {COMPANY['email']}</a>
@@ -241,8 +241,8 @@ def footer():
 def section_head(eyebrow=None, title=None, lead=None, center=False, wide=False, level=2):
     """Section intro.
 
-    Left-aligned heads with supporting copy render as two columns — heading on
-    the left, the lead on the right — which is how the reference site handles
+    Left-aligned heads with supporting copy render as two columns, heading on
+    the left and the lead on the right, which is how the reference site handles
     them and stops the right half of the section reading as dead space.
     """
     eyebrow_html = ""
@@ -339,7 +339,7 @@ def bento(specs):
 
 
 def featurelist(items):
-    """items: (icon_name, title, body_html) — deliberately no card chrome."""
+    """items: (icon_name, title, body_html). Deliberately no card chrome."""
     out = []
     for ic, title, body in items:
         out.append(

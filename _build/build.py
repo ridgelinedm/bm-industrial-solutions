@@ -58,7 +58,7 @@ def testimonials_section():
 
 
 # Bento layout for the service lines. Sizes and surfaces are deliberately
-# uneven — the asymmetry and the solid colour blocks are the whole point, and a
+# uneven. The asymmetry and the solid colour blocks are the whole point, and a
 # row of five identical cards is exactly what this replaces.
 BENTO_LAYOUT = {
     "services/air-compressor-services": dict(
@@ -123,7 +123,7 @@ def emergency_band():
         "Technician working on industrial equipment during an after-hours emergency call",
         "24/7 emergency service",
         "When it fails at 2am, you still get a technician",
-        "Breakdowns do not respect business hours. Our emergency line runs 24 hours a day, seven days a week — you reach someone who can diagnose the problem and dispatch, not an answering service taking a message for Monday.",
+        "Breakdowns do not respect business hours. Our emergency line runs 24 hours a day, seven days a week. You reach someone who can diagnose the problem and dispatch, not an answering service taking a message for Monday.",
         f'<div class="btn-row"><a class="btn btn--primary btn--lg" href="tel:{COMPANY["phone_href"]}">{R.icon("phone", 18, 2.2)} {COMPANY["phone"]}</a>'
         f'<a class="btn btn--on-dark btn--lg" href="{R.url("contact")}">Request a quote</a></div>'
     )}
@@ -153,7 +153,7 @@ def areas_strip(exclude=None, alt=True):
     {R.section_head("Where we work", "Field service across three states",
                     "Based in Holly Hill, South Carolina, with regular field service throughout South Carolina, Georgia and North Carolina.")}
     {R.areas_grid(items)}
-    <p class="muted" style="margin-top:2rem;font-size:var(--fs-sm)">We also cover {R.esc(extra)} and the surrounding industrial areas. If you are outside these markets, <a href="{R.url('contact')}" style="color:var(--red);text-decoration:underline;text-underline-offset:3px">ask anyway</a> — we travel for the right project.</p>
+    <p class="muted" style="margin-top:2rem;font-size:var(--fs-sm)">We also cover {R.esc(extra)} and the surrounding industrial areas. If you are outside these markets, <a href="{R.url('contact')}" style="color:var(--red);text-decoration:underline;text-underline-offset:3px">ask anyway</a>. We travel for the right project.</p>
   </div>
 </section>"""
 
@@ -168,7 +168,7 @@ def page_home():
       <div class="hero__copy">
         <p class="eyebrow">Industrial service · SC · GA · NC</p>
         <h1 class="display-1">Your plant runs on air, oil and pressure. We keep all three <em>moving</em>.</h1>
-        <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping from one owner-operated crew — with a 24/7 emergency line that a technician actually answers.</p>
+        <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping from one owner-operated crew, with a 24/7 emergency line that a technician actually answers.</p>
         <div class="btn-row">
           <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a quote</a>
           <a class="btn btn--outline btn--lg" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 18, 2.2)} {COMPANY['phone']}</a>
@@ -195,7 +195,7 @@ def page_home():
     stats = f"""<section class="section section--tight">
   <div class="container">
     {R.stats_block([
-        ("<em>4</em>", "Service lines under one contractor — air, hydraulics, mechanical and piping"),
+        ("<em>4</em>", "Service lines under one contractor: air, hydraulics, mechanical and piping"),
         ("<em>3</em>", "States covered by regular field service: South Carolina, Georgia and North Carolina"),
         ("<em>10+</em>", "Years of hands-on technician experience behind every job we take"),
         ("<em>1</em>", "Phone number, one point of contact, and the owner on the other end of it"),
@@ -212,7 +212,7 @@ def page_home():
         "rigging-vessel-lift",
         "Crane lifting a large industrial vessel into position during an equipment installation",
         "One vendor for everything",
-        "The install, the piping and the service — same crew",
+        "The install, the piping and the service, all one crew",
         "<p class='lead'>A compressor installation is really four jobs: setting the equipment, piping the distribution, connecting the utilities and commissioning the system.</p>"
         "<p>Split those across separate contractors and you own the coordination risk. We take the whole scope, which means when something needs adjusting six months later, there is one number to call and no argument about whose scope it was.</p>",
         cta=("See all services", "services"),
@@ -235,7 +235,7 @@ def page_home():
                     "The same process whether it is a 2am breakdown or a planned installation.")}
     {R.steps_block([
         ("You call", "One number, answered 24/7. Tell us what stopped and we will tell you what it likely is and when we can be there."),
-        ("We diagnose", "On site, we work the whole system — not just the component that failed — so the repair addresses the cause."),
+        ("We diagnose", "On site, we work the whole system, not just the component that failed, so the repair addresses the cause."),
         ("You get options", "Repair cost, replacement cost and the reasoning behind our recommendation. The decision stays yours."),
         ("We finish and document", "The work gets completed, tested and written up, so you know what was done and what to watch."),
     ])}
@@ -249,7 +249,7 @@ def page_home():
             "surface": "ink",
             "tag": "Stay ahead of it",
             "title": "Nearly every emergency we get called to was <em>preventable</em>",
-            "body": "Scheduled inspections across your compressed air, hydraulic and mechanical equipment, on intervals set by your run hours — plus priority response on the day something fails anyway.",
+            "body": "Scheduled inspections across your compressed air, hydraulic and mechanical equipment, on intervals set by your run hours, plus priority response on the day something fails anyway.",
             "label": "How agreements work",
             "href": "services/preventive-maintenance",
         },
@@ -267,9 +267,9 @@ def page_home():
 
     faqs = [
         ("What areas do you cover?",
-         f"<p>We are based in Holly Hill, South Carolina, and run regular field service across South Carolina, Georgia and North Carolina — including Charleston, North Charleston, Summerville, Columbia, Greenville, Spartanburg, Aiken, Sumter, Augusta, Savannah and the Charlotte area. <a href=\"{R.url('service-areas')}\">See all service areas</a>.</p>"),
+         f"<p>We are based in Holly Hill, South Carolina, and run regular field service across South Carolina, Georgia and North Carolina, including Charleston, North Charleston, Summerville, Columbia, Greenville, Spartanburg, Aiken, Sumter, Augusta, Savannah and the Charlotte area. <a href=\"{R.url('service-areas')}\">See all service areas</a>.</p>"),
         ("Do you really answer the phone at night?",
-         f"<p>Yes. The emergency line runs 24 hours a day, including weekends and holidays. You reach someone who can assess the problem and dispatch — call <a href=\"tel:{COMPANY['phone_href']}\">{COMPANY['phone']}</a>.</p>"),
+         f"<p>Yes. The emergency line runs 24 hours a day, including weekends and holidays. You reach someone who can assess the problem and dispatch. Call <a href=\"tel:{COMPANY['phone_href']}\">{COMPANY['phone']}</a>.</p>"),
         ("Which compressor brands do you service?",
          "<p>Gardner Denver, Sullair, Ingersoll Rand, Kaeser, Atlas Copco, CompAir/LeRoi, Quincy, Champion, Curtis and Saylor-Beall, plus most other platforms. We are independent, so we recommend what the application needs rather than what a dealer agreement requires.</p>"),
         ("Can you handle a whole project, or only service calls?",
@@ -302,7 +302,7 @@ def page_home():
         + faq_section
         + R.cta_panel(
             "Tell us what stopped working",
-            "Send the details and we will come back with a straight answer on scope, timing and cost. If it is down right now, call instead — we will pick up.",
+            "Send the details and we will come back with a straight answer on scope, timing and cost. If it is down right now, call instead and we will pick up.",
         )
     )
 
@@ -328,7 +328,7 @@ def page_services():
       {R.crumbs(trail)}
       <p class="eyebrow eyebrow--center">Services</p>
       <h1 class="display-1">Four trades. One contractor. <em>No gaps</em> between them.</h1>
-      <p class="lead">Compressed air, hydraulics, mechanical contracting and process piping — plus preventive maintenance to keep all of it out of the emergency queue.</p>
+      <p class="lead">Compressed air, hydraulics, mechanical contracting and process piping, plus preventive maintenance to keep all of it out of the emergency queue.</p>
       <div class="btn-row btn-row--center">
         <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a quote</a>
         <a class="btn btn--outline btn--lg" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 18, 2.2)} {COMPANY['phone']}</a>
@@ -390,7 +390,7 @@ def page_services():
 
     faqs = [
         ("Do we have to use you for all four services?",
-         "<p>No. Plenty of customers use us only for compressed air. The four lines exist because they overlap constantly in practice — but you are not obligated to consolidate anything.</p>"),
+         "<p>No. Plenty of customers use us only for compressed air. The four lines exist because they overlap constantly in practice, but you are not obligated to consolidate anything.</p>"),
         ("Are you a dealer for a particular manufacturer?",
          "<p>No, and that is deliberate. Being independent means we can recommend the equipment your application actually calls for instead of the line we are contracted to sell.</p>"),
         ("Can you quote a project from drawings?",
@@ -426,7 +426,7 @@ def page_services():
 </section>"""
         + R.cta_panel(
             "Get a quote on any of it",
-            "Describe the equipment and what it is doing. We will come back with scope, timing and a number — or tell you if it is not work we should be taking.",
+            "Describe the equipment and what it is doing. We will come back with scope, timing and a number, or tell you if it is not work we should be taking.",
         )
     )
 
@@ -558,7 +558,7 @@ def page_service(s):
         + related_services(s["path"] if not parent else parent["path"])
         + R.cta_panel(
             "Get a quote for " + s["card_title"].lower(),
-            "Tell us the equipment, the symptom and how urgent it is. We will come back with a straight answer — and if it is down right now, call instead.",
+            "Tell us the equipment, the symptom and how urgent it is. We will come back with a straight answer. If it is down right now, call instead.",
         )
     )
 
@@ -604,7 +604,7 @@ def page_service_areas():
       {R.crumbs(trail)}
       <p class="eyebrow eyebrow--center">Service areas</p>
       <h1 class="display-1">Field service across South Carolina, Georgia and North Carolina</h1>
-      <p class="lead">Based in Holly Hill, South Carolina — close enough to the Lowcountry and the Midlands for same-day emergency response, and on the road regularly through the rest of the region.</p>
+      <p class="lead">Based in Holly Hill, South Carolina, close enough to the Lowcountry and the Midlands for same-day emergency response, and on the road regularly through the rest of the region.</p>
       <div class="btn-row btn-row--center">
         <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Check your location</a>
         <a class="btn btn--outline btn--lg" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 18, 2.2)} {COMPANY['phone']}</a>
@@ -624,7 +624,7 @@ def page_service_areas():
     more = f"""<section class="section section--alt">
   <div class="container">
     {R.section_head("Also covered", "Beyond the core markets",
-                    "We run field service throughout the region. These areas are covered on a scheduled basis — and for emergencies, call and we will tell you honestly what we can do.")}
+                    "We run field service throughout the region. These areas are covered on a scheduled basis. For emergencies, call and we will tell you honestly what we can do.")}
     <ul class="reveal">{extra}</ul>
     <p class="muted" style="margin-top:1.5rem;font-size:var(--fs-sm)">Somewhere else? <a href="{R.url('contact')}" style="color:var(--red);text-decoration:underline;text-underline-offset:3px">Ask anyway.</a> We travel for the right project, particularly installations and plant relocations.</p>
   </div>
@@ -638,7 +638,7 @@ def page_service_areas():
         "Regional, not national",
         "Close enough to actually show up",
         "<p class='lead'>A national service network sounds reassuring right up until the nearest technician is four hours away and already on another call.</p>"
-        "<p>We deliberately work a region we can cover properly. Holly Hill sits between the Lowcountry and the Midlands, which puts Charleston, North Charleston, Summerville, Columbia and Sumter all inside a comfortable response radius — and puts the rest of the Carolinas and Georgia within reach for scheduled work.</p>",
+        "<p>We deliberately work a region we can cover properly. Holly Hill sits between the Lowcountry and the Midlands, which puts Charleston, North Charleston, Summerville, Columbia and Sumter all inside a comfortable response radius, and puts the rest of the Carolinas and Georgia within reach for scheduled work.</p>",
     )}
   </div>
 </section>"""
@@ -647,7 +647,7 @@ def page_service_areas():
         hero + main + more + why
         + services_showcase(
             "The same four services everywhere we go",
-            "Whatever market you are in, the scope does not change — air, hydraulics, mechanical contracting and process piping from one contractor.",
+            "Whatever market you are in, the scope does not change: air, hydraulics, mechanical contracting and process piping from one contractor.",
             eyebrow="What we bring", alt=True,
         )
         + emergency_band()
@@ -660,7 +660,7 @@ def page_service_areas():
     return dict(
         path="service-areas",
         title="Service Areas | SC, GA & NC Industrial Service | BM Industrial Solutions",
-        description="Industrial field service across SC, GA and NC — Charleston, North Charleston, Summerville, Columbia, Greenville, Sumter and beyond. Call 843-401-9670.",
+        description="Industrial field service across SC, GA and NC, covering Charleston, North Charleston, Summerville, Columbia, Greenville and Sumter. Call 843-401-9670.",
         body=body,
         active="service-areas",
         schemas=[R.breadcrumb_schema(trail)],
@@ -677,7 +677,7 @@ def page_area(a):
       {R.crumbs(trail)}
       <p class="eyebrow">{R.esc(a['distance'])}</p>
       <h1 class="display-1">Industrial services in {R.esc(a['city'])}, {a['state']}</h1>
-      <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping — owner-operated, with 24/7 emergency response across the {R.esc(a['city'])} area.</p>
+      <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping. Owner-operated, with 24/7 emergency response across the {R.esc(a['city'])} area.</p>
       <div class="btn-row">
         <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a quote</a>
         <a class="btn btn--outline btn--lg" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 18, 2.2)} {COMPANY['phone']}</a>
@@ -712,7 +712,7 @@ def page_area(a):
     nearby = f"""<section class="section section--alt">
   <div class="container">
     {R.section_head("Nearby", "Other areas we cover",
-                    "Multi-site operations are straightforward for us to schedule — one contractor across every location.")}
+                    "Multi-site operations are straightforward for us to schedule, with one contractor across every location.")}
     {R.areas_grid(others)}
   </div>
 </section>"""
@@ -727,7 +727,7 @@ def page_area(a):
         + local + emergency_band() + nearby
         + R.cta_panel(
             f"Need a technician in {a['city']}?",
-            "Tell us the equipment and the symptom. If it is down right now, call — the emergency line runs 24 hours a day.",
+            "Tell us the equipment and the symptom. If it is down right now, call. The emergency line runs 24 hours a day.",
         )
     )
 
@@ -788,7 +788,7 @@ def page_about():
     {R.section_head("What that means in practice", "Small company, <em>serious scope</em>",
                     "Enough capability to take the whole job, small enough that you always know who is doing it.")}
     {R.stats_block([
-        ("<em>4</em>", "Service lines — compressed air, hydraulics, mechanical contracting and process piping"),
+        ("<em>4</em>", "Service lines: compressed air, hydraulics, mechanical contracting and process piping"),
         ("<em>3</em>", "States covered by regular field service"),
         ("<em>10+</em>", "Years of hands-on technician experience"),
         ("<em>24/7</em>", "Emergency coverage, including weekends and holidays"),
@@ -838,14 +838,14 @@ def page_about():
         + areas_strip(alt=False)
         + R.cta_panel(
             "Work with a contractor who picks up the phone",
-            "Tell us what you are dealing with. You will get a straight assessment, a realistic timeline and a number — from the person who will be doing the work.",
+            "Tell us what you are dealing with. You will get a straight assessment, a realistic timeline and a number, from the person who will be doing the work.",
         )
     )
 
     return dict(
         path="about",
         title="About BM Industrial Solutions | Owner-Operated Industrial Service in SC",
-        description="Owner-operated industrial service in Holly Hill, SC, led by Bradley McLaughlin — air compressors, hydraulics, mechanical contracting and process piping across SC, GA and NC.",
+        description="Owner-operated industrial service in Holly Hill, SC, led by Bradley McLaughlin. Air compressors, hydraulics, mechanical contracting and process piping across SC, GA and NC.",
         body=body,
         active="about",
         schemas=[R.breadcrumb_schema(trail), R.local_business_schema()],
@@ -869,7 +869,7 @@ def page_contact():
       {R.crumbs(trail)}
       <p class="eyebrow">Contact</p>
       <h1 class="display-1">Tell us what <em>stopped working</em></h1>
-      <p class="lead">If equipment is down right now, call — the emergency line runs 24 hours a day and you will reach someone who can dispatch. For quotes, planned work and everything else, the form is the fastest route.</p>
+      <p class="lead">If equipment is down right now, call. The emergency line runs 24 hours a day and you will reach someone who can dispatch. For quotes, planned work and everything else, the form is the fastest route.</p>
     </div>
   </div>
 </section>"""
@@ -916,7 +916,7 @@ def page_contact():
         <article class="card card--ink reveal" style="margin-top:1rem">
           <div class="card__icon">{R.icon('bolt', 26, 2)}</div>
           <h3 class="h4">Down right now?</h3>
-          <p>Do not wait on the form. Call the emergency line — it is answered 24 hours a day, including weekends and holidays, and you will reach someone who can dispatch rather than take a message for Monday.</p>
+          <p>Do not wait on the form. Call the emergency line. It is answered 24 hours a day, including weekends and holidays, and you will reach someone who can dispatch rather than take a message for Monday.</p>
           <div class="card__foot"><a class="btn btn--light btn--sm" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 16, 2.2)} Call {COMPANY['phone']}</a></div>
         </article>
       </div>
@@ -962,8 +962,8 @@ def page_contact():
             <label class="field">
               <span class="field__label">Urgency</span>
               <select name="urgency">
-                <option value="Emergency — down now">Emergency — down now</option>
-                <option value="Urgent — within a few days">Urgent — within a few days</option>
+                <option value="Emergency (down now)">Emergency (down now)</option>
+                <option value="Urgent (within a few days)">Urgent (within a few days)</option>
                 <option value="Planned work" selected>Planned work</option>
                 <option value="Budget pricing only">Budget pricing only</option>
               </select>
@@ -990,7 +990,7 @@ def page_contact():
           </div>
 
           <div class="form__status" role="status" aria-live="polite"></div>
-          <p class="form__note">We answer every enquiry within one business day — immediately if you mark it an emergency.</p>
+          <p class="form__note">We answer every enquiry within one business day, or immediately if you mark it an emergency.</p>
         </form>
       </div>
     </div>
@@ -1001,7 +1001,7 @@ def page_contact():
         ("What information helps you quote fastest?",
          "<p>Equipment make and model, what it is doing (or not doing), when it started, your location, and whether production is stopped. A photo of the nameplate is worth several emails.</p>"),
         ("How quickly will you respond?",
-         "<p>Within one business day for quotes and planned work. For emergencies, call rather than email — the line is answered 24 hours a day.</p>"),
+         "<p>Within one business day for quotes and planned work. For emergencies, call rather than email. The line is answered 24 hours a day.</p>"),
         ("Do you charge for a site visit or quote?",
          "<p>For project work and installations, the site walk is part of quoting it properly. For diagnostic service calls, we tell you the rate structure before we dispatch so there are no surprises.</p>"),
         ("We are outside your listed service areas. Is it worth asking?",
@@ -1039,7 +1039,7 @@ def page_404():
     <div class="pagehero__inner">
       <p class="eyebrow eyebrow--center">404</p>
       <h1 class="display-1">That page is not here</h1>
-      <p class="lead">The link may be old, or the page may have moved. Everything we do is one of four things — start there, or call and we will point you at it.</p>
+      <p class="lead">The link may be old, or the page may have moved. Everything we do is one of four things. Start there, or call and we will point you at it.</p>
       <div class="btn-row btn-row--center">
         <a class="btn btn--primary btn--lg" href="{R.url('services')}">Browse services</a>
         <a class="btn btn--outline btn--lg" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 18, 2.2)} {COMPANY['phone']}</a>

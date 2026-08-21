@@ -1,4 +1,4 @@
-/* BM Industrial Solutions — progressive enhancement only.
+/* BM Industrial Solutions: progressive enhancement only.
    Every page works with JS disabled; this adds the drawer, sticky nav state,
    scroll reveals, and the contact form submit handler. */
 (function () {
@@ -108,7 +108,7 @@
         ].join("\n");
         window.location.href =
           "mailto:" + form.getAttribute("data-fallback-email") +
-          "?subject=" + encodeURIComponent("Website quote request — " + (get("name") || "New enquiry")) +
+          "?subject=" + encodeURIComponent("Website quote request: " + (get("name") || "New enquiry")) +
           "&body=" + encodeURIComponent(body);
         say("Opening your email app with the details filled in. If nothing happens, call 843-401-9670.", true);
         return;
@@ -125,7 +125,7 @@
       }).then(function (res) {
         if (!res.ok) throw new Error("bad status");
         form.reset();
-        say("Thanks — your request is in. We answer every enquiry within one business day, and immediately if you marked it an emergency.", true);
+        say("Thanks, your request is in. We answer every enquiry within one business day, or immediately if you marked it an emergency.", true);
       }).catch(function () {
         say("That didn't go through. Please call 843-401-9670 or email bmindustrialsolutionsllc@gmail.com.", false);
       }).finally(function () {

@@ -1,8 +1,8 @@
-# BM Industrial Solutions — website
+# BM Industrial Solutions website
 
 Static HTML site for [BM Industrial Solutions](https://www.bmindustrialsolutionsllc.com/),
 served by GitHub Pages. No frameworks, no runtime dependencies, no build step on
-the server — the HTML in this repo is exactly what visitors receive.
+the server. The HTML in this repo is exactly what visitors receive.
 
 ## Layout
 
@@ -22,11 +22,11 @@ services/                  Services hub
 service-areas/             Service areas hub + 6 city pages
 404.html                   Not-found page
 assets/                    css, js, images (committed, ready to serve)
-_build/                    The generator — see below
+_build/                    The generator, see below
 ```
 
 Every URL matches the paths on the current live site, so nothing breaks when
-DNS is pointed here. `services/preventive-maintenance/` is the one addition —
+DNS is pointed here. `services/preventive-maintenance/` is the one addition:
 it was marketed on the old homepage but had no page.
 
 ## Rebuilding
@@ -43,7 +43,7 @@ Requires Python 3.9+. No packages needed for the page build.
 | File | What it holds |
 | --- | --- |
 | `_build/content.py` | **All copy and data.** Services, service areas, FAQs, company details. Edit here. |
-| `_build/render.py` | HTML components — nav, cards, sections, structured data, page shell. |
+| `_build/render.py` | HTML components: nav, cards, sections, structured data, page shell. |
 | `_build/build.py` | Composes components into pages and writes them to disk. |
 | `_build/check.py` | Post-build validation. Exits non-zero on a broken link. |
 | `_build/images.py` | Photo pipeline. Needs `_inbox/` and Pillow; only re-run when adding photos. |
@@ -52,7 +52,7 @@ Requires Python 3.9+. No packages needed for the page build.
 
 Almost everything lives in `_build/content.py`. To change a service
 description, a FAQ answer or the phone number, edit it there and re-run the
-build. Nothing needs to be edited in the generated HTML — it is overwritten.
+build. Nothing needs to be edited in the generated HTML; it is overwritten.
 
 ### Adding photos
 
@@ -61,7 +61,7 @@ build. Nothing needs to be edited in the generated HTML — it is overwritten.
 3. `pip3 install Pillow && python3 _build/images.py`
 4. Reference the new slug from `_build/content.py`.
 
-EXIF rotation is applied automatically — 25 of the original 49 photos needed it.
+EXIF rotation is applied automatically. 25 of the original 49 photos needed it.
 
 ## Deployment
 
@@ -114,17 +114,17 @@ grey `#686868`. Type is Archivo (display) over Inter (body).
 
 The layout follows the reference site's language rather than just its spacing:
 
-- **Bento grid** (`.bento`) — the service lines render as an asymmetric grid of
+- **Bento grid** (`.bento`). The service lines render as an asymmetric grid of
   solid colour-blocked panels at mixed widths, with photography bleeding to the
   card edge. The reference uses lavender/yellow/pink; we use the only palette
-  the brand owns — ink, red, and two industrial neutrals (`#efece6` bone,
-  `#e4e8ea` mist) — plus a full-bleed photo surface. Layout is configured in
+  the brand owns: ink, red, and two industrial neutrals (`#efece6` bone,
+  `#e4e8ea` mist), plus a full-bleed photo surface. Layout is configured in
   `BENTO_LAYOUT` in `_build/build.py`.
-- **Ring button** (`.btn--ring`) — a filled pill inside an offset outline with a
+- **Ring button** (`.btn--ring`). A filled pill inside an offset outline with a
   gap of background colour between, driven by `--ring-gap` and `--ring-line`.
-- **Split section heads** — any left-aligned heading with supporting copy
+- **Split section heads.** Any left-aligned heading with supporting copy
   automatically renders as two columns, heading left and lead right.
-- **Accented headline words** — `<em>` inside a heading prints in brand red, and
+- **Accented headline words.** `<em>` inside a heading prints in brand red, and
   inverts on red and ink grounds so it never disappears into its background.
 - **Bare icon grids** (`.featurelist`) and muted wordmark walls instead of the
   boxed-icon card and chip-row patterns they replaced.
