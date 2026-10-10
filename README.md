@@ -81,12 +81,14 @@ EXIF rotation is applied automatically. 25 of the original 49 photos needed it.
 
 ## Deployment
 
-### Previews (Cloudflare Pages)
+### Previews (Cloudflare Workers Builds)
 
-Cloudflare Pages builds every branch with `bash _build/pages.sh` (output
-directory `dist`), which rebuilds the site for the domain root. Each ticket
-branch gets a preview at `cu-<task id>.<project>.pages.dev`, linked from the
-ticket. Preview deployments are served with `X-Robots-Tag: noindex`.
+Cloudflare builds every branch with `bash _build/pages.sh`, which rebuilds the
+site for the domain root into `dist/`, and serves it as configured in
+`wrangler.jsonc`. Each ticket branch gets a preview at
+`cu-<task id>-bm-industrial-solutions.zach-s-portfolio.workers.dev`, linked
+from the ticket. Everything served by Cloudflare carries
+`X-Robots-Tag: noindex` until it serves the real domain.
 
 ### Live site (GitHub Pages)
 
@@ -138,7 +140,7 @@ a task ID. Claude's standing instructions for the repo are in `CLAUDE.md`.
 | `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN` | secret | Claude credentials (one of the two) |
 | `CLICKUP_API_TOKEN` | secret | ClickUp personal token (`pk_...`) |
 | `CLICKUP_REVIEWER_ID` | variable | ClickUp user assigned for review (`174105881`, Zach) |
-| `CF_PAGES_PROJECT` | variable | Cloudflare Pages project name, for preview links |
+| `PREVIEW_URL_TEMPLATE` | variable | Preview link, `{branch}` replaced by the branch alias |
 | `CLICKUP_REVIEW_STATUS` | variable | Defaults to `internal review` |
 | `CLICKUP_DONE_STATUS` | variable | Defaults to `complete` |
 

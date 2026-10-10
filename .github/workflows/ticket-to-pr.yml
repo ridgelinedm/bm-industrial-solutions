@@ -134,11 +134,11 @@ jobs:
       - name: Open the PR
         run: |
           preview=""
-          if [[ -n "${{ vars.CF_PAGES_PROJECT }}" ]]; then
-            # Cloudflare Pages branch alias: lowercase, non-alphanumerics to
-            # hyphens, at most 28 characters.
-            alias=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g' | cut -c1-28 | sed -E 's/-+$//')
-            preview="https://$alias.${{ vars.CF_PAGES_PROJECT }}.pages.dev"
+          if [[ -n "${{ vars.PREVIEW_URL_TEMPLATE }}" ]]; then
+            # Cloudflare branch alias: lowercase, non-alphanumerics to hyphens.
+            alias=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/-+$//')
+            template='${{ vars.PREVIEW_URL_TEMPLATE }}'
+            preview="${template//\{branch\}/$alias}"
           fi
 
           {

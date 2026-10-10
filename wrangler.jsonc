@@ -1,0 +1,11 @@
+// Cloudflare Workers Builds serves the site from dist/, built by
+// `bash _build/pages.sh`. Every branch, including ticket branches, gets a
+// preview at <branch>-bm-industrial-solutions.zach-s-portfolio.workers.dev.
+{
+  "name": "bm-industrial-solutions",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

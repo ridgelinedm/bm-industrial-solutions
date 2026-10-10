@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Cloudflare Pages build. Every branch, including ticket branches, gets a
-# preview at <branch>.<project>.pages.dev, served from the domain root, so the
-# site is rebuilt without the GitHub Pages /bm-industrial-solutions prefix and
-# the public files are copied into dist/ (the Pages output directory).
+# Cloudflare build (see wrangler.jsonc). Every branch, including ticket
+# branches, gets a preview served from the domain root, so the site is rebuilt
+# without the GitHub Pages /bm-industrial-solutions prefix and the public files
+# are copied into dist/.
 #
-# Cloudflare settings: build command `bash _build/pages.sh`, output `dist`.
+# Cloudflare build command: `bash _build/pages.sh`.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -15,3 +15,7 @@ rm -rf dist
 mkdir dist
 cp -R index.html 404.html robots.txt sitemap.xml favicon.ico \
   assets about contact services service-areas dist/
+
+# Previews only: keep them out of search results. Remove this when the
+# Cloudflare Worker starts serving the real domain.
+printf '/*\n  X-Robots-Tag: noindex\n' > dist/_headers
