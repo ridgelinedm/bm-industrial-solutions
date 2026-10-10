@@ -788,7 +788,7 @@ def page_about():
     <div class="pagehero__inner">
       {R.crumbs(trail)}
       <p class="eyebrow">About</p>
-      <h1 class="display-1">Built on Experience in <em>South Carolina</em></h1>
+      <h1 class="display-1">Built on Experience Across the <em>Carolinas</em></h1>
       <p class="lead">BM Industrial Solutions is an owner-operated industrial service company in Holly Hill, South Carolina. The person who quotes your job is the person accountable for it.</p>
     </div>
   </div>
