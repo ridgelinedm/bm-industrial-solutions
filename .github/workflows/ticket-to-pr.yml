@@ -89,6 +89,10 @@ jobs:
             ${{ env.SPEC }}
             </spec>
 
+            If the ticket has a "Change spec" section, implement exactly that;
+            the "Original request" below it is the client's own wording, for
+            context.
+
             Make the change, then run the build and the check. Do not commit;
             the workflow handles git. When you are done, write a short
             plain-English summary to `.claude-summary.md` in the repo root for

@@ -127,6 +127,7 @@ turns ClickUp status changes into GitHub `repository_dispatch` events.
 
 | ClickUp status | What happens |
 | --- | --- |
+| **submitted** | `ticket-spec.yml` (every new ticket lands here). Claude reads the ticket, its comments and the site, then either rewrites the description as a change spec (keeping the client's original request below it) and moves it to **ready to build**, asks the client a question in a comment and moves it to **waiting on client**, or, for anything outside the website, assigns the reviewer with a note and moves it to **in queue**. Set a ticket back to **submitted** after the client answers |
 | **ready to build** | `ticket-to-pr.yml` reads the ticket, Claude edits the source on branch `CU-<task id>`, the workflow rebuilds, runs `check.py`, refuses changes to `.github/`, `_inbox/` or `CNAME`, opens a PR, comments the PR and preview links on the ticket, moves it to **internal review** and assigns the reviewer |
 | **internal review** | You check the preview. Comment `@claude <what to change>` on the PR to revise (`claude-revise.yml`) |
 | **deploy** | `ticket-deploy.yml` squash-merges the PR, which publishes it, and sets the ticket to **complete**. If it cannot, it comments why and moves the ticket back to internal review |
@@ -143,6 +144,7 @@ a task ID. Claude's standing instructions for the repo are in `CLAUDE.md`.
 | `PREVIEW_URL_TEMPLATE` | variable | Preview link, `{branch}` replaced by the branch alias |
 | `CLICKUP_REVIEW_STATUS` | variable | Defaults to `internal review` |
 | `CLICKUP_DONE_STATUS` | variable | Defaults to `complete` |
+| `CLICKUP_BUILD_STATUS` / `CLICKUP_QUESTION_STATUS` / `CLICKUP_HUMAN_STATUS` | variable | Spec outcomes; default `ready to build`, `waiting on client`, `in queue` |
 
 The repo allows Actions to open PRs, and `main` requires a PR (no approvals).
 

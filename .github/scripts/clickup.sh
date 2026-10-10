@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
 # Tiny ClickUp API wrapper for the ticket workflows.
 #
-#   clickup.sh get     <task_id>            print the task as JSON
-#   clickup.sh comment <task_id> <text>     post a comment (notifies watchers)
-#   clickup.sh status  <task_id> <status>   move the task to a status
-#   clickup.sh assign  <task_id> <user_id>  add an assignee (no-op if already on it)
+#   clickup.sh get      <task_id>             print the task as JSON
+#   clickup.sh comments <task_id>             print the task's comments as JSON
+#   clickup.sh describe <task_id> <markdown>  replace the task description
+#   clickup.sh comment  <task_id> <text>      post a comment (notifies watchers)
+#   clickup.sh status   <task_id> <status>    move the task to a status
+#   clickup.sh assign   <task_id> <user_id>   add an assignee (no-op if already on it)
 #
 # Needs CLICKUP_API_TOKEN. Without it, writes are skipped with a warning so the
-# GitHub side still works before ClickUp is wired up; `get` fails.
+# GitHub side still works before ClickUp is wired up; reads fail.
 set -euo pipefail
 
-cmd="${1:?usage: clickup.sh get|comment|status|assign <task_id> [value]}"
+cmd="${1:?usage: clickup.sh get|comments|describe|comment|status|assign <task_id> [value]}"
 task="${2:?task id required}"
 
 if [[ -z "${CLICKUP_API_TOKEN:-}" ]]; then
-  if [[ "$cmd" == get ]]; then
+  if [[ "$cmd" == get || "$cmd" == comments ]]; then
     echo "CLICKUP_API_TOKEN is not set" >&2
     exit 1
   fi
@@ -38,6 +40,12 @@ call() {
 case "$cmd" in
   get)
     call GET "$api?include_markdown_description=true"
+    ;;
+  comments)
+    call GET "$api/comment"
+    ;;
+  describe)
+    call PUT "$api" "$(jq -n --arg d "${3:?markdown required}" '{markdown_content: $d}')" >/dev/null
     ;;
   comment)
     call POST "$api/comment" "$(jq -n --arg t "${3:?text required}" '{comment_text: $t, notify_all: true}')" >/dev/null
