@@ -15,3 +15,6 @@ Thumbs.db
 # Python bytecode from running the build
 __pycache__/
 *.pyc
+
+# Cloudflare Pages build output (_build/pages.sh)
+dist/
