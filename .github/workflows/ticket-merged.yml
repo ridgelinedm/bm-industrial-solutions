@@ -1,0 +1,26 @@
+# Merging a ticket PR (branch CU-<task id>) publishes it, so close the ticket.
+name: Close ticket on merge
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+
+jobs:
+  close:
+    if: github.event.pull_request.merged && startsWith(github.event.pull_request.head.ref, 'CU-')
+    runs-on: ubuntu-latest
+    env:
+      CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
+      BRANCH: ${{ github.event.pull_request.head.ref }}
+      PR_URL: ${{ github.event.pull_request.html_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Mark the ticket done
+        run: |
+          task="${BRANCH#CU-}"
+          .github/scripts/clickup.sh comment "$task" "Approved and merged ($PR_URL). The change goes live within a few minutes."
+          .github/scripts/clickup.sh status "$task" "${{ vars.CLICKUP_DONE_STATUS || 'complete' }}"

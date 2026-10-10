@@ -108,6 +108,34 @@ Then point DNS at GitHub Pages and enable HTTPS in the repo settings. The
 `--site-url` flag also updates canonicals, the sitemap and structured data, so
 do not skip it.
 
+## Ticket automation
+
+Maintenance tickets from ClickUp become PRs that Claude writes and you approve.
+
+1. `.github/workflows/ticket-to-pr.yml` receives a ticket (`repository_dispatch`
+   type `clickup-ticket`, payload `{task_id, title, spec, task_url}`, or run it
+   by hand from the Actions tab). Claude edits the source on branch
+   `CU-<task id>`; the workflow rebuilds, runs `check.py`, refuses changes to
+   `.github/`, `_inbox/` or `CNAME`, opens a PR, comments the PR and preview
+   links on the ticket and moves it to review.
+2. `.github/workflows/claude-revise.yml`: comment `@claude <what to change>` on
+   the PR to revise it.
+3. `.github/workflows/ticket-merged.yml`: merging the PR publishes the change and
+   marks the ticket done.
+
+Claude's standing instructions for the repo are in `CLAUDE.md`.
+
+| Setting | Kind | Value |
+| --- | --- | --- |
+| `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN` | secret | Claude credentials (one of the two) |
+| `CLICKUP_API_TOKEN` | secret | ClickUp personal token (`pk_...`) |
+| `CF_PAGES_PROJECT` | variable | Cloudflare Pages project name, for preview links |
+| `CLICKUP_REVIEW_STATUS` | variable | Defaults to `internal review` |
+| `CLICKUP_DONE_STATUS` | variable | Defaults to `complete` |
+
+Also enable *Settings → Actions → General → Allow GitHub Actions to create and
+approve pull requests*, and protect `main` so changes only land by merge.
+
 ## Two things still to wire up
 
 1. **The contact form endpoint.** `contact/` posts to Formspree, but the form

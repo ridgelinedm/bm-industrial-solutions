@@ -1,0 +1,174 @@
+# A ClickUp ticket becomes a PR with a preview link.
+#
+# Triggered by the Cloudflare Worker (repository_dispatch, type clickup-ticket)
+# with a payload of {task_id, title, spec, task_url}. Can also be run by hand
+# from the Actions tab for testing.
+#
+# Claude edits the source and nothing else: it cannot run git, so this
+# workflow rebuilds, checks, commits, opens the PR and reports back to ClickUp.
+name: Ticket to PR
+
+on:
+  repository_dispatch:
+    types: [clickup-ticket]
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: ClickUp task ID
+        required: true
+      title:
+        description: Short title for the PR
+        required: true
+      spec:
+        description: The change spec
+        required: true
+      task_url:
+        description: ClickUp task URL
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: ticket-${{ github.event.client_payload.task_id || inputs.task_id }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TASK_ID: ${{ github.event.client_payload.task_id || inputs.task_id }}
+      TASK_TITLE: ${{ github.event.client_payload.title || inputs.title }}
+      TASK_URL: ${{ github.event.client_payload.task_url || inputs.task_url }}
+      SPEC: ${{ github.event.client_payload.spec || inputs.spec }}
+      CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
+      GH_TOKEN: ${{ github.token }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Create the ticket branch
+        run: |
+          if ! [[ "$TASK_ID" =~ ^[A-Za-z0-9_-]{1,40}$ ]]; then
+            echo "::error::Invalid task id: $TASK_ID"
+            exit 1
+          fi
+          branch="CU-$TASK_ID"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
+            echo "::error::$branch already exists. Comment @claude on its PR to revise it."
+            exit 1
+          fi
+          git switch -c "$branch"
+          echo "BRANCH=$branch" >> "$GITHUB_ENV"
+
+      - name: Claude makes the change
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          prompt: |
+            A client website maintenance ticket needs to be applied to this site.
+            Follow CLAUDE.md.
+
+            Ticket: ${{ env.TASK_TITLE }}
+
+            <spec>
+            ${{ env.SPEC }}
+            </spec>
+
+            Make the change, then run the build and the check. When you are
+            done, write a short plain-English summary of what you changed (and
+            anything you could not do, or chose not to do, and why) to
+            `.claude-summary.md` in the repo root. Do not commit; the workflow
+            handles git.
+          claude_args: |
+            --max-turns 40
+            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(python3 _build/build.py:*),Bash(python3 _build/check.py:*),Bash(git diff:*),Bash(git status:*)"
+
+      - name: Rebuild and check
+        run: |
+          python3 _build/build.py
+          python3 _build/check.py
+
+      - name: Commit and push
+        run: |
+          summary_file="$RUNNER_TEMP/summary.md"
+          if [[ -f .claude-summary.md ]]; then
+            mv .claude-summary.md "$summary_file"
+          else
+            echo "(Claude left no summary.)" > "$summary_file"
+          fi
+
+          git add -A
+          if git diff --cached --quiet; then
+            echo "::error::Claude made no changes."
+            cat "$summary_file"
+            exit 1
+          fi
+
+          blocked=$(git diff --cached --name-only | grep -E '^(\.github/|_inbox/|CNAME$)' || true)
+          if [[ -n "$blocked" ]]; then
+            echo "::error::Change touched protected paths:"
+            echo "$blocked"
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "$TASK_TITLE" -m "ClickUp: ${TASK_URL:-task $TASK_ID}"
+          git push -u origin "$BRANCH"
+
+      - name: Open the PR
+        run: |
+          preview=""
+          if [[ -n "${{ vars.CF_PAGES_PROJECT }}" ]]; then
+            # Cloudflare Pages branch alias: lowercase, non-alphanumerics to
+            # hyphens, at most 28 characters.
+            alias=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g' | cut -c1-28 | sed -E 's/-+$//')
+            preview="https://$alias.${{ vars.CF_PAGES_PROJECT }}.pages.dev"
+          fi
+
+          {
+            echo "**ClickUp:** ${TASK_URL:-task $TASK_ID}"
+            [[ -n "$preview" ]] && echo "**Preview:** $preview"
+            echo
+            echo "### What changed"
+            cat "$RUNNER_TEMP/summary.md"
+            echo
+            echo "### The request"
+            echo "$SPEC" | sed 's/^/> /'
+            echo
+            echo "---"
+            echo "Merge to publish. Comment \`@claude <what to change>\` to revise."
+          } > "$RUNNER_TEMP/body.md"
+
+          pr_url=$(gh pr create --base main --head "$BRANCH" --title "$TASK_TITLE" --body-file "$RUNNER_TEMP/body.md")
+          echo "PR_URL=$pr_url" >> "$GITHUB_ENV"
+          echo "PREVIEW_URL=$preview" >> "$GITHUB_ENV"
+
+      - name: Report to ClickUp
+        run: |
+          msg="Ready for review.
+          PR: $PR_URL"
+          if [[ -n "$PREVIEW_URL" ]]; then
+            msg="$msg
+          Preview (ready in a minute or two): $PREVIEW_URL"
+          fi
+          msg="$msg
+
+          Merge the PR to publish, or comment @claude on it with changes."
+          .github/scripts/clickup.sh comment "$TASK_ID" "$msg"
+          .github/scripts/clickup.sh status "$TASK_ID" "${{ vars.CLICKUP_REVIEW_STATUS || 'internal review' }}"
+
+      - name: Report failure to ClickUp
+        if: failure()
+        run: |
+          .github/scripts/clickup.sh comment "$TASK_ID" "The automated build for this ticket failed and needs a look: $RUN_URL"
