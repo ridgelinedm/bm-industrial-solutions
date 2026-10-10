@@ -933,8 +933,8 @@ def page_contact():
             <span class="contact-item__icon">{R.icon('clock', 22, 2)}</span>
             <span>
               <span class="contact-item__label">Hours</span>
-              <span class="contact-item__value">24 hours, 7 days</span>
-              <span class="contact-item__note">Emergency response any time; scheduled work booked ahead</span>
+              <span class="contact-item__value">Monday to Friday, 7am to 5pm</span>
+              <span class="contact-item__note">Emergency line answered 24 hours a day, 7 days a week</span>
             </span>
           </div>
         </div>
