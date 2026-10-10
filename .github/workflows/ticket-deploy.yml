@@ -1,0 +1,62 @@
+# A ticket moved to "deploy" in ClickUp publishes its PR.
+#
+# The Cloudflare Worker sends a repository_dispatch (type clickup-deploy,
+# payload {task_id}). This merges the CU-<task id> PR into main, which the host
+# deploys, then closes the ticket. Merges made here do not trigger other
+# workflows, so ticket-merged.yml does not run; the ticket is closed below.
+name: Deploy ticket
+
+on:
+  repository_dispatch:
+    types: [clickup-deploy]
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: ClickUp task ID
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ticket-${{ github.event.client_payload.task_id || inputs.task_id }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      TASK_ID: ${{ github.event.client_payload.task_id || inputs.task_id }}
+      CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
+      GH_TOKEN: ${{ github.token }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Merge the ticket's PR
+        run: |
+          if ! [[ "$TASK_ID" =~ ^[A-Za-z0-9_-]{1,40}$ ]]; then
+            echo "::error::Invalid task id: $TASK_ID"
+            exit 1
+          fi
+          pr=$(gh pr list --head "CU-$TASK_ID" --state open --json url --jq '.[0].url // empty')
+          if [[ -z "$pr" ]]; then
+            echo "::error::No open PR for CU-$TASK_ID"
+            echo "FAIL_REASON=There is no open PR for this ticket, so there was nothing to deploy." >> "$GITHUB_ENV"
+            exit 1
+          fi
+          gh pr merge "$pr" --squash --delete-branch
+          echo "PR_URL=$pr" >> "$GITHUB_ENV"
+
+      - name: Close the ticket
+        run: |
+          .github/scripts/clickup.sh comment "$TASK_ID" "Deployed: $PR_URL is merged and the change goes live within a few minutes."
+          .github/scripts/clickup.sh status "$TASK_ID" "${{ vars.CLICKUP_DONE_STATUS || 'complete' }}"
+
+      - name: Report failure to ClickUp
+        if: failure()
+        run: |
+          reason="${FAIL_REASON:-The deploy failed (for example a merge conflict) and needs a look.}"
+          .github/scripts/clickup.sh comment "$TASK_ID" "$reason $RUN_URL"
+          .github/scripts/clickup.sh status "$TASK_ID" "${{ vars.CLICKUP_REVIEW_STATUS || 'internal review' }}"

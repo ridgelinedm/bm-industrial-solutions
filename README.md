@@ -110,31 +110,30 @@ do not skip it.
 
 ## Ticket automation
 
-Maintenance tickets from ClickUp become PRs that Claude writes and you approve.
+ClickUp tickets become PRs that Claude writes, and go live when you approve
+them in ClickUp. The Cloudflare Worker in `~/Projects/ridgeline-ticket-worker`
+turns ClickUp status changes into GitHub `repository_dispatch` events.
 
-1. `.github/workflows/ticket-to-pr.yml` receives a ticket (`repository_dispatch`
-   type `clickup-ticket`, payload `{task_id, title, spec, task_url}`, or run it
-   by hand from the Actions tab). Claude edits the source on branch
-   `CU-<task id>`; the workflow rebuilds, runs `check.py`, refuses changes to
-   `.github/`, `_inbox/` or `CNAME`, opens a PR, comments the PR and preview
-   links on the ticket and moves it to review.
-2. `.github/workflows/claude-revise.yml`: comment `@claude <what to change>` on
-   the PR to revise it.
-3. `.github/workflows/ticket-merged.yml`: merging the PR publishes the change and
-   marks the ticket done.
+| ClickUp status | What happens |
+| --- | --- |
+| **ready for build** | `ticket-to-pr.yml` reads the ticket, Claude edits the source on branch `CU-<task id>`, the workflow rebuilds, runs `check.py`, refuses changes to `.github/`, `_inbox/` or `CNAME`, opens a PR, comments the PR and preview links on the ticket, moves it to **internal review** and assigns the reviewer |
+| **internal review** | You check the preview. Comment `@claude <what to change>` on the PR to revise (`claude-revise.yml`) |
+| **deploy** | `ticket-deploy.yml` squash-merges the PR, which publishes it, and sets the ticket to **complete**. If it cannot, it comments why and moves the ticket back to internal review |
 
-Claude's standing instructions for the repo are in `CLAUDE.md`.
+Merging the PR on GitHub yourself also works: `ticket-merged.yml` then closes
+the ticket. Both ticket workflows can be run by hand from the Actions tab with
+a task ID. Claude's standing instructions for the repo are in `CLAUDE.md`.
 
 | Setting | Kind | Value |
 | --- | --- | --- |
 | `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN` | secret | Claude credentials (one of the two) |
 | `CLICKUP_API_TOKEN` | secret | ClickUp personal token (`pk_...`) |
+| `CLICKUP_REVIEWER_ID` | variable | ClickUp user assigned for review (`174105881`, Zach) |
 | `CF_PAGES_PROJECT` | variable | Cloudflare Pages project name, for preview links |
 | `CLICKUP_REVIEW_STATUS` | variable | Defaults to `internal review` |
 | `CLICKUP_DONE_STATUS` | variable | Defaults to `complete` |
 
-Also enable *Settings → Actions → General → Allow GitHub Actions to create and
-approve pull requests*, and protect `main` so changes only land by merge.
+The repo allows Actions to open PRs, and `main` requires a PR (no approvals).
 
 ## Two things still to wire up
 

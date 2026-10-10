@@ -1,8 +1,9 @@
 # A ClickUp ticket becomes a PR with a preview link.
 #
-# Triggered by the Cloudflare Worker (repository_dispatch, type clickup-ticket)
-# with a payload of {task_id, title, spec, task_url}. Can also be run by hand
-# from the Actions tab for testing.
+# The Cloudflare Worker sends a repository_dispatch (type clickup-ticket,
+# payload {task_id}) when a ticket moves to "ready for build". The ticket's
+# name and description are read from ClickUp here. It can also be run by hand
+# from the Actions tab with a task ID, for testing.
 #
 # Claude edits the source and nothing else: it cannot run git, so this
 # workflow rebuilds, checks, commits, opens the PR and reports back to ClickUp.
@@ -16,15 +17,6 @@ on:
       task_id:
         description: ClickUp task ID
         required: true
-      title:
-        description: Short title for the PR
-        required: true
-      spec:
-        description: The change spec
-        required: true
-      task_url:
-        description: ClickUp task URL
-        required: false
 
 permissions:
   contents: write
@@ -41,9 +33,6 @@ jobs:
     timeout-minutes: 30
     env:
       TASK_ID: ${{ github.event.client_payload.task_id || inputs.task_id }}
-      TASK_TITLE: ${{ github.event.client_payload.title || inputs.title }}
-      TASK_URL: ${{ github.event.client_payload.task_url || inputs.task_url }}
-      SPEC: ${{ github.event.client_payload.spec || inputs.spec }}
       CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
       GH_TOKEN: ${{ github.token }}
       RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
@@ -54,12 +43,27 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Create the ticket branch
+      - name: Read the ticket
         run: |
           if ! [[ "$TASK_ID" =~ ^[A-Za-z0-9_-]{1,40}$ ]]; then
             echo "::error::Invalid task id: $TASK_ID"
             exit 1
           fi
+          task=$(.github/scripts/clickup.sh get "$TASK_ID")
+          title=$(jq -r '.name' <<<"$task" | tr -d '\r\n')
+          spec=$(jq -r '(.markdown_description // .text_content // .description // "") | select(. != "")' <<<"$task")
+          spec="${spec:-$title}"
+          {
+            echo "TASK_TITLE=$title"
+            echo "TASK_URL=$(jq -r '.url' <<<"$task")"
+            delim="SPEC_$(openssl rand -hex 16)"
+            echo "SPEC<<$delim"
+            echo "$spec"
+            echo "$delim"
+          } >> "$GITHUB_ENV"
+
+      - name: Create the ticket branch
+        run: |
           branch="CU-$TASK_ID"
           if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
             echo "::error::$branch already exists. Comment @claude on its PR to revise it."
@@ -147,7 +151,7 @@ jobs:
             echo "$SPEC" | sed 's/^/> /'
             echo
             echo "---"
-            echo "Merge to publish. Comment \`@claude <what to change>\` to revise."
+            echo "Set the ClickUp ticket to **deploy** (or merge here) to publish. Comment \`@claude <what to change>\` to revise."
           } > "$RUNNER_TEMP/body.md"
 
           pr_url=$(gh pr create --base main --head "$BRANCH" --title "$TASK_TITLE" --body-file "$RUNNER_TEMP/body.md")
@@ -164,9 +168,12 @@ jobs:
           fi
           msg="$msg
 
-          Merge the PR to publish, or comment @claude on it with changes."
+          Set the ticket to \"deploy\" to publish, or comment @claude on the PR with changes."
           .github/scripts/clickup.sh comment "$TASK_ID" "$msg"
           .github/scripts/clickup.sh status "$TASK_ID" "${{ vars.CLICKUP_REVIEW_STATUS || 'internal review' }}"
+          if [[ -n "${{ vars.CLICKUP_REVIEWER_ID }}" ]]; then
+            .github/scripts/clickup.sh assign "$TASK_ID" "${{ vars.CLICKUP_REVIEWER_ID }}"
+          fi
 
       - name: Report failure to ClickUp
         if: failure()
