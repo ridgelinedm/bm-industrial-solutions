@@ -160,7 +160,7 @@ def nav(active):
     <nav class="nav__nav" aria-label="Primary"><ul class="nav__menu">{''.join(links)}</ul></nav>
     <div class="nav__actions">
       <a class="nav__phone" href="tel:{COMPANY['phone_href']}">{icon('phone', 16, 2.2)}{COMPANY['phone']}</a>
-      <a class="btn btn--primary btn--sm" href="{url('contact')}">Request a quote</a>
+      <a class="btn btn--primary btn--sm" href="{url('contact')}">Request a Quote</a>
       <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Open menu"><span></span></button>
     </div>
   </div>
@@ -185,7 +185,7 @@ def drawer():
     return f"""<div class="drawer" id="drawer">
   <nav aria-label="Mobile">{''.join(blocks)}</nav>
   <div class="drawer__actions">
-    <a class="btn btn--primary" href="{url('contact')}">Request a quote</a>
+    <a class="btn btn--primary" href="{url('contact')}">Request a Quote</a>
     <a class="btn btn--outline" href="tel:{COMPANY['phone_href']}">{icon('phone', 17, 2.2)} {COMPANY['phone']}</a>
   </div>
 </div>"""
@@ -193,7 +193,7 @@ def drawer():
 
 def callbar():
     return f"""<div class="callbar">
-  <a class="btn btn--outline btn--sm" href="{url('contact')}">Request a quote</a>
+  <a class="btn btn--outline btn--sm" href="{url('contact')}">Request a Quote</a>
   <a class="btn btn--primary btn--sm" href="tel:{COMPANY['phone_href']}">{icon('phone', 16, 2.2)} Call now</a>
 </div>"""
 
@@ -452,7 +452,7 @@ def faq_block(items):
     return f'<div class="faq reveal">{"".join(out)}</div>'
 
 
-def cta_panel(title, lead, primary=("Request a quote", "contact"), secondary=True):
+def cta_panel(title, lead, primary=("Request a Quote", "contact"), secondary=True):
     sec = ""
     if secondary:
         sec = f'<a class="btn btn--on-dark btn--lg" href="tel:{COMPANY["phone_href"]}">{icon("phone", 18, 2.2)} {COMPANY["phone"]}</a>'
