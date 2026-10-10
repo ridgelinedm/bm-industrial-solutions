@@ -81,6 +81,15 @@ EXIF rotation is applied automatically. 25 of the original 49 photos needed it.
 
 ## Deployment
 
+### Previews (Cloudflare Pages)
+
+Cloudflare Pages builds every branch with `bash _build/pages.sh` (output
+directory `dist`), which rebuilds the site for the domain root. Each ticket
+branch gets a preview at `cu-<task id>.<project>.pages.dev`, linked from the
+ticket. Preview deployments are served with `X-Robots-Tag: noindex`.
+
+### Live site (GitHub Pages)
+
 GitHub Pages serves this repo directly. `.nojekyll` stops Pages from running
 the files through Jekyll.
 
