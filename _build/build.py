@@ -1064,7 +1064,7 @@ def page_404():
   <div class="container">
     <div class="pagehero__inner">
       <p class="eyebrow eyebrow--center">404</p>
-      <h1 class="display-1">We couldn't find that page.</h1>
+      <h1 class="display-1">Sorry, we couldn't find that page.</h1>
       <p class="lead">The link may be old, or the page may have moved. Everything we do is one of four things. Start there, or call and we will point you at it.</p>
       <div class="btn-row btn-row--center">
         <a class="btn btn--primary btn--lg" href="{R.url('services')}">Browse services</a>
