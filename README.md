@@ -116,7 +116,7 @@ turns ClickUp status changes into GitHub `repository_dispatch` events.
 
 | ClickUp status | What happens |
 | --- | --- |
-| **ready for build** | `ticket-to-pr.yml` reads the ticket, Claude edits the source on branch `CU-<task id>`, the workflow rebuilds, runs `check.py`, refuses changes to `.github/`, `_inbox/` or `CNAME`, opens a PR, comments the PR and preview links on the ticket, moves it to **internal review** and assigns the reviewer |
+| **ready to build** | `ticket-to-pr.yml` reads the ticket, Claude edits the source on branch `CU-<task id>`, the workflow rebuilds, runs `check.py`, refuses changes to `.github/`, `_inbox/` or `CNAME`, opens a PR, comments the PR and preview links on the ticket, moves it to **internal review** and assigns the reviewer |
 | **internal review** | You check the preview. Comment `@claude <what to change>` on the PR to revise (`claude-revise.yml`) |
 | **deploy** | `ticket-deploy.yml` squash-merges the PR, which publishes it, and sets the ticket to **complete**. If it cannot, it comments why and moves the ticket back to internal review |
 
