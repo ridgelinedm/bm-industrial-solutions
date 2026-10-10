@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
+      PYTHONDONTWRITEBYTECODE: "1"
       TASK_ID: ${{ github.event.client_payload.task_id || inputs.task_id }}
       CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
       GH_TOKEN: ${{ github.token }}

@@ -11,3 +11,7 @@ _dbg.html
 
 .DS_Store
 Thumbs.db
+
+# Python bytecode from running the build
+__pycache__/
+*.pyc
