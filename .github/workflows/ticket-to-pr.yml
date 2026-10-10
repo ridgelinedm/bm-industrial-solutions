@@ -67,7 +67,7 @@ jobs:
         run: |
           branch="CU-$TASK_ID"
           if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
-            echo "::error::$branch already exists. Comment @claude on its PR to revise it."
+            echo "::error::$branch already exists. Start a comment on the ClickUp ticket with @Claude to revise it."
             exit 1
           fi
           git switch -c "$branch"
@@ -157,7 +157,7 @@ jobs:
             echo "$SPEC" | sed 's/^/> /'
             echo
             echo "---"
-            echo "Set the ClickUp ticket to **deploy** (or merge here) to publish. Comment \`@claude <what to change>\` to revise."
+            echo "Set the ClickUp ticket to **deploy** (or merge here) to publish. Start a comment on the ClickUp ticket with \`@Claude\` to revise (or comment \`@claude\` here)."
           } > "$RUNNER_TEMP/body.md"
 
           pr_url=$(gh pr create --base main --head "$BRANCH" --title "$TASK_TITLE" --body-file "$RUNNER_TEMP/body.md")
@@ -174,7 +174,7 @@ jobs:
           fi
           msg="$msg
 
-          Set the ticket to \"deploy\" to publish, or comment @claude on the PR with changes."
+          Set the ticket to \"deploy\" to publish, or start a comment with @Claude to request changes."
           .github/scripts/clickup.sh comment "$TASK_ID" "$msg"
           .github/scripts/clickup.sh status "$TASK_ID" "${{ vars.CLICKUP_REVIEW_STATUS || 'internal review' }}"
           if [[ -n "${{ vars.CLICKUP_REVIEWER_ID }}" ]]; then

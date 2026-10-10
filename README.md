@@ -123,13 +123,14 @@ do not skip it.
 
 ClickUp tickets become PRs that Claude writes, and go live when you approve
 them in ClickUp. The Cloudflare Worker in `~/Projects/ridgeline-ticket-worker`
-turns ClickUp status changes into GitHub `repository_dispatch` events.
+turns ClickUp status changes and `@Claude` comments into GitHub
+`repository_dispatch` events.
 
 | ClickUp status | What happens |
 | --- | --- |
 | **submitted** | `ticket-spec.yml` (every new ticket lands here). Claude reads the ticket, its comments and the site, then either rewrites the description as a change spec (keeping the client's original request below it) and moves it to **ready to build**, asks the client a question in a comment and moves it to **waiting on client**, or, for anything outside the website, assigns the reviewer with a note and moves it to **in queue**. Set a ticket back to **submitted** after the client answers |
 | **ready to build** | `ticket-to-pr.yml` reads the ticket, Claude edits the source on branch `CU-<task id>`, the workflow rebuilds, runs `check.py`, refuses changes to `.github/`, `_inbox/` or `CNAME`, opens a PR, comments the PR and preview links on the ticket, moves it to **internal review** and assigns the reviewer |
-| **internal review** | You check the preview. Comment `@claude <what to change>` on the PR to revise (`claude-revise.yml`) |
+| **internal review** | You check the preview. Start a ClickUp comment with `@Claude <what to change>` to revise it (`ticket-revise.yml`); Claude comments back when the preview is updated. `@claude` on the PR also works (`claude-revise.yml`) |
 | **deploy** | `ticket-deploy.yml` squash-merges the PR, which publishes it, and sets the ticket to **complete**. If it cannot, it comments why and moves the ticket back to internal review |
 
 Merging the PR on GitHub yourself also works: `ticket-merged.yml` then closes
