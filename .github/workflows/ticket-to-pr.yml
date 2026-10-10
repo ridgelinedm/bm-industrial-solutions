@@ -89,11 +89,12 @@ jobs:
             ${{ env.SPEC }}
             </spec>
 
-            Make the change, then run the build and the check. When you are
-            done, write a short plain-English summary of what you changed (and
-            anything you could not do, or chose not to do, and why) to
-            `.claude-summary.md` in the repo root. Do not commit; the workflow
-            handles git.
+            Make the change, then run the build and the check. Do not commit;
+            the workflow handles git. When you are done, write a short
+            plain-English summary to `.claude-summary.md` in the repo root for
+            the person approving the change: what changed on the site, and
+            anything you could not do or chose not to do, and why. Leave out
+            process details such as builds, checks and commits.
           claude_args: |
             --max-turns 40
             --allowedTools "Read,Glob,Grep,Edit,Write,Bash(python3 _build/build.py:*),Bash(python3 _build/check.py:*),Bash(git diff:*),Bash(git status:*)"
