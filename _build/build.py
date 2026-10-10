@@ -150,7 +150,7 @@ def emergency_band():
         "When it fails at 2am, you still get a technician",
         "Breakdowns do not respect business hours. Our emergency line runs 24 hours a day, seven days a week. You reach someone who can diagnose the problem and dispatch a technician.",
         f'<div class="btn-row"><a class="btn btn--primary btn--lg" href="tel:{COMPANY["phone_href"]}">{R.icon("phone", 18, 2.2)} {COMPANY["phone"]}</a>'
-        f'<a class="btn btn--on-dark btn--lg" href="{R.url("contact")}">Request a quote</a></div>'
+        f'<a class="btn btn--on-dark btn--lg" href="{R.url("contact")}">Request a Quote</a></div>'
     )}
   </div>
 </section>"""
@@ -195,7 +195,7 @@ def page_home():
         <h1 class="display-1">Your plant runs on air, oil and pressure. We keep all three <em>moving</em>.</h1>
         <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping from one owner-operated crew, with a 24/7 emergency line that a technician actually answers.</p>
         <div class="btn-row">
-          <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a quote</a>
+          <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a Quote</a>
           <a class="btn btn--outline btn--lg" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 18, 2.2)} {COMPANY['phone']}</a>
         </div>
         <ul class="hero__trust">
@@ -355,7 +355,7 @@ def page_services():
       <h1 class="display-1">Four trades. One contractor. <em>No gaps</em> between them.</h1>
       <p class="lead">Compressed air, hydraulics, mechanical contracting and process piping, plus preventive maintenance to keep all of it out of the emergency queue.</p>
       <div class="btn-row btn-row--center">
-        <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a quote</a>
+        <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a Quote</a>
         <a class="btn btn--outline btn--lg" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 18, 2.2)} {COMPANY['phone']}</a>
       </div>
     </div>
@@ -483,7 +483,7 @@ def page_service(s):
       <h1 class="display-1">{R.esc(s['title'])}</h1>
       <p class="lead">{s['lead']}</p>
       <div class="btn-row">
-        <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a quote</a>
+        <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a Quote</a>
         <a class="btn btn--outline btn--lg" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 18, 2.2)} {COMPANY['phone']}</a>
       </div>
     </div>
@@ -704,7 +704,7 @@ def page_area(a):
       <h1 class="display-1">Industrial services in {R.esc(a['city'])}, {a['state']}</h1>
       <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping. Owner-operated, with 24/7 emergency response across the {R.esc(a['city'])} area.</p>
       <div class="btn-row">
-        <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a quote</a>
+        <a class="btn btn--primary btn--lg" href="{R.url('contact')}">Request a Quote</a>
         <a class="btn btn--outline btn--lg" href="tel:{COMPANY['phone_href']}">{R.icon('phone', 18, 2.2)} {COMPANY['phone']}</a>
       </div>
     </div>
