@@ -16,7 +16,7 @@ export function localBusinessSchema() {
     telephone: COMPANY.phone,
     email: COMPANY.email,
     image: SITE_URL + "/assets/img/og-image.jpg",
-    logo: SITE_URL + "/assets/img/logo/logo-full-color.png",
+    logo: SITE_URL + "/assets/img/logo/bm-horizontal-full-color-1000w.png",
     slogan: COMPANY.tagline,
     founder: { "@type": "Person", name: COMPANY.owner },
     // No street address is published, so the schema stays at locality level.

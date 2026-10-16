@@ -5,4 +5,4 @@ interface Props { spec: PromoSpec }
 const { spec } = Astro.props;
 const surface = spec.surface ?? "ink";
 ---
-<div class={`promo promo--${surface} reveal`}>{spec.gear !== false && <img class="promo__gear" src={asset("assets/img/logo/icon-color.png")} alt="" aria-hidden="true" loading="lazy" width="618" height="473">}<h3 class="promo__title" set:html={spec.title} /><p set:html={spec.body} /><div class="promo__btn"><a class={spec.btn_class ?? "btn btn--light"} href={href(spec.href)} set:html={spec.label} /></div></div>
+<div class={`promo promo--${surface} reveal`}>{spec.gear !== false && <img class="promo__gear" src={asset("assets/img/logo/bm-icon-color.svg")} alt="" aria-hidden="true" loading="lazy" width="625" height="482">}<h3 class="promo__title" set:html={spec.title} /><p set:html={spec.body} /><div class="promo__btn"><a class={spec.btn_class ?? "btn btn--light"} href={href(spec.href)} set:html={spec.label} /></div></div>

@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
-"""Process source photography and logos into optimised web assets.
+"""Process source photography into optimised web assets, and build the social card.
 
-Source files live in _inbox/ (git-ignored). Output lands in public/assets/img/.
+Photos come from _inbox/ (git-ignored); the logo comes from brand/. Output lands in public/assets/img/.
 Run from the project root:  python3 _build/images.py
 """
 import os
-import shutil
 from PIL import Image, ImageOps, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_PHOTOS = os.path.join(ROOT, "_inbox", "photos")
-SRC_LOGOS = os.path.join(ROOT, "_inbox", "logos")
 OUT = os.path.join(ROOT, "public", "assets", "img")
 
 # Widths emitted for every photo. The 400px step feeds the small card grids.
@@ -104,63 +102,6 @@ def emit_photo(slug, filename, focal):
     return made
 
 
-def emit_logos():
-    """Copy logo lockups and derive a white knockout version for dark sections."""
-    pairs = {
-        "logo-full-color.png": "bm_logo_extracted_page_2.png",
-        "logo-full-black.png": "bm_logo_extracted_page_3.png",
-        "icon-color.png": "bm_icon_color.png",
-    }
-    for dest, src in pairs.items():
-        s = os.path.join(SRC_LOGOS, src)
-        if os.path.exists(s):
-            shutil.copyfile(s, os.path.join(OUT, "logo", dest))
-
-    # The supplied "white" lockups are pure white on transparent, which loses the
-    # gear entirely on dark backgrounds. Rebuild a reversed mark from the colour
-    # lockup instead: keep the red gear, knock the wordmark out to white.
-    s = os.path.join(SRC_LOGOS, "bm_logo_extracted_page_2.png")
-    if os.path.exists(s):
-        im = Image.open(s).convert("RGBA")
-        px = im.load()
-        for y in range(im.height):
-            for x in range(im.width):
-                r, g, b, a = px[x, y]
-                if a < 8:
-                    continue
-                # Leave anything meaningfully red alone; lighten the rest.
-                if r > 120 and r - g > 60 and r - b > 60:
-                    continue
-                lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-                v = int(255 - (lum * 90))  # dark ink -> white, mid grey -> near white
-                px[x, y] = (v, v, v, a)
-        im.save(os.path.join(OUT, "logo", "logo-full-reversed.png"))
-
-    # Favicons + apple touch icon from the square-ish gear mark.
-    s = os.path.join(SRC_LOGOS, "bm_icon_color.png")
-    if os.path.exists(s):
-        icon = Image.open(s).convert("RGBA")
-        side = max(icon.size)
-        for size, name, bg in [
-            (32, "favicon-32.png", None),
-            (192, "icon-192.png", None),
-            (180, "apple-touch-icon.png", (255, 255, 255, 255)),
-        ]:
-            sq = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-            sq.paste(icon, ((side - icon.width) // 2, (side - icon.height) // 2))
-            pad = int(side * 0.06)
-            canvas = Image.new("RGBA", (side + pad * 2, side + pad * 2), bg or (0, 0, 0, 0))
-            canvas.alpha_composite(sq, (pad, pad))
-            out = canvas.resize((size, size), Image.LANCZOS)
-            if bg:
-                flat = Image.new("RGB", out.size, bg[:3])
-                flat.paste(out, mask=out.split()[3])
-                flat.save(os.path.join(OUT, "logo", name))
-            else:
-                out.save(os.path.join(OUT, "logo", name))
-        icon.resize((48, 48), Image.LANCZOS).save(os.path.join(ROOT, "public", "favicon.ico"), sizes=[(16, 16), (32, 32), (48, 48)])
-
-
 def emit_og_image():
     """1200x630 social card: dark ground, photo bleed, logo and tagline."""
     W, H = 1200, 630
@@ -176,22 +117,12 @@ def emit_og_image():
         veil = Image.new("RGBA", (W, H), BRAND_INK + (214,))
         card = Image.alpha_composite(card.convert("RGBA"), veil).convert("RGB")
 
-    logo_path = os.path.join(SRC_LOGOS, "bm_logo_extracted_page_2.png")
-    if os.path.exists(logo_path):
-        lg = Image.open(logo_path).convert("RGBA")
-        # Reverse the wordmark so it reads on the dark ground.
-        px = lg.load()
-        for y in range(lg.height):
-            for x in range(lg.width):
-                r, g, b, a = px[x, y]
-                if a < 8:
-                    continue
-                if r > 120 and r - g > 60 and r - b > 60:
-                    continue
-                px[x, y] = (255, 255, 255, a)
-        tw = 640
-        lg = lg.resize((tw, round(lg.height * (tw / lg.width))), Image.LANCZOS)
-        card.paste(lg, (80, 170), lg)
+    # Reverse lockup from the logo kit (brand/): red gear, white wordmark.
+    logo_path = os.path.join(ROOT, "brand", "png", "bm-horizontal-reverse-2000w.png")
+    lg = Image.open(logo_path).convert("RGBA")
+    tw = 640
+    lg = lg.resize((tw, round(lg.height * (tw / lg.width))), Image.LANCZOS)
+    card.paste(lg, (80, 170), lg)
 
     def font(name, size):
         for p in (f"/System/Library/Fonts/Supplemental/{name}.ttf",
@@ -223,9 +154,8 @@ def main():
         print(f"  {slug:34s} {n} widths")
     print(f"  -> {total} webp derivatives + {len(PHOTOS)} jpeg fallbacks")
 
-    print("Logos + icons:")
-    emit_logos()
-    print("  done")
+    # Logos and favicons come from the logo kit in brand/ and are copied into
+    # public/assets/img/logo/ as-is; nothing to generate here.
 
     print("OG image:")
     emit_og_image()

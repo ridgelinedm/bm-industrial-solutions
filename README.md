@@ -23,6 +23,7 @@ src/
   layouts/Base.astro       Page shell: head, metadata, nav, footer
   lib/                     URL helpers and structured data
 public/assets/             css, js, images (copied to dist/ as-is)
+brand/                     Logo kit masters (SVG) and colours; see "Logo" below
 _build/                    check.py, pages.sh, and the photo/review importers
 ```
 
@@ -89,6 +90,24 @@ machine-written text, and this site should not read that way.
 
 Verbatim customer reviews are exempt from both. They are quotes from named
 people and are rendered as written.
+
+### Logo
+
+The logo kit lives in `brand/` (SVG masters for every lockup, plus
+`COLORS.txt`). The site serves copies from `public/assets/img/logo/`:
+
+| File | Used for |
+| --- | --- |
+| `bm-horizontal-full-color.svg` | Header logo |
+| `bm-horizontal-reverse.svg` | Footer logo (dark background) |
+| `bm-icon-color.svg` | Faint gear watermark on dark panels |
+| `bm-horizontal-full-color-1000w.png` | Logo in structured data for search |
+| `favicon*`, `apple-touch-icon.png`, `android-chrome-*`, `maskable-icon-512x512.png` | Browser, phone and home-screen icons |
+
+`public/favicon.ico` sits at the site root, and `src/pages/site.webmanifest.ts`
+builds the web manifest. To change the logo, replace these files with new ones
+of the same names. The social card (`og-image.jpg`) has the reverse logo baked
+in; rebuild it with `python3 _build/images.py` after a logo change.
 
 ### Adding photos
 
