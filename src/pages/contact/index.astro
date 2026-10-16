@@ -1,0 +1,182 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import Faq from "../../components/Faq.astro";
+import EmergencyBand from "../../components/sections/EmergencyBand.astro";
+import AreasStrip from "../../components/sections/AreasStrip.astro";
+import { COMPANY, SERVICES, PILLARS, type Faq as FaqT } from "../../data/content";
+import { url } from "../../lib/site";
+import { breadcrumbSchema, localBusinessSchema, faqSchema } from "../../lib/schema";
+
+const trail: [string, string | null][] = [["Home", ""], ["Contact", null]];
+
+// Formspree form ID is still a placeholder (see README). Until it is set,
+// assets/js/site.js opens a pre-filled email instead.
+const FORM_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
+const serviceOptions = SERVICES.filter((s) => PILLARS.includes(s.path) || s.path === "services/preventive-maintenance");
+
+const faqs: FaqT[] = [
+  ["What information helps you quote fastest?",
+   "<p>Equipment make and model, what it is doing (or not doing), when it started, your location, and whether production is stopped. A photo of the nameplate is worth several emails.</p>"],
+  ["How quickly will you respond?",
+   "<p>Within one business day for quotes and planned work. For emergencies, call rather than email. The line is answered 24 hours a day.</p>"],
+  ["Do you charge for a site visit or quote?",
+   "<p>For project work and installations, the site walk is part of quoting it properly. For diagnostic service calls, we tell you the rate structure before we dispatch so there are no surprises.</p>"],
+  ["We are outside your listed service areas. Is it worth asking?",
+   `<p>Yes. We travel for the right project, particularly installations and plant relocations. <a href="${url("service-areas")}">See where we work</a> and ask anyway if you are outside it.</p>`],
+];
+---
+<Base
+  title="Contact BM Industrial Solutions | 24/7 Emergency 843-401-9670"
+  description="Request a quote or reach our 24/7 emergency line at 843-401-9670. Industrial service across South Carolina, Georgia and North Carolina from Holly Hill, SC."
+  path="contact" active="contact"
+  schemas={[breadcrumbSchema(trail), localBusinessSchema(), faqSchema(faqs)]}>
+
+<section class="pagehero">
+  <div class="container">
+    <div class="pagehero__inner">
+      <Crumbs trail={trail} />
+      <p class="eyebrow">Contact</p>
+      <h1 class="display-1">Tell us what <em>stopped working</em></h1>
+      <p class="lead">If equipment is down right now, call. The emergency line runs 24 hours a day and you will reach someone who can dispatch. For quotes, planned work and everything else, the form is the fastest route.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:clamp(1rem,0.5rem + 1.5vw,2rem)">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="contact-list">
+          <a class="contact-item" href={`tel:${COMPANY.phone_href}`}>
+            <span class="contact-item__icon"><Icon name="phone" size={22} /></span>
+            <span>
+              <span class="contact-item__label">24/7 emergency &amp; service</span>
+              <span class="contact-item__value">{COMPANY.phone}</span>
+              <span class="contact-item__note">Nights, weekends and holidays included</span>
+            </span>
+          </a>
+          <a class="contact-item" href={`mailto:${COMPANY.email}`}>
+            <span class="contact-item__icon"><Icon name="mail" size={22} /></span>
+            <span>
+              <span class="contact-item__label">Email</span>
+              <span class="contact-item__value" style="font-size:.95rem;word-break:break-all">{COMPANY.email}</span>
+              <span class="contact-item__note">Quotes, drawings and scheduling</span>
+            </span>
+          </a>
+          <div class="contact-item">
+            <span class="contact-item__icon"><Icon name="pin" size={22} /></span>
+            <span>
+              <span class="contact-item__label">Based in</span>
+              <span class="contact-item__value">{COMPANY.city}, {COMPANY.state} {COMPANY.zip}</span>
+              <span class="contact-item__note">Field service across South Carolina, Georgia and North Carolina</span>
+            </span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-item__icon"><Icon name="clock" size={22} /></span>
+            <span>
+              <span class="contact-item__label">Hours</span>
+              <span class="contact-item__value">24 hours, 7 days</span>
+              <span class="contact-item__note">Emergency response any time; scheduled work booked ahead</span>
+            </span>
+          </div>
+        </div>
+
+        <article class="card card--ink reveal" style="margin-top:1rem">
+          <div class="card__icon"><Icon name="bolt" size={26} /></div>
+          <h3 class="h4">Down right now?</h3>
+          <p>Do not wait on the form. Call the emergency line. It is answered 24 hours a day, including weekends and holidays, and you will reach someone who can dispatch.</p>
+          <div class="card__foot"><a class="btn btn--light btn--sm" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={16} stroke={2.2} /> Call {COMPANY.phone}</a></div>
+        </article>
+      </div>
+
+      <div class="reveal">
+        <form class="form" data-contact-form
+              data-endpoint={FORM_ENDPOINT}
+              data-fallback-email={COMPANY.email}
+              method="POST" action={FORM_ENDPOINT}>
+          <h2 class="display-3" style="margin-bottom:.5rem">Request a quote</h2>
+          <p class="muted" style="font-size:var(--fs-sm);margin-bottom:1.75rem">The more detail you give us, the more useful the first reply will be.</p>
+
+          <div class="form__row">
+            <label class="field">
+              <span class="field__label">Name <span aria-hidden="true">*</span></span>
+              <input type="text" name="name" autocomplete="name" required>
+            </label>
+            <label class="field">
+              <span class="field__label">Company</span>
+              <input type="text" name="company" autocomplete="organization">
+            </label>
+          </div>
+
+          <div class="form__row">
+            <label class="field">
+              <span class="field__label">Phone <span aria-hidden="true">*</span></span>
+              <input type="tel" name="phone" autocomplete="tel" required>
+            </label>
+            <label class="field">
+              <span class="field__label">Email <span aria-hidden="true">*</span></span>
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+          </div>
+
+          <div class="form__row">
+            <label class="field">
+              <span class="field__label">Service needed</span>
+              <select name="service">
+                <option value="">Not sure / something else</option>
+                {serviceOptions.map((s) => <option value={s.card_title}>{s.card_title}</option>)}
+              </select>
+            </label>
+            <label class="field">
+              <span class="field__label">Urgency</span>
+              <select name="urgency">
+                <option value="Emergency (down now)">Emergency (down now)</option>
+                <option value="Urgent (within a few days)">Urgent (within a few days)</option>
+                <option value="Planned work" selected>Planned work</option>
+                <option value="Budget pricing only">Budget pricing only</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field__label">Location (city, state)</span>
+            <input type="text" name="location" autocomplete="address-level2">
+          </label>
+
+          <label class="field">
+            <span class="field__label">What is happening? <span aria-hidden="true">*</span></span>
+            <textarea name="message" required placeholder="Equipment make and model if you have it, what it is doing, when it started, and anything you have already tried."></textarea>
+          </label>
+
+          <div class="hp" aria-hidden="true">
+            <label>Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <div class="btn-row" style="margin-top:1.5rem">
+            <button class="btn btn--primary btn--lg" type="submit">Send request</button>
+            <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} stroke={2.2} /> Call instead</a>
+          </div>
+
+          <div class="form__status" role="status" aria-live="polite"></div>
+          <p class="form__note">We answer every enquiry within one business day, or immediately if you mark it an emergency.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<EmergencyBand />
+
+<section class="section">
+  <div class="container container--narrow">
+    <SectionHead eyebrow="Before you send" title="Common questions" center />
+    <Faq items={faqs} />
+  </div>
+</section>
+
+<AreasStrip />
+</Base>

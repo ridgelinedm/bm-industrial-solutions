@@ -1,0 +1,107 @@
+---
+import Base from "../../layouts/Base.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import Split from "../../components/Split.astro";
+import Stats from "../../components/Stats.astro";
+import FeatureList from "../../components/FeatureList.astro";
+import Brandwall from "../../components/Brandwall.astro";
+import Gallery from "../../components/Gallery.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+import EmergencyBand from "../../components/sections/EmergencyBand.astro";
+import ReviewsSection from "../../components/sections/ReviewsSection.astro";
+import AreasStrip from "../../components/sections/AreasStrip.astro";
+import { COMPANY } from "../../data/content";
+import { breadcrumbSchema, localBusinessSchema } from "../../lib/schema";
+
+const trail: [string, string | null][] = [["Home", ""], ["About", null]];
+---
+<Base
+  title="About BM Industrial Solutions | Owner-Operated Industrial Service in SC"
+  description="Owner-operated industrial service in Holly Hill, SC, led by Bradley McLaughlin. Air compressors, hydraulics, mechanical contracting and process piping across SC, GA and NC."
+  path="about" active="about"
+  schemas={[breadcrumbSchema(trail), localBusinessSchema()]}>
+
+<section class="pagehero">
+  <div class="container">
+    <div class="pagehero__inner">
+      <Crumbs trail={trail} />
+      <p class="eyebrow">About</p>
+      <h1 class="display-1">Locally owned. Personally committed. <em>Professionally built.</em></h1>
+      <p class="lead">BM Industrial Solutions is an owner-operated industrial service company in Holly Hill, South Carolina. The person who quotes your job is the person accountable for it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <Split photo={["hydraulic-field-repair", "Technician performing hands-on hydraulic repair work on equipment in the field"]}
+      eyebrow="The owner" title={COMPANY.owner}>
+      <p class="lead">A hands-on technician with over a decade of experience, still in the field on the jobs the company takes.</p>
+      <p>BM Industrial Solutions exists because industrial plants kept running into the same problem: the technician who knew the equipment worked for a company where you could never quite reach him, and the person you could reach had never seen your plant.</p>
+      <p>Being owner-operated collapses that. There is no dispatch layer between the customer and the work, and no incentive to sell equipment the application does not need.</p>
+    </Split>
+  </div>
+</section>
+
+<section class="section section--ink">
+  <div class="container">
+    <SectionHead eyebrow="What that means in practice" title="Small company, <em>serious scope</em>"
+      lead="Enough capability to take the whole job, small enough that you always know who is doing it." />
+    <Stats items={[
+      ["<em>4</em>", "Service lines: compressed air, hydraulics, mechanical contracting and process piping"],
+      ["<em>3</em>", "States covered by regular field service"],
+      ["<em>10+</em>", "Years of hands-on technician experience"],
+      ["<em>24/7</em>", "Emergency coverage, including weekends and holidays"],
+    ]} />
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <SectionHead eyebrow="How we work" title="Six commitments we actually <em>keep</em>"
+      lead="These are the reason customers consolidate work with us." />
+    <FeatureList items={[
+      ["user", "The owner picks up",
+       "The person quoting the work is the person doing it or supervising it. Decisions get made on your floor while we are standing in it."],
+      ["search", "Diagnosis before parts",
+       "Swapping components until the symptom goes away is expensive and it does not hold. We work the system methodically and fix the cause, which is why we are not back next quarter for the same fault."],
+      ["layers", "Independent of manufacturers",
+       "We are not a dealer for anybody. The recommendation you get is based on what your application needs."],
+      ["file", "Written down, handed over",
+       "What was checked, what was changed, what the readings were and what is trending toward a problem. A record you can plan a budget against."],
+      ["clock", "Answered around the clock",
+       "The emergency line runs 24 hours a day, including weekends and holidays, because that is when equipment actually decides to fail."],
+      ["truck", "The whole scope travels",
+       "Air, hydraulics, rigging and piping arrive together. No sub-contracting the half of the job that is inconvenient."],
+    ]} />
+  </div>
+</section>
+
+<Brandwall />
+
+<section class="section section--alt">
+  <div class="container">
+    <SectionHead eyebrow="Recent work" title="What the days actually look like"
+      lead="Installations, retrofits, rigging and field repair across the Carolinas and Georgia." />
+    <Gallery items={[
+      ["rigging-vessel-lift", "Crane lifting a large industrial vessel during an equipment installation"],
+      ["compressor-exterior-install", "Completed exterior compressed air system installation"],
+      ["fabrication-torch-cutting", "Torch cutting during structural fabrication work"],
+      ["facility-lighting-lifts", "Lifts positioned for overhead piping and facility installation work"],
+      ["compressor-dual-system", "Dual rotary screw compressor installation with receiver tanks"],
+      ["rigging-forklift-equipment", "Forklift moving large mechanical equipment inside a plant"],
+    ]} />
+  </div>
+</section>
+
+<EmergencyBand />
+
+<ReviewsSection limit={9} />
+
+<AreasStrip alt={false} />
+
+<CtaPanel
+  title="Work with a contractor who picks up the phone"
+  lead="Tell us what you are dealing with. You will get a straight assessment, a realistic timeline and a number, from the person who will be doing the work." />
+</Base>

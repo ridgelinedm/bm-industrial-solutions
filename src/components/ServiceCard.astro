@@ -1,0 +1,15 @@
+---
+import Icon from "./Icon.astro";
+import type { Service } from "../data/content";
+import { url } from "../lib/site";
+// `outline` is the bordered variant used for sub-service cards.
+interface Props { service: Service; outline?: boolean; cta?: string }
+const { service: s, outline = false, cta } = Astro.props;
+---
+<article class={outline ? "card card--link card--outline reveal" : "card card--link reveal"}>
+  <a class="card__hit" href={url(s.path)} aria-label={s.title}></a>
+  <div class="card__icon"><Icon name={s.icon} size={26} /></div>
+  <h3 class="h4">{s.card_title}</h3>
+  <p set:html={s.short} />
+  <div class="card__foot"><span class="arrow-link">{cta ?? s.cta ?? "Explore"} <Icon name="arrow" size={16} stroke={2.4} /></span></div>
+</article>

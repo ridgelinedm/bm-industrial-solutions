@@ -1,0 +1,9 @@
+---
+import Icon from "./Icon.astro";
+import { COMPANY } from "../data/content";
+import { url } from "../lib/site";
+---
+<div class="callbar">
+  <a class="btn btn--outline btn--sm" href={url("contact")}>Request a Quote</a>
+  <a class="btn btn--primary btn--sm" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={16} stroke={2.2} /> Call now</a>
+</div>

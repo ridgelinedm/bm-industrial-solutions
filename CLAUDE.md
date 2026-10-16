@@ -2,10 +2,10 @@
 
 Read README.md first. It is the source of truth for how the site is built.
 
-- Content lives in `_build/content.py`; layout in `_build/render.py` and
-  `_build/build.py`. Never hand-edit the generated HTML; it is overwritten.
-- After any change run `python3 _build/build.py` then `python3 _build/check.py`.
-  Both must pass. Commit the regenerated HTML along with the source change.
+- The site is built with Astro. Shared content lives in `src/data/content.ts`;
+  page-specific copy and section order in `src/pages/`; markup in
+  `src/components/` and `src/layouts/`. `dist/` is build output; never commit it.
+- After any change run `npm run build` then `npm run check`. Both must pass.
 - Follow the two house rules for copy in README.md: no em dashes, and no
   "X, not Y" antithesis. Verbatim reviews are exempt.
 - Make the smallest change that satisfies the request. Do not restyle, rename

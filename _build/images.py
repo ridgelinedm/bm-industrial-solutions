@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Process source photography and logos into optimised web assets.
 
-Source files live in _inbox/ (git-ignored). Output lands in assets/img/.
+Source files live in _inbox/ (git-ignored). Output lands in public/assets/img/.
 Run from the project root:  python3 _build/images.py
 """
 import os
@@ -11,7 +11,7 @@ from PIL import Image, ImageOps, ImageDraw, ImageFont
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_PHOTOS = os.path.join(ROOT, "_inbox", "photos")
 SRC_LOGOS = os.path.join(ROOT, "_inbox", "logos")
-OUT = os.path.join(ROOT, "assets", "img")
+OUT = os.path.join(ROOT, "public", "assets", "img")
 
 # Widths emitted for every photo. The 400px step feeds the small card grids.
 WIDTHS = [1800, 1200, 800, 400]
@@ -158,7 +158,7 @@ def emit_logos():
                 flat.save(os.path.join(OUT, "logo", name))
             else:
                 out.save(os.path.join(OUT, "logo", name))
-        icon.resize((48, 48), Image.LANCZOS).save(os.path.join(ROOT, "favicon.ico"), sizes=[(16, 16), (32, 32), (48, 48)])
+        icon.resize((48, 48), Image.LANCZOS).save(os.path.join(ROOT, "public", "favicon.ico"), sizes=[(16, 16), (32, 32), (48, 48)])
 
 
 def emit_og_image():

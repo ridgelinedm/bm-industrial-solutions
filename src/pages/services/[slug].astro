@@ -1,0 +1,149 @@
+---
+// One page per entry in SERVICES (src/data/content.ts).
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import Photo from "../../components/Photo.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import Brandwall from "../../components/Brandwall.astro";
+import Split from "../../components/Split.astro";
+import Ticks from "../../components/Ticks.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import Gallery from "../../components/Gallery.astro";
+import Faq from "../../components/Faq.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+import EmergencyBand from "../../components/sections/EmergencyBand.astro";
+import RelatedServices from "../../components/sections/RelatedServices.astro";
+import { COMPANY, SERVICES, SERVICE_BY_SLUG, type Service } from "../../data/content";
+import { url, canonical, SITE_URL } from "../../lib/site";
+import { breadcrumbSchema, faqSchema, statesServed } from "../../lib/schema";
+
+export function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { slug: s.path.replace(/^services\//, "") }, props: { s } }));
+}
+
+const { s } = Astro.props as { s: Service };
+const parent = s.parent ? SERVICE_BY_SLUG[s.parent] : undefined;
+const trail: [string, string | null][] = [["Home", ""], ["Services", "services"]];
+if (parent) trail.push([parent.card_title, parent.path]);
+trail.push([s.card_title, null]);
+
+const kids = (s.children ?? []).map((c) => SERVICE_BY_SLUG[c]);
+const hasKids = kids.length > 0;
+
+const schemas = [
+  breadcrumbSchema(trail),
+  faqSchema(s.faqs),
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: s.title,
+    serviceType: s.card_title,
+    url: canonical(s.path),
+    description: s.meta_desc,
+    provider: { "@id": SITE_URL + "/#business" },
+    areaServed: statesServed(),
+  },
+];
+---
+<Base title={s.meta_title} description={s.meta_desc} path={s.path} active="services" schemas={schemas}>
+
+<section class="pagehero">
+  <div class="container">
+    <div class="pagehero__inner">
+      <Crumbs trail={trail} />
+      <p class="eyebrow">{parent ? parent.card_title : "Service"}</p>
+      <h1 class="display-1">{s.title}</h1>
+      <p class="lead" set:html={s.lead} />
+      <div class="btn-row">
+        <a class="btn btn--primary btn--lg" href={url("contact")}>Request a Quote</a>
+        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} stroke={2.2} /> {COMPANY.phone}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--tight" style="padding-top:0">
+  <div class="container container--wide">
+    <div class="hero-strip reveal">
+      <Photo slug={s.hero_photo[0]} alt={s.hero_photo[1]} sizes="100vw" loading="eager" />
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="split reveal">
+      <div class="split__copy">
+        <p class="eyebrow">Overview</p>
+        <h2 class="display-3">{s.card_title}</h2>
+        <div class="prose">{s.intro.map((p) => <p set:html={p} />)}</div>
+      </div>
+      <div class="split__copy">
+        <h3 class="h4" style="margin-bottom:1.5rem">{s.capabilities_title}</h3>
+        <Ticks items={s.capabilities} />
+      </div>
+    </div>
+  </div>
+</section>
+
+{s.splits && s.splits.length > 0 && (
+<section class="section section--alt">
+  <div class="container">{s.splits.map((sp) => (
+    <Split photo={sp.photo} eyebrow={sp.eyebrow} title={sp.title} flip={sp.flip}>
+      <Fragment set:html={sp.body} />
+      {sp.extra_ticks && <Ticks items={sp.extra_ticks} />}
+    </Split>
+  ))}</div>
+</section>
+)}
+
+{hasKids && (
+<section class="section">
+  <div class="container">
+    <SectionHead eyebrow="In detail" title="Break it down further"
+      lead="If you already know what the job is, go straight to the specifics." />
+    <div class="grid grid--3">{kids.map((k) => <ServiceCard service={k} outline cta="Read more" />)}</div>
+  </div>
+</section>
+)}
+
+{s.path.includes("air-compressor") && <Brandwall />}
+
+{s.gallery && s.gallery.length > 0 && (
+<section class={hasKids ? "section" : "section section--alt"}>
+  <div class="container">
+    <SectionHead eyebrow="Recent work" title="From the field"
+      lead="A sample of installations and service work across South Carolina, Georgia and North Carolina." />
+    <Gallery items={s.gallery} />
+  </div>
+</section>
+)}
+
+<EmergencyBand />
+
+<section class="section">
+  <div class="container container--narrow">
+    <SectionHead eyebrow="Questions" title={"About " + s.card_title.toLowerCase()} center />
+    <Faq items={s.faqs} />
+  </div>
+</section>
+
+{parent && (
+<section class="section section--tight">
+  <div class="container">
+    <a class="area area--plain reveal" href={url(parent.path)} style="max-width:34rem">
+      <span><span class="area__name">All {parent.card_title.toLowerCase()} services</span>
+      <span class="area__meta">Back to the overview</span></span>
+      <Icon name="arrow" size={18} stroke={2.4} />
+    </a>
+  </div>
+</section>
+)}
+
+<RelatedServices current={parent ? parent.path : s.path} />
+
+<CtaPanel
+  title={"Get a quote for " + s.card_title.toLowerCase()}
+  lead="Tell us the equipment, the symptom and how urgent it is. We will come back with a straight answer. If it is down right now, call instead." />
+</Base>

@@ -1,0 +1,6 @@
+---
+// [value HTML, label]
+interface Props { items: [string, string][] }
+const { items } = Astro.props;
+---
+<div class="stats">{items.map(([value, label]) => <div class="stat reveal"><p class="stat__num" set:html={value} /><p class="stat__label">{label}</p></div>)}</div>

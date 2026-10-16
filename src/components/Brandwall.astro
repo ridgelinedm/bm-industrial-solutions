@@ -1,0 +1,11 @@
+---
+import { BRANDS } from "../data/content";
+interface Props { label?: string }
+const { label = "We service every major compressor platform" } = Astro.props;
+---
+<div class="brandwall">
+  <div class="container">
+    <p class="brandwall__label">{label}</p>
+    <ul class="brandwall__list">{BRANDS.map((b) => <li>{b}</li>)}</ul>
+  </div>
+</div>

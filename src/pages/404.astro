@@ -1,0 +1,31 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import ServicesShowcase from "../components/sections/ServicesShowcase.astro";
+import { COMPANY } from "../data/content";
+import { url } from "../lib/site";
+---
+<Base
+  title="Page not found | BM Industrial Solutions"
+  description="That page could not be found. Browse our industrial services or call 843-401-9670."
+  path="404">
+
+<section class="pagehero pagehero--center" style="padding-block:clamp(4rem,2rem + 8vw,9rem)">
+  <div class="container">
+    <div class="pagehero__inner">
+      <p class="eyebrow eyebrow--center">404</p>
+      <h1 class="display-1">We couldn't find that page.</h1>
+      <p class="lead">The link may be old, or the page may have moved. Everything we do is one of four things. Start there, or call and we will point you at it.</p>
+      <div class="btn-row btn-row--center">
+        <a class="btn btn--primary btn--lg" href={url("services")}>Browse services</a>
+        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} stroke={2.2} /> {COMPANY.phone}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ServicesShowcase
+  title="What you were probably looking for"
+  lead="Air compressors, hydraulics, mechanical contracting and process piping."
+  eyebrow="Services" alt />
+</Base>

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Post-build sanity check: internal links, asset references and page metadata.
 
-    python3 _build/check.py [--base /bm-industrial-solutions]
+    python3 _build/check.py [--root dist] [--base ""]
+
+Run it after `npm run build`; it reads the built site in dist/.
 
 Exits non-zero if anything is broken, so it can gate a deploy.
 """
@@ -11,7 +13,8 @@ import re
 import sys
 from html.parser import HTMLParser
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.join(REPO, "dist")  # replaced by --root in main()
 SKIP_DIRS = {"_build", "_inbox", ".work", ".git", "assets", "node_modules"}
 
 
@@ -79,8 +82,11 @@ def resolve(base, value):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--base", default="/bm-industrial-solutions")
+    ap.add_argument("--root", default="dist", help="Built site directory")
+    ap.add_argument("--base", default="", help="Path prefix the site was built for")
     args = ap.parse_args()
+    global ROOT
+    ROOT = os.path.join(REPO, args.root)
     base = args.base.rstrip("/")
 
     problems = []

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Turn a Google Business Profile review export into _build/reviews.json.
+"""Turn a Google Business Profile review export into src/data/reviews.json.
 
     1. Drop the export into  _inbox/reviews/   (.json or .csv, any filename)
     2. python3 _build/reviews.py
-    3. python3 _build/build.py
+    3. npm run build
 
 Handles the shapes these exports usually arrive in:
 
@@ -28,7 +28,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 # Files may sit in _inbox/reviews/ or loose in _inbox/ as reviews*.json.
 SRC_DIRS = [os.path.join(ROOT, "_inbox", "reviews"), os.path.join(ROOT, "_inbox")]
-OUT = os.path.join(HERE, "reviews.json")
+OUT = os.path.join(ROOT, "src", "data", "reviews.json")
 
 # Google reviews are public and carry full names. Flip this to True to render
 # them as "Jane D." instead.

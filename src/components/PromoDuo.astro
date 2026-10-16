@@ -1,0 +1,6 @@
+---
+import PromoCard, { type PromoSpec } from "./PromoCard.astro";
+interface Props { a: PromoSpec; b: PromoSpec }
+const { a, b } = Astro.props;
+---
+<div class="promo-duo"><PromoCard spec={a} /><PromoCard spec={b} /></div>

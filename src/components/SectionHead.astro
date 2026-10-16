@@ -1,0 +1,15 @@
+---
+// Section intro. Left-aligned heads with supporting copy render as two
+// columns: heading on the left, lead on the right. `title` and `lead` may
+// contain inline HTML.
+interface Props { eyebrow?: string | null; title?: string | null; lead?: string | null; center?: boolean; wide?: boolean; level?: 2 | 3 }
+const { eyebrow, title, lead, center = false, wide = false, level = 2 } = Astro.props;
+const H: "h2" | "h3" = level === 3 ? "h3" : "h2";
+const split = Boolean(lead && title && !center);
+const cls = ["section-head", center && "section-head--center", wide && "section-head--wide", "reveal"].filter(Boolean).join(" ");
+---
+{split ? (
+  <div class="section-head section-head--split reveal"><div>{eyebrow && <p class="eyebrow">{eyebrow}</p>}<H class="display-2" set:html={title} /></div><div><p class="lead" set:html={lead} /></div></div>
+) : (
+  <div class={cls}>{eyebrow && <p class={center ? "eyebrow eyebrow--center" : "eyebrow"}>{eyebrow}</p>}{title && <H class="display-2" set:html={title} />}{lead && <p class="lead" set:html={lead} />}</div>
+)}

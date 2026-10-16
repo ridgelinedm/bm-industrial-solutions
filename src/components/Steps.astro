@@ -1,0 +1,7 @@
+---
+import Icon from "./Icon.astro";
+// [icon, title, body HTML]
+interface Props { items: [string, string, string][] }
+const { items } = Astro.props;
+---
+<div class="steps">{items.map(([ic, title, body]) => <div class="step reveal"><div class="step__icon"><Icon name={ic} size={28} /></div><h3 class="h4">{title}</h3><p set:html={body} /></div>)}</div>

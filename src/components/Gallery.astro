@@ -1,0 +1,7 @@
+---
+import Photo from "./Photo.astro";
+import type { Photo as PhotoT } from "../data/content";
+interface Props { items: PhotoT[] }
+const { items } = Astro.props;
+---
+<div class="gallery reveal">{items.map(([slug, alt]) => <Photo slug={slug} alt={alt} sizes="(max-width: 500px) 100vw, (max-width: 860px) 50vw, 33vw" />)}</div>

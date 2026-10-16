@@ -1,0 +1,39 @@
+---
+// The service lines as an asymmetric bento grid. Sizes and surfaces are
+// deliberately uneven: the asymmetry and the solid colour blocks are the point.
+import SectionHead from "../SectionHead.astro";
+import BentoCard, { type BentoSpec } from "../BentoCard.astro";
+import { PILLARS, SERVICE_BY_SLUG } from "../../data/content";
+
+const BENTO_LAYOUT: Record<string, Omit<BentoSpec, "body">> = {
+  "services/air-compressor-services": {
+    span: 2, surface: "ink", tag: "Compressed air",
+    title: "Air compressor <em>systems</em>",
+    media: ["compressor-warehouse-system", "Rotary screw air compressor system and distribution piping in a manufacturing plant"],
+  },
+  "services/hydraulics-services": { span: 1, surface: "red", tag: "Hydraulics", title: "Hydraulics" },
+  "services/mechanical-contracting": { span: 1, surface: "bone", tag: "Mechanical", title: "Mechanical <em>contracting</em>" },
+  "services/process-piping": {
+    span: 2, surface: "photo", tag: "Piping", title: "Process <em>piping</em>",
+    photo: ["piping-blue-process-lines", "Industrial process piping with isolation valves and filtration vessels"],
+  },
+  "services/preventive-maintenance": {
+    span: 2, surface: "mist", tag: "Stay ahead of it", title: "Preventive <em>maintenance</em>",
+    media: ["compressor-matched-pair", "Matched pair of well-maintained rotary screw compressors under a maintenance agreement"],
+  },
+};
+
+// Pages whose hero already states the heading pass no title, lead or eyebrow.
+interface Props { title?: string | null; lead?: string | null; eyebrow?: string | null; alt?: boolean }
+const { title = null, lead = null, eyebrow = "What we do", alt = false } = Astro.props;
+const specs: BentoSpec[] = [...PILLARS, "services/preventive-maintenance"].map((p) => {
+  const s = SERVICE_BY_SLUG[p];
+  return { ...BENTO_LAYOUT[p], path: p, aria: s.title, body: s.short, cta: "Explore" };
+});
+---
+<section class={alt ? "section section--alt" : "section"}>
+  <div class="container">
+    {(title || lead || eyebrow) && <SectionHead eyebrow={eyebrow} title={title} lead={lead} />}
+    <div class="bento">{specs.map((s) => <BentoCard spec={s} />)}</div>
+  </div>
+</section>
