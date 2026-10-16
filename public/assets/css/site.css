@@ -911,17 +911,17 @@ ul, ol { padding: 0; list-style: none; }
 /* Gear watermark lifted from the logo mark */
 .cta-panel__gear {
   position: absolute;
-  right: -6%;
+  right: clamp(-4rem, -3vw, -1rem);
   top: 50%;
   translate: 0 -50%;
-  width: min(34rem, 46%);
-  opacity: 0.07;
+  width: min(26rem, 34%);
+  opacity: 0.06;
   pointer-events: none;
 }
 .cta-panel__inner { position: relative; max-width: 44rem; }
 .cta-panel__inner > * + * { margin-top: 1.5rem; }
 .cta-panel .display-2 { color: var(--white); }
-@media (max-width: 700px) { .cta-panel__gear { right: -18%; opacity: 0.05; } }
+@media (max-width: 700px) { .cta-panel__gear { right: -22%; width: 70%; opacity: 0.05; } }
 
 /* --- Contact -------------------------------------------------------------- */
 .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(2.5rem, 1rem + 5vw, 5rem); align-items: start; }
@@ -1222,14 +1222,14 @@ a.contact-item:hover { background: var(--red-tint); }
 .promo--red p { color: rgba(255, 255, 255, 0.85); }
 .promo__gear {
   position: absolute;
-  right: -9%;
-  bottom: -26%;
-  width: min(19rem, 60%);
-  opacity: 0.1;
+  right: -2.5rem;
+  bottom: -2.5rem;
+  width: min(17rem, 52%);
+  opacity: 0.07;
   pointer-events: none;
   z-index: -1;
 }
-.promo--red .promo__gear { filter: brightness(0) invert(1); opacity: 0.14; }
+.promo--red .promo__gear { opacity: 0.13; }
 
 /* --- Scroll reveal --------------------------------------------------------
    Content is visible by default. The hidden-then-revealed state only applies

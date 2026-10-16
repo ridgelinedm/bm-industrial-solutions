@@ -100,7 +100,7 @@ The logo kit lives in `brand/` (SVG masters for every lockup, plus
 | --- | --- |
 | `bm-horizontal-full-color.svg` | Header logo |
 | `bm-horizontal-reverse.svg` | Footer logo (dark background) |
-| `bm-icon-color.svg` | Faint gear watermark on dark panels |
+| `bm-icon-white.svg` | Faint watermark on dark and red panels (one-colour, so it stays crisp when faded) |
 | `bm-horizontal-full-color-1000w.png` | Logo in structured data for search |
 | `favicon*`, `apple-touch-icon.png`, `android-chrome-*`, `maskable-icon-512x512.png` | Browser, phone and home-screen icons |
 
