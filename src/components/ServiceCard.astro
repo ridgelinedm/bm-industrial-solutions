@@ -11,5 +11,5 @@ const { service: s, outline = false, cta } = Astro.props;
   <div class="card__icon"><Icon name={s.icon} size={26} /></div>
   <h3 class="h4">{s.card_title}</h3>
   <p set:html={s.short} />
-  <div class="card__foot"><span class="arrow-link">{cta ?? s.cta ?? "Explore"} <Icon name="arrow" size={16} stroke={2.4} /></span></div>
+  <div class="card__foot"><span class="arrow-link">{cta ?? s.cta ?? "Explore"} <Icon name="arrow" size={16} /></span></div>
 </article>

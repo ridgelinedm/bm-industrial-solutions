@@ -23,14 +23,14 @@ const initials = (name: string) =>
 {revs.length > 0 && (
 <section class={alt ? "section section--alt" : "section"}>
   <div class="container">
-    <SectionHead eyebrow="Reviews" title={title} lead={lead} />
+    <SectionHead title={title} lead={lead} />
     {avg && <div class="reviews__summary reveal">
       <span class="reviews__score">{avg}</span>
       <span class="reviews__scoremeta">
         <Stars rating={Number(avg)} />
         <span class="reviews__count"><strong>{total} reviews</strong> on Google</span>
       </span>
-      <a class="btn btn--outline" href={COMPANY.google_reviews_url} target="_blank" rel="noopener">Read them on Google <Icon name="arrow" size={16} stroke={2.4} /></a>
+      <a class="btn btn--outline" href={COMPANY.google_reviews_url} target="_blank" rel="noopener">Read them on Google <Icon name="arrow" size={16} /></a>
     </div>}
     <div class="reviews__grid reveal">{revs.slice(0, limit).map((r) => (
       <article class="review"><Stars rating={r.rating} /><p>{r.text}</p><div class="review__by"><span class="review__avatar" aria-hidden="true">{initials(r.name)}</span><span><span class="review__name">{r.name}</span><span class="review__meta">{"Google review" + (r.date ? `, ${r.date}` : "")}</span></span></div></article>

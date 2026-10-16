@@ -18,7 +18,7 @@ import { url } from "../lib/site";
       <p class="lead">The link may be old, or the page may have moved. Everything we do is one of four things. Start there, or call and we will point you at it.</p>
       <div class="btn-row btn-row--center">
         <a class="btn btn--primary btn--lg" href={url("services")}>Browse services</a>
-        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} stroke={2.2} /> {COMPANY.phone}</a>
+        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>
       </div>
     </div>
   </div>
@@ -26,6 +26,5 @@ import { url } from "../lib/site";
 
 <ServicesShowcase
   title="What you were probably looking for"
-  lead="Air compressors, hydraulics, mechanical contracting and process piping."
-  eyebrow="Services" alt />
+  lead="Air compressors, hydraulics, mechanical contracting and process piping." alt />
 </Base>

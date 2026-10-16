@@ -9,7 +9,7 @@ const others = PILLARS.filter((p) => p !== current).slice(0, 3).map((p) => SERVI
 {others.length > 0 && (
 <section class="section section--alt">
   <div class="container">
-    <SectionHead eyebrow="One vendor" title={heading} lead="Most of our customers started with one of these and consolidated the rest. Fewer vendors, fewer handoffs, one number when something breaks." />
+    <SectionHead title={heading} lead="Most of our customers started with one of these and consolidated the rest. Fewer vendors, fewer handoffs, one number when something breaks." />
     <div class="grid grid--3">{others.map((s) => <ServiceCard service={s} />)}</div>
   </div>
 </section>

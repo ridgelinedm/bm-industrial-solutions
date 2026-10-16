@@ -6,4 +6,4 @@ interface Props { items?: Area[]; plain?: boolean }
 const { items, plain = false } = Astro.props;
 const list = items && items.length ? items : AREAS;
 ---
-<div class="areas reveal">{list.map((a) => <a class={plain ? "area area--plain" : "area"} href={url(a.path)}><span><span class="area__name">{a.city}, {a.state}</span><span class="area__meta">{a.meta}</span></span><Icon name="arrow" size={18} stroke={2.4} /></a>)}</div>
+<div class="areas reveal">{list.map((a) => <a class={plain ? "area area--plain" : "area"} href={url(a.path)}><span><span class="area__name">{a.city}, {a.state}</span><span class="area__meta">{a.meta}</span></span><Icon name="arrow" size={18} /></a>)}</div>

@@ -3,13 +3,13 @@
 import SectionHead from "../SectionHead.astro";
 import Faq from "../Faq.astro";
 import type { Faq as FaqT } from "../../data/content";
-interface Props { eyebrow: string; title: string; items: FaqT[]; alt?: boolean }
-const { eyebrow, title, items, alt = false } = Astro.props;
+interface Props { title: string; items: FaqT[]; alt?: boolean }
+const { title, items, alt = false } = Astro.props;
 ---
 <section class={alt ? "section section--alt" : "section"}>
   <div class="container">
     <div class="faq-split">
-      <div class="faq-split__head"><SectionHead eyebrow={eyebrow} title={title} /></div>
+      <div class="faq-split__head"><SectionHead title={title} /></div>
       <Faq items={items} />
     </div>
   </div>

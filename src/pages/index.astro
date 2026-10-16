@@ -4,7 +4,6 @@ import Icon from "../components/Icon.astro";
 import Photo from "../components/Photo.astro";
 import SectionHead from "../components/SectionHead.astro";
 import Brandwall from "../components/Brandwall.astro";
-import Stats from "../components/Stats.astro";
 import Split from "../components/Split.astro";
 import Steps from "../components/Steps.astro";
 import PromoDuo from "../components/PromoDuo.astro";
@@ -41,16 +40,16 @@ const faqs: FaqT[] = [
   <div class="container">
     <div class="hero__grid">
       <div class="hero__copy">
-        <p class="eyebrow">Industrial service · SC · GA · NC</p>
         <h1 class="display-1">Your plant runs on air, oil and pressure. We keep all three <em>moving</em>.</h1>
         <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping from one owner-operated crew, with a 24/7 emergency line that a technician actually answers.</p>
         <div class="btn-row">
           <a class="btn btn--primary btn--lg" href={url("contact")}>Request a Quote</a>
-          <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} stroke={2.2} /> {COMPANY.phone}</a>
+          <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>
         </div>
         <ul class="hero__trust">
-          <li>Owner-operated</li>
-          <li>All major compressor brands</li>
+          <li>Owner-operated, 10+ years in the field</li>
+          <li>4 service lines, 1 number to call</li>
+          <li>Regular field service in SC, GA and NC</li>
           <li>24/7 emergency response</li>
         </ul>
       </div>
@@ -69,17 +68,6 @@ const faqs: FaqT[] = [
 
 <Brandwall />
 
-<section class="section section--tight">
-  <div class="container">
-    <Stats items={[
-      ["<em>4</em>", "Service lines under one contractor: air, hydraulics, mechanical and piping"],
-      ["<em>3</em>", "States covered by regular field service: South Carolina, Georgia and North Carolina"],
-      ["<em>10+</em>", "Years of hands-on technician experience behind every job we take"],
-      ["<em>1</em>", "Phone number, one point of contact, and the owner on the other end of it"],
-    ]} />
-  </div>
-</section>
-
 <ServicesShowcase
   title="Everything your plant needs from <em>one contractor</em>"
   lead="Four service lines that overlap constantly in practice. Most customers start with one and consolidate the rest once they see how much coordination it removes." />
@@ -88,17 +76,15 @@ const faqs: FaqT[] = [
 
 <section class="section">
   <div class="container">
-    <SectionHead eyebrow="Why plants consolidate with us"
+    <SectionHead
       title="Four trades, one contractor, <em>nobody to point at</em>"
       lead="When compressed air, hydraulics, rigging and piping are split across four vendors, every problem lands in the gap between them. We close the gap by covering all four." />
-    <Split photo={["rigging-vessel-lift", "Crane lifting a large industrial vessel into position during an equipment installation"]}
-      eyebrow="One vendor for everything" title="The install, the piping and the service, all one crew"
+    <Split photo={["rigging-vessel-lift", "Crane lifting a large industrial vessel into position during an equipment installation"]} title="The install, the piping and the service, all one crew"
       cta={["See all services", "services"]}>
       <p class="lead">A compressor installation is really four jobs: setting the equipment, piping the distribution, connecting the utilities and commissioning the system.</p>
       <p>Split those across separate contractors and you own the coordination risk. We take the whole scope, which means when something needs adjusting six months later, there is one number to call and no argument about whose scope it was.</p>
     </Split>
-    <Split photo={["hydraulic-field-repair", "Technician carrying out a hydraulic repair on heavy equipment in the field"]}
-      eyebrow="Owner-operated" title="You talk to the person doing the work" flip>
+    <Split photo={["hydraulic-field-repair", "Technician carrying out a hydraulic repair on heavy equipment in the field"]} title="You talk to the person doing the work" flip>
       <p>BM Industrial Solutions is run by {COMPANY.owner}, a hands-on technician with over a decade in the field. There is no service manager relaying messages between you and a technician who has never seen your plant.</p>
       <p>That has a practical consequence: the person who quotes the job is the person accountable for it, and decisions get made on the floor where the work is.</p>
     </Split>
@@ -107,7 +93,7 @@ const faqs: FaqT[] = [
 
 <section class="section section--alt">
   <div class="container">
-    <SectionHead eyebrow="How it works" title="No mystery, no runaround"
+    <SectionHead title="No mystery, no runaround"
       lead="The same process whether it is a 2am breakdown or a planned installation." />
     <Steps items={[
       ["You call", "One number, answered 24/7. Tell us what stopped and we will tell you what it likely is and when we can be there."],
@@ -123,7 +109,6 @@ const faqs: FaqT[] = [
     <PromoDuo
       a={{
         surface: "ink",
-        tag: "Stay ahead of it",
         title: "Nearly every emergency we get called to was <em>preventable</em>",
         body: "Scheduled inspections across your compressed air, hydraulic and mechanical equipment, on intervals set by your run hours, plus priority response on the day something fails anyway.",
         label: "How agreements work",
@@ -131,7 +116,6 @@ const faqs: FaqT[] = [
       }}
       b={{
         surface: "red",
-        tag: "Down right now?",
         title: "Stopped production does not wait for <em>business hours</em>",
         body: "The emergency line runs 24 hours a day, seven days a week, including holidays. You reach someone who can diagnose and dispatch.",
         label: `Call ${COMPANY.phone}`,
@@ -144,7 +128,7 @@ const faqs: FaqT[] = [
 
 <AreasStrip alt={false} />
 
-<FaqSection eyebrow="Questions" title="Straight answers" items={faqs} />
+<FaqSection title="Straight answers" items={faqs} />
 
 <CtaPanel
   title="Tell us what stopped working"

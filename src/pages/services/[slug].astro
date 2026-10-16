@@ -52,12 +52,11 @@ const schemas = [
   <div class="container">
     <div class="pagehero__inner">
       <Crumbs trail={trail} />
-      <p class="eyebrow">{parent ? parent.card_title : "Service"}</p>
       <h1 class="display-1">{s.title}</h1>
       <p class="lead" set:html={s.lead} />
       <div class="btn-row">
         <a class="btn btn--primary btn--lg" href={url("contact")}>Request a Quote</a>
-        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} stroke={2.2} /> {COMPANY.phone}</a>
+        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>
       </div>
     </div>
   </div>
@@ -75,7 +74,6 @@ const schemas = [
   <div class="container">
     <div class="split reveal">
       <div class="split__copy">
-        <p class="eyebrow">Overview</p>
         <h2 class="display-3">{s.card_title}</h2>
         <div class="prose">{s.intro.map((p) => <p set:html={p} />)}</div>
       </div>
@@ -90,7 +88,7 @@ const schemas = [
 {s.splits && s.splits.length > 0 && (
 <section class="section section--alt">
   <div class="container">{s.splits.map((sp) => (
-    <Split photo={sp.photo} eyebrow={sp.eyebrow} title={sp.title} flip={sp.flip}>
+    <Split photo={sp.photo} title={sp.title} flip={sp.flip}>
       <Fragment set:html={sp.body} />
       {sp.extra_ticks && <Ticks items={sp.extra_ticks} />}
     </Split>
@@ -101,7 +99,7 @@ const schemas = [
 {hasKids && (
 <section class="section">
   <div class="container">
-    <SectionHead eyebrow="In detail" title="Break it down further"
+    <SectionHead title="Break it down further"
       lead="If you already know what the job is, go straight to the specifics." />
     <div class="grid grid--3">{kids.map((k) => <ServiceCard service={k} outline cta="Read more" />)}</div>
   </div>
@@ -113,7 +111,7 @@ const schemas = [
 {s.gallery && s.gallery.length > 0 && (
 <section class={hasKids ? "section" : "section section--alt"}>
   <div class="container">
-    <SectionHead eyebrow="Recent work" title="From the field"
+    <SectionHead title="From the field"
       lead="A sample of installations and service work across South Carolina, Georgia and North Carolina." />
     <Gallery items={s.gallery} />
   </div>
@@ -122,7 +120,7 @@ const schemas = [
 
 <EmergencyBand />
 
-<FaqSection eyebrow="Questions" title={"About " + s.card_title.toLowerCase()} items={s.faqs} />
+<FaqSection title={"About " + s.card_title.toLowerCase()} items={s.faqs} />
 
 {parent && (
 <section class="section section--tight">
@@ -130,7 +128,7 @@ const schemas = [
     <a class="area area--plain reveal" href={url(parent.path)} style="max-width:34rem">
       <span><span class="area__name">All {parent.card_title.toLowerCase()} services</span>
       <span class="area__meta">Back to the overview</span></span>
-      <Icon name="arrow" size={18} stroke={2.4} />
+      <Icon name="arrow" size={18} />
     </a>
   </div>
 </section>

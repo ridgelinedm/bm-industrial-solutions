@@ -26,7 +26,6 @@ const trail: [string, string | null][] = [["Home", ""], ["About", null]];
   <div class="container">
     <div class="pagehero__inner">
       <Crumbs trail={trail} />
-      <p class="eyebrow">About</p>
       <h1 class="display-1">Locally owned. Personally committed. <em>Professionally built.</em></h1>
       <p class="lead">BM Industrial Solutions is an owner-operated industrial service company in Holly Hill, South Carolina. The person who quotes your job is the person accountable for it.</p>
     </div>
@@ -46,7 +45,7 @@ const trail: [string, string | null][] = [["Home", ""], ["About", null]];
 
 <section class="section section--ink">
   <div class="container">
-    <SectionHead eyebrow="What that means in practice" title="Small company, <em>serious scope</em>"
+    <SectionHead title="Small company, <em>serious scope</em>"
       lead="Enough capability to take the whole job, small enough that you always know who is doing it." />
     <Stats items={[
       ["<em>4</em>", "Service lines: compressed air, hydraulics, mechanical contracting and process piping"],
@@ -59,7 +58,7 @@ const trail: [string, string | null][] = [["Home", ""], ["About", null]];
 
 <section class="section">
   <div class="container">
-    <SectionHead eyebrow="How we work" title="Six commitments we actually <em>keep</em>"
+    <SectionHead title="Six commitments we actually <em>keep</em>"
       lead="These are the reason customers consolidate work with us." />
     <FeatureList items={[
       ["user", "The owner picks up",
@@ -82,7 +81,7 @@ const trail: [string, string | null][] = [["Home", ""], ["About", null]];
 
 <section class="section section--alt">
   <div class="container">
-    <SectionHead eyebrow="Recent work" title="What the days actually look like"
+    <SectionHead title="What the days actually look like"
       lead="Installations, retrofits, rigging and field repair across the Carolinas and Georgia." />
     <Gallery items={[
       ["rigging-vessel-lift", "Crane lifting a large industrial vessel during an equipment installation"],

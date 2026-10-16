@@ -217,7 +217,10 @@ site's rich results. The reviews still work as social proof for humans.
 ## Design notes
 
 Brand colours were sampled from the logo artwork: red `#CE171E`, ink `#231F20`,
-grey `#686868`. Type is Archivo (display) over Inter (body).
+grey `#686868`. Type is DM Sans throughout. Archivo was the original headline
+face; to bring it back, follow the note above `FONT_CSS` in
+`src/layouts/Base.astro`. Icons are [Phosphor](https://phosphoricons.com) (bold
+weight, MIT), generated into `src/components/icons.ts`.
 
 The layout follows the reference site's language rather than just its spacing:
 
@@ -235,8 +238,9 @@ The layout follows the reference site's language rather than just its spacing:
   inverts on red and ink grounds so it never disappears into its background.
 - **Bare icon grids** (`.featurelist`) and muted wordmark walls instead of the
   boxed-icon card and chip-row patterns they replaced.
-- **Labels in sentence case.** Eyebrows, tags and footer headings are set at
-  a readable size in sentence case, never as tiny tracked capitals.
+- **Headings stand alone.** No label above a heading unless it says something
+  the heading does not (the city distance, "The owner", the 404 code). Footer
+  headings are sentence case at a readable size.
 - **Reading tone.** Running text uses `--text-soft` (about 9:1). Keep
   `--text-muted` for secondary notes only; every text colour clears 4.5:1.
 - **Numbered steps** (`.steps`) and **FAQ beside its heading**

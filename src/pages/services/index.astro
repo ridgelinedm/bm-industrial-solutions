@@ -44,12 +44,11 @@ const faqs: FaqT[] = [
   <div class="container">
     <div class="pagehero__inner">
       <Crumbs trail={trail} />
-      <p class="eyebrow eyebrow--center">Services</p>
       <h1 class="display-1">Four trades. One contractor. <em>No gaps</em> between them.</h1>
       <p class="lead">Compressed air, hydraulics, mechanical contracting and process piping, plus preventive maintenance to keep all of it out of the emergency queue.</p>
       <div class="btn-row btn-row--center">
         <a class="btn btn--primary btn--lg" href={url("contact")}>Request a Quote</a>
-        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} stroke={2.2} /> {COMPANY.phone}</a>
+        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>
       </div>
     </div>
   </div>
@@ -58,14 +57,13 @@ const faqs: FaqT[] = [
 <Brandwall />
 
 <!-- The hero above already carries the heading, so the showcase runs bare. -->
-<ServicesShowcase eyebrow={null} />
+<ServicesShowcase />
 
 <section class="section section--tight">
   <div class="container">
     <PromoDuo
       a={{
         surface: "ink",
-        tag: "Start here",
         title: "Not sure which one you <em>need</em>?",
         body: "Most problems do not arrive neatly labelled. Water at the tool could be a dryer, a drain or the piping. Describe what is actually happening and we will work out which trade it belongs to.",
         label: "Describe the problem",
@@ -73,7 +71,6 @@ const faqs: FaqT[] = [
       }}
       b={{
         surface: "red",
-        tag: "Already know?",
         title: "Skip straight to a <em>quote</em>",
         body: "Equipment make and model, what it is doing, and how urgent it is. That is enough for us to come back with scope, timing and a number.",
         label: `Call ${COMPANY.phone}`,
@@ -84,7 +81,7 @@ const faqs: FaqT[] = [
 
 <section class="section section--alt">
   <div class="container">
-    <SectionHead eyebrow="Going deeper" title="Specific work, specific pages"
+    <SectionHead title="Specific work, specific pages"
       lead="Air compressors and hydraulics each break down into repair, installation and scheduled maintenance. If you already know what you need, go straight to it." />
     {pillarsWithKids.map(({ parent, kids }) => (
       <div class="reveal" style="margin-top:clamp(2.5rem,1rem + 4vw,4rem)">
@@ -99,7 +96,7 @@ const faqs: FaqT[] = [
 
 <section class="section">
   <div class="container">
-    <SectionHead eyebrow="How it works" title="The same process every time"
+    <SectionHead title="The same process every time"
       lead="Whether it is an emergency call or a planned installation." />
     <Steps items={[
       ["You call", "One number, answered 24/7, by someone who can actually assess the problem."],
@@ -110,7 +107,7 @@ const faqs: FaqT[] = [
   </div>
 </section>
 
-<FaqSection eyebrow="Questions" title="Before you call" items={faqs} alt />
+<FaqSection title="Before you call" items={faqs} alt />
 
 <CtaPanel
   title="Get a quote on any of it"

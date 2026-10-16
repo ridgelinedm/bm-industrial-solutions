@@ -45,7 +45,7 @@ const schemas = [
       <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping. Owner-operated, with 24/7 emergency response across the {a.city} area.</p>
       <div class="btn-row">
         <a class="btn btn--primary btn--lg" href={url("contact")}>Request a Quote</a>
-        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} stroke={2.2} /> {COMPANY.phone}</a>
+        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>
       </div>
     </div>
   </div>
@@ -56,7 +56,6 @@ const schemas = [
     <div class="split reveal">
       <div class="split__media"><Photo slug={a.photo[0]} alt={a.photo[1]} sizes="(max-width: 860px) 100vw, 45vw" loading="eager" /></div>
       <div class="split__copy">
-        <p class="eyebrow">{a.city}, {a.state}</p>
         <h2 class="display-3">What we do here</h2>
         <div class="prose">{a.intro.map((p) => <p set:html={p} />)}</div>
       </div>
@@ -66,12 +65,11 @@ const schemas = [
 
 <ServicesShowcase
   title={`Every service, available in ${a.city}`}
-  lead="The full scope travels with us. No sub-contracting the parts of the job that are inconvenient."
-  eyebrow="Services" />
+  lead="The full scope travels with us. No sub-contracting the parts of the job that are inconvenient." />
 
 <section class="section section--tint">
   <div class="container container--narrow">
-    <SectionHead eyebrow="Local conditions" title={"What tends to matter in " + a.city}
+    <SectionHead title={"What tends to matter in " + a.city}
       lead="Every market has its own failure patterns. These are the ones we see most around here." />
     <div class="reveal"><Ticks items={a.local} /></div>
   </div>
@@ -81,7 +79,7 @@ const schemas = [
 
 <section class="section section--alt">
   <div class="container">
-    <SectionHead eyebrow="Nearby" title="Other areas we cover"
+    <SectionHead title="Other areas we cover"
       lead="Multi-site operations are straightforward for us to schedule, with one contractor across every location." />
     <AreasGrid items={others} />
   </div>

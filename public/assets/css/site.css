@@ -37,8 +37,10 @@
   --border: var(--grey-200);
 
   /* Type */
-  --font-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* DM Sans everywhere. Archivo was the original headline face; to restore it,
+     set --font-display to "Archivo" here and load it (see Base.astro). */
+  --font-display: "DM Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "DM Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   --fs-display-1: clamp(2.5rem, 1.4rem + 4.4vw, 4.75rem);
   --fs-display-2: clamp(2.125rem, 1.2rem + 3.4vw, 3.5rem);
@@ -167,14 +169,14 @@ ul, ol { padding: 0; list-style: none; }
 /* --- Type ----------------------------------------------------------------- */
 .display-1, .display-2, .display-3, .h4 {
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: 1.03;
   text-wrap: balance;
 }
 .display-1 { font-size: var(--fs-display-1); }
 .display-2 { font-size: var(--fs-display-2); line-height: 1.06; }
-.display-3 { font-size: var(--fs-display-3); line-height: 1.12; letter-spacing: -0.025em; }
+.display-3 { font-size: var(--fs-display-3); line-height: 1.12; letter-spacing: -0.018em; }
 .h4 { font-size: var(--fs-h4); font-weight: 700; line-height: 1.25; letter-spacing: -0.015em; }
 
 .lead {
@@ -203,7 +205,7 @@ ul, ol { padding: 0; list-style: none; }
 .prose p { color: var(--text-soft); max-width: 65ch; }
 .split__copy > p { max-width: 62ch; }
 .prose > * + * { margin-top: 1.35rem; }
-.prose h2 { font-family: var(--font-display); font-size: var(--fs-display-3); font-weight: 800; letter-spacing: -0.025em; line-height: 1.12; margin-top: 2.75rem; color: var(--text); }
+.prose h2 { font-family: var(--font-display); font-size: var(--fs-display-3); font-weight: 700; letter-spacing: -0.018em; line-height: 1.12; margin-top: 2.75rem; color: var(--text); }
 .prose h3 { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 700; margin-top: 2rem; color: var(--text); }
 .prose strong { color: var(--text); font-weight: 600; }
 .prose a { color: var(--red); text-decoration: underline; text-underline-offset: 3px; }
@@ -494,7 +496,6 @@ ul, ol { padding: 0; list-style: none; }
   align-items: center;
 }
 .hero__copy > * + * { margin-top: 1.6rem; }
-.hero__copy .display-1 { margin-top: 1.5rem; }
 .hero__media { position: relative; }
 .hero__media img {
   width: 100%;
@@ -521,8 +522,8 @@ ul, ol { padding: 0; list-style: none; }
 .hero__badge-num {
   font-family: var(--font-display);
   font-size: 2.35rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-weight: 700;
+  letter-spacing: -0.018em;
   line-height: 1;
   color: var(--red);
   font-variant-numeric: tabular-nums;
@@ -665,8 +666,8 @@ ul, ol { padding: 0; list-style: none; }
   display: block;
   font-family: var(--font-display);
   font-size: clamp(2.75rem, 1.8rem + 2.6vw, 4rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   line-height: 1;
   color: var(--red);
   font-variant-numeric: tabular-nums;
@@ -682,8 +683,8 @@ ul, ol { padding: 0; list-style: none; }
 .stat__num {
   font-family: var(--font-display);
   font-size: clamp(3rem, 1.5rem + 5.4vw, 5.5rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   line-height: 0.92;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
@@ -789,8 +790,8 @@ ul, ol { padding: 0; list-style: none; }
 .reviews__score {
   font-family: var(--font-display);
   font-size: clamp(2.75rem, 1.5rem + 3.4vw, 4rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   line-height: 0.9;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
@@ -966,7 +967,7 @@ a.contact-item:hover { background: var(--red-tint); }
 }
 .field textarea { min-height: 8rem; resize: vertical; }
 .field :is(input, select, textarea):user-invalid { border-color: var(--red); background-color: var(--red-tint); }
-.field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23686868' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+.field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 256 256' fill='%23686868'%3E%3Cpath d='M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
 .field input:focus, .field select:focus, .field textarea:focus {
   outline: none;
   border-color: var(--red);
@@ -1079,8 +1080,8 @@ a.contact-item:hover { background: var(--red-tint); }
 }
 .bento__title {
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.028em;
+  font-weight: 700;
+  letter-spacing: -0.018em;
   line-height: 1.06;
   font-size: clamp(1.45rem, 1.05rem + 1.4vw, 2.05rem);
   text-wrap: balance;
@@ -1141,24 +1142,6 @@ a.contact-item:hover { background: var(--red-tint); }
     background: linear-gradient(180deg, rgba(18, 15, 16, 0.93) 0%, rgba(18, 15, 16, 0.82) 55%, rgba(18, 15, 16, 0.62) 100%);
   }
 }
-
-/* --- Category tags -------------------------------------------------------- */
-.tag {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  padding: 0.45rem 0.7rem;
-  border-radius: 6px;
-  font-family: var(--font-display);
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1;
-}
-.tag--red { background: var(--red-tint); color: var(--red-700); }
-.tag--onink { background: rgba(255, 255, 255, 0.14); color: var(--white); }
-.tag--onred { background: rgba(255, 255, 255, 0.22); color: var(--white); }
-.tag--ink { background: rgba(35, 31, 32, 0.07); color: var(--ink); }
 
 /* --- Accented words inside headlines -------------------------------------- */
 .display-1 em, .display-2 em, .display-3 em,
@@ -1225,8 +1208,8 @@ a.contact-item:hover { background: var(--red-tint); }
 .promo__gear + * { margin-top: 0; }
 .promo__title {
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: 1.05;
   font-size: clamp(1.55rem, 1.1rem + 1.7vw, 2.3rem);
   text-wrap: balance;

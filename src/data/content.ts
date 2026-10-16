@@ -5,7 +5,6 @@ export type Faq = [string, string];
 
 export interface Split {
   photo: Photo;
-  eyebrow: string;
   title: string;
   body: string;
   extra_ticks?: string[];
@@ -118,14 +117,12 @@ export const SERVICES: Service[] = [
     splits: [
       {
         photo: ["compressor-dual-system", "Two matched rotary screw air compressors with receiver tanks installed side by side"],
-        eyebrow: "Right-sized systems",
         title: "Sized to the air your plant actually uses",
         body: "<p class=\"lead\">An oversized compressor short-cycles, wastes energy and wears out early. An undersized one starves your tools and never unloads.</p><p>We measure actual demand before we quote anything: running pressure, pressure drop across the system, load and unload behaviour, and where your air is genuinely being consumed. Sometimes the answer is a smaller compressor and better piping. We will tell you when that is the case.</p>",
         flip: false,
       },
       {
         photo: ["compressor-controller-panel", "Gardner Denver compressor controller and instrumentation panel"],
-        eyebrow: "Whole-system diagnosis",
         title: "We work back to what caused it",
         body: "<p>High discharge temperature, water in the lines, pressure that will not hold, a unit that trips on overload. These are symptoms with several possible causes. We work through the system methodically until the evidence points somewhere.</p>",
         extra_ticks: [
@@ -188,7 +185,6 @@ export const SERVICES: Service[] = [
     splits: [
       {
         photo: ["compressor-tank-and-filter", "Compressed air receiver tank, filtration and dryer package"],
-        eyebrow: "Emergency response",
         title: "Down at 2am is still a phone call",
         body: "<p class=\"lead\">Our emergency line runs 24/7, including weekends and holidays.</p><p>You reach someone who can assess the problem and dispatch on the spot. Where a repair cannot be completed the same day and production cannot wait, we can look at temporary air to bridge the gap.</p>",
         flip: false,
@@ -237,7 +233,6 @@ export const SERVICES: Service[] = [
     splits: [
       {
         photo: ["compressor-rack-mounted-pair", "Two compressors mounted on structural racking above the plant floor"],
-        eyebrow: "Retrofits and relocations",
         title: "Fitting new equipment into a plant that is already running",
         body: "<p>Most installations are not greenfield. There is existing piping, an existing compressor doing the work until the day of the changeover, and a production schedule that cannot absorb a week of downtime.</p><p>We plan the cutover around your schedule, often over a weekend or a planned shutdown, and stage the work so the new system is piped, set and ready before the old one comes offline.</p>",
         flip: true,
@@ -286,7 +281,6 @@ export const SERVICES: Service[] = [
     splits: [
       {
         photo: ["piping-blue-process-lines", "Compressed air distribution piping with filtration vessels and isolation valves"],
-        eyebrow: "Leak surveys",
         title: "The cheapest air is the air you stop losing",
         body: "<p class=\"lead\">Leaks are the single largest avoidable cost in most compressed air systems, and they get worse quietly.</p><p>As part of maintenance we walk the distribution system (fittings, drops, quick-connects, hose whips, regulators and dead legs) and tag what is leaking so it can be fixed while we are already on site.</p>",
         flip: false,
@@ -333,14 +327,12 @@ export const SERVICES: Service[] = [
     splits: [
       {
         photo: ["hydraulic-field-repair", "Technician performing hydraulic repair on heavy equipment in the field"],
-        eyebrow: "Field service",
         title: "We come to the machine",
         body: "<p class=\"lead\">Heavy equipment does not travel well when the hydraulics are the reason it stopped.</p><p>We work on site, in your plant, on the yard or at the job, with the tooling to build hose assemblies, pull and reseal cylinders and test pressures where the machine sits.</p>",
         flip: false,
       },
       {
         photo: ["hydraulic-cylinder-fittings", "Hydraulic fittings and lines on an industrial cylinder"],
-        eyebrow: "Contamination control",
         title: "Clean oil is the whole game",
         body: "<p>Particle contamination is behind the majority of hydraulic component failures. It wears pump and motor clearances, erodes valve spools, scores cylinder bores and cuts seals.</p>",
         extra_ticks: [
@@ -474,14 +466,12 @@ export const SERVICES: Service[] = [
     splits: [
       {
         photo: ["rigging-telehandler-container", "Telehandler positioning equipment beside a shipping container at an industrial yard"],
-        eyebrow: "Rigging",
         title: "Getting it in the door is half the job",
         body: "<p class=\"lead\">Access is usually the hard constraint: a doorway, a roof height, a floor loading limit or a machine that has to travel past equipment that cannot be moved.</p><p>We plan the lift and the route before anything is picked, and we bring the equipment the pick calls for.</p>",
         flip: false,
       },
       {
         photo: ["fabrication-welding-shop", "Welding and fabrication work supporting an industrial equipment installation"],
-        eyebrow: "Fabrication",
         title: "Steel work that supports the install",
         body: "<p>Installations rarely fit the space exactly as drawn. Stands, frames, supports, guarding, platforms and brackets get fabricated as part of the job, so the equipment ends up properly supported.</p>",
         flip: true,
@@ -531,14 +521,12 @@ export const SERVICES: Service[] = [
     splits: [
       {
         photo: ["piping-air-lines-lighting", "Overhead compressed air lines and lighting installed through a warehouse"],
-        eyebrow: "Layout matters",
         title: "Pressure drop is a design problem",
         body: "<p class=\"lead\">If your compressor discharges at 110 PSI and your tool sees 78, you are paying to compress air that never reaches the work.</p><p>Correct main sizing, drops taken from the top of the header, generous radius at direction changes and sensibly placed isolation valves recover pressure you already paid for, usually for far less than a bigger compressor.</p>",
         flip: false,
       },
       {
         photo: ["piping-conduit-install", "Compressed air lines and electrical conduit installed together through a facility"],
-        eyebrow: "Coordinated installs",
         title: "Air, conduit and lighting on one pass",
         body: "<p>Overhead work costs what it costs because of the access. When air lines, conduit and lighting are installed together, you pay for the lift once.</p><p>We routinely run compressed air distribution alongside facility work so the whole overhead scope gets closed out in a single mobilisation.</p>",
         flip: true,
@@ -588,7 +576,6 @@ export const SERVICES: Service[] = [
     splits: [
       {
         photo: ["compressor-controller-panel", "Compressor controller readings recorded during a documented maintenance visit"],
-        eyebrow: "Documentation",
         title: "A written record you can actually use",
         body: "<p>Every visit leaves you with what was checked, what was changed, what the numbers were, and what is trending. That record is what turns an unexpected failure into a planned replacement three months out.</p>",
         flip: true,

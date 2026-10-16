@@ -24,12 +24,11 @@ const trail: [string, string | null][] = [["Home", ""], ["Service Areas", null]]
   <div class="container">
     <div class="pagehero__inner">
       <Crumbs trail={trail} />
-      <p class="eyebrow eyebrow--center">Service areas</p>
       <h1 class="display-1">Field service across South Carolina, Georgia and North Carolina</h1>
       <p class="lead">Based in Holly Hill, South Carolina, close enough to the Lowcountry and the Midlands for same-day emergency response, and on the road regularly through the rest of the region.</p>
       <div class="btn-row btn-row--center">
         <a class="btn btn--primary btn--lg" href={url("contact")}>Check your location</a>
-        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} stroke={2.2} /> {COMPANY.phone}</a>
+        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>
       </div>
     </div>
   </div>
@@ -37,7 +36,7 @@ const trail: [string, string | null][] = [["Home", ""], ["Service Areas", null]]
 
 <section class="section">
   <div class="container">
-    <SectionHead eyebrow="Primary markets" title="Where we work <em>most</em>"
+    <SectionHead title="Where we work <em>most</em>"
       lead="These are the areas we cover regularly, with dedicated pages for what each one tends to need." />
     <AreasGrid />
   </div>
@@ -45,7 +44,7 @@ const trail: [string, string | null][] = [["Home", ""], ["Service Areas", null]]
 
 <section class="section section--alt">
   <div class="container">
-    <SectionHead eyebrow="Also covered" title="Beyond the core markets"
+    <SectionHead title="Beyond the core markets"
       lead="We run field service throughout the region. These areas are covered on a scheduled basis. For emergencies, call and we will tell you honestly what we can do." />
     <ul class="reveal">{EXTENDED_AREAS.map(([c, s]) => <li style="display:inline-block;margin:0 .5rem .5rem 0"><span style="display:inline-block;padding:.5rem 1.05rem;border:1px solid var(--border);border-radius:999px;font-family:var(--font-display);font-weight:700;color:var(--grey-600)">{c}, {s}</span></li>)}</ul>
     <p class="muted" style="margin-top:1.5rem;font-size:var(--fs-sm)">Somewhere else? <a href={url("contact")} style="color:var(--red);text-decoration:underline;text-underline-offset:3px">Ask anyway.</a> We travel for the right project, particularly installations and plant relocations.</p>
@@ -54,8 +53,7 @@ const trail: [string, string | null][] = [["Home", ""], ["Service Areas", null]]
 
 <section class="section">
   <div class="container">
-    <Split photo={["service-truck-trailer", "BM Industrial Solutions service truck and equipment trailer at a job site"]}
-      eyebrow="A region we can cover" title="Close enough to actually show up">
+    <Split photo={["service-truck-trailer", "BM Industrial Solutions service truck and equipment trailer at a job site"]} title="Close enough to actually show up">
       <p class="lead">A national service network sounds reassuring right up until the nearest technician is four hours away and already on another call.</p>
       <p>We deliberately work a region we can cover properly. Holly Hill sits between the Lowcountry and the Midlands, which puts Charleston, North Charleston, Summerville, Columbia and Sumter all inside a comfortable response radius, and puts the rest of the Carolinas and Georgia within reach for scheduled work.</p>
     </Split>
@@ -64,8 +62,7 @@ const trail: [string, string | null][] = [["Home", ""], ["Service Areas", null]]
 
 <ServicesShowcase
   title="The same four services everywhere we go"
-  lead="Whatever market you are in, the scope does not change: air, hydraulics, mechanical contracting and process piping from one contractor."
-  eyebrow="What we bring" alt />
+  lead="Whatever market you are in, the scope does not change: air, hydraulics, mechanical contracting and process piping from one contractor." alt />
 
 <EmergencyBand />
 

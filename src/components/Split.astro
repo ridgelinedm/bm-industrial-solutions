@@ -3,13 +3,14 @@
 import Photo from "./Photo.astro";
 import { url } from "../lib/site";
 import type { Photo as PhotoT } from "../data/content";
-interface Props { photo: PhotoT; eyebrow: string; title: string; flip?: boolean; cta?: [string, string] }
+// `eyebrow` is optional; use it only when the title cannot stand alone.
+interface Props { photo: PhotoT; eyebrow?: string; title: string; flip?: boolean; cta?: [string, string] }
 const { photo, eyebrow, title, flip = false, cta } = Astro.props;
 ---
 <div class={flip ? "split split--flip reveal" : "split reveal"}>
   <div class="split__media"><Photo slug={photo[0]} alt={photo[1]} sizes="(max-width: 860px) 100vw, 45vw" /></div>
   <div class="split__copy">
-    <p class="eyebrow">{eyebrow}</p>
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
     <h3 class="display-3" set:html={title} />
     <slot />
     {cta && <div class="btn-row"><a class="btn btn--outline" href={url(cta[1])}>{cta[0]}</a></div>}
