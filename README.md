@@ -235,6 +235,14 @@ The layout follows the reference site's language rather than just its spacing:
   inverts on red and ink grounds so it never disappears into its background.
 - **Bare icon grids** (`.featurelist`) and muted wordmark walls instead of the
   boxed-icon card and chip-row patterns they replaced.
+- **Labels in sentence case.** Eyebrows, tags and footer headings are set at
+  a readable size in sentence case, never as tiny tracked capitals.
+- **Reading tone.** Running text uses `--text-soft` (about 9:1). Keep
+  `--text-muted` for secondary notes only; every text colour clears 4.5:1.
+- **Numbered steps** (`.steps`) and **FAQ beside its heading**
+  (`FaqSection`) replace an icon-card row and a centred accordion.
+- **One grey family.** The `--grey-*` ramp is warm, tinted toward the brand
+  ink. Surfaces are defined by fill, without 1px outlines.
 
 Accent colours are deliberately limited to the brand palette. If you add a new
 surface, check the `em` accent still has contrast against it.

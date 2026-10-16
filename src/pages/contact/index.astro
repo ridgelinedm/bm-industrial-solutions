@@ -3,7 +3,7 @@ import Base from "../../layouts/Base.astro";
 import Icon from "../../components/Icon.astro";
 import Crumbs from "../../components/Crumbs.astro";
 import SectionHead from "../../components/SectionHead.astro";
-import Faq from "../../components/Faq.astro";
+import FaqSection from "../../components/sections/FaqSection.astro";
 import EmergencyBand from "../../components/sections/EmergencyBand.astro";
 import AreasStrip from "../../components/sections/AreasStrip.astro";
 import { COMPANY, SERVICES, PILLARS, type Faq as FaqT } from "../../data/content";
@@ -171,12 +171,7 @@ const faqs: FaqT[] = [
 
 <EmergencyBand />
 
-<section class="section">
-  <div class="container container--narrow">
-    <SectionHead eyebrow="Before you send" title="Common questions" center />
-    <Faq items={faqs} />
-  </div>
-</section>
+<FaqSection eyebrow="Before you send" title="Common questions" items={faqs} />
 
 <AreasStrip />
 </Base>

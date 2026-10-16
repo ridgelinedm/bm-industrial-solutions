@@ -10,7 +10,7 @@ import Split from "../../components/Split.astro";
 import Ticks from "../../components/Ticks.astro";
 import ServiceCard from "../../components/ServiceCard.astro";
 import Gallery from "../../components/Gallery.astro";
-import Faq from "../../components/Faq.astro";
+import FaqSection from "../../components/sections/FaqSection.astro";
 import CtaPanel from "../../components/CtaPanel.astro";
 import EmergencyBand from "../../components/sections/EmergencyBand.astro";
 import RelatedServices from "../../components/sections/RelatedServices.astro";
@@ -122,12 +122,7 @@ const schemas = [
 
 <EmergencyBand />
 
-<section class="section">
-  <div class="container container--narrow">
-    <SectionHead eyebrow="Questions" title={"About " + s.card_title.toLowerCase()} center />
-    <Faq items={s.faqs} />
-  </div>
-</section>
+<FaqSection eyebrow="Questions" title={"About " + s.card_title.toLowerCase()} items={s.faqs} />
 
 {parent && (
 <section class="section section--tight">

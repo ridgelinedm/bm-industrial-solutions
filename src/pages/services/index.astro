@@ -7,7 +7,7 @@ import Brandwall from "../../components/Brandwall.astro";
 import PromoDuo from "../../components/PromoDuo.astro";
 import ServiceCard from "../../components/ServiceCard.astro";
 import Steps from "../../components/Steps.astro";
-import Faq from "../../components/Faq.astro";
+import FaqSection from "../../components/sections/FaqSection.astro";
 import CtaPanel from "../../components/CtaPanel.astro";
 import ServicesShowcase from "../../components/sections/ServicesShowcase.astro";
 import EmergencyBand from "../../components/sections/EmergencyBand.astro";
@@ -102,20 +102,15 @@ const faqs: FaqT[] = [
     <SectionHead eyebrow="How it works" title="The same process every time"
       lead="Whether it is an emergency call or a planned installation." />
     <Steps items={[
-      ["phone", "You call", "One number, answered 24/7, by someone who can actually assess the problem."],
-      ["search", "We diagnose", "The whole system gets checked, top to bottom."],
-      ["list", "You get options", "Repair versus replace, with the reasoning and the cost of each."],
-      ["file", "We finish and document", "Tested, commissioned and written up before we leave."],
+      ["You call", "One number, answered 24/7, by someone who can actually assess the problem."],
+      ["We diagnose", "The whole system gets checked, top to bottom."],
+      ["You get options", "Repair versus replace, with the reasoning and the cost of each."],
+      ["We finish and document", "Tested, commissioned and written up before we leave."],
     ]} />
   </div>
 </section>
 
-<section class="section section--alt">
-  <div class="container container--narrow">
-    <SectionHead eyebrow="Questions" title="Before you call" center />
-    <Faq items={faqs} />
-  </div>
-</section>
+<FaqSection eyebrow="Questions" title="Before you call" items={faqs} alt />
 
 <CtaPanel
   title="Get a quote on any of it"

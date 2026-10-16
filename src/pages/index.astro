@@ -8,7 +8,7 @@ import Stats from "../components/Stats.astro";
 import Split from "../components/Split.astro";
 import Steps from "../components/Steps.astro";
 import PromoDuo from "../components/PromoDuo.astro";
-import Faq from "../components/Faq.astro";
+import FaqSection from "../components/sections/FaqSection.astro";
 import CtaPanel from "../components/CtaPanel.astro";
 import ServicesShowcase from "../components/sections/ServicesShowcase.astro";
 import EmergencyBand from "../components/sections/EmergencyBand.astro";
@@ -110,10 +110,10 @@ const faqs: FaqT[] = [
     <SectionHead eyebrow="How it works" title="No mystery, no runaround"
       lead="The same process whether it is a 2am breakdown or a planned installation." />
     <Steps items={[
-      ["phone", "You call", "One number, answered 24/7. Tell us what stopped and we will tell you what it likely is and when we can be there."],
-      ["search", "We diagnose", "On site, we work the whole system, so the repair addresses whatever caused the failure."],
-      ["list", "You get options", "Repair cost, replacement cost and the reasoning behind our recommendation. The decision stays yours."],
-      ["file", "We finish and document", "The work gets completed, tested and written up, so you know what was done and what to watch."],
+      ["You call", "One number, answered 24/7. Tell us what stopped and we will tell you what it likely is and when we can be there."],
+      ["We diagnose", "On site, we work the whole system, so the repair addresses whatever caused the failure."],
+      ["You get options", "Repair cost, replacement cost and the reasoning behind our recommendation. The decision stays yours."],
+      ["We finish and document", "The work gets completed, tested and written up, so you know what was done and what to watch."],
     ]} />
   </div>
 </section>
@@ -144,12 +144,7 @@ const faqs: FaqT[] = [
 
 <AreasStrip alt={false} />
 
-<section class="section">
-  <div class="container container--narrow">
-    <SectionHead eyebrow="Questions" title="Straight answers" center />
-    <Faq items={faqs} />
-  </div>
-</section>
+<FaqSection eyebrow="Questions" title="Straight answers" items={faqs} />
 
 <CtaPanel
   title="Tell us what stopped working"
