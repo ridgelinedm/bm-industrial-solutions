@@ -218,7 +218,7 @@ export const SERVICES: Service[] = [
     hero_photo: ["compressor-exterior-install", "Newly installed exterior compressed air system with vertical receiver, dryer and two compressors"],
     lead: "A compressor installation is a piping and layout job as much as an equipment job. We do the whole scope, so there is no gap between the machine and the tool that uses it.",
     intro: [
-      "We install complete compressed air systems: compressor, receiver, dryer, filtration, condensate management and the distribution piping that carries air to the point of use. One crew, one scope, one number to call if anything needs adjusting afterwards.",
+      "We install complete compressed air systems: compressor, receiver, dryer, filtration, condensate management and the distribution piping that carries air to the point of use. If anything needs adjusting afterwards, you call the same crew that did the install.",
       "Because we also do process piping and mechanical contracting, we are not handing off the hardest part of the job to somebody else. The pad, the rigging, the piping and the commissioning are all ours.",
     ],
     capabilities_title: "What an installation includes",
@@ -412,7 +412,7 @@ export const SERVICES: Service[] = [
     meta_title: "Hydraulic Maintenance & Fluid Service | BM Industrial Solutions",
     meta_desc: "Scheduled hydraulic maintenance: oil and filter service, contamination control, hose inspection and pressure verification across SC, GA and NC. Call 843-401-9670.",
     hero_photo: ["hydraulic-system-inspection", "Scheduled hydraulic system inspection inside a commercial facility"],
-    lead: "Hydraulic components fail from heat, contamination and pressure settings nobody has checked in five years. Maintenance catches all three.",
+    lead: "Hydraulic components fail from heat, contamination and pressure settings nobody has checked in five years. Scheduled maintenance finds each of these before it costs you a pump.",
     intro: [
       "Scheduled hydraulic maintenance is inexpensive compared with a pump replacement, and far cheaper than the production hours a failure takes with it.",
       "We build the interval around duty cycle and environment, and we document what we find so you can see components trending toward trouble.",
@@ -429,7 +429,7 @@ export const SERVICES: Service[] = [
     faqs: [
       ["How often should hydraulic oil be changed?", "<p>By condition wherever possible. Duty cycle, operating temperature and how well the reservoir is sealed against ingress matter far more than elapsed months. We will set a sensible starting interval and refine it.</p>"],
       ["Is hydraulic maintenance worth it on older equipment?", "<p>Particularly on older equipment. Components are harder to source and more expensive when they fail, which raises the value of preventing it.</p>"],
-      ["Can hydraulic maintenance be combined with our compressor visits?", "<p>Yes, and it usually should be. One visit, one vendor, one invoice. That is the main reason customers use us for both.</p>"],
+      ["Can hydraulic maintenance be combined with our compressor visits?", "<p>Yes, and it usually should be. Combining them means a single visit and a single invoice, which is the main reason customers use us for both.</p>"],
     ],
     gallery: [
       ["hydraulic-cylinder-fittings", "Hydraulic cylinder fittings inspected during scheduled maintenance"],
@@ -697,7 +697,7 @@ export const AREAS: Area[] = [
     photo: ["compressor-metal-trades-site", "Industrial compressed air installation at a facility in the Charleston area"],
     intro: [
       "Charleston runs on a mix of port logistics, marine and shipyard work, cold storage, food production and general manufacturing. These are operations where compressed air and hydraulics carry real production load.",
-      "We cover Charleston with the same four service lines we run everywhere else: air compressors, hydraulics, mechanical contracting and process piping. One contractor, one number, 24 hours a day.",
+      "We cover Charleston with the same four service lines we run everywhere else: air compressors, hydraulics, mechanical contracting and process piping. You reach the same contractor for all of it, at any hour.",
     ],
     local: [
       "Coastal humidity is hard on compressed air systems. Undersized or neglected dryers show up here as water at the tool far more often than they do inland.",

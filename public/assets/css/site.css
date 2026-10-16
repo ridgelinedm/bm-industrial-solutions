@@ -1266,3 +1266,51 @@ a.contact-item:hover { background: var(--red-tint); }
   .faq-split { grid-template-columns: 1fr; gap: 2rem; }
   .faq-split__head { position: static; }
 }
+
+/* --- Other services: photo-led rows ---------------------------------------- */
+.related { display: grid; gap: clamp(0.75rem, 0.5rem + 0.8vw, 1.1rem); }
+.related__row {
+  display: grid;
+  grid-template-columns: clamp(9rem, 6rem + 9vw, 15rem) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1.25rem, 0.75rem + 2.5vw, 3rem);
+  padding: clamp(0.75rem, 0.5rem + 0.6vw, 1rem);
+  padding-right: clamp(1.25rem, 0.75rem + 2vw, 2.5rem);
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+.related__media { display: block; overflow: hidden; border-radius: var(--radius); }
+.related__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 0.5s var(--ease); }
+.related__text { display: grid; gap: 0.5rem; }
+.related__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-display-3);
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  line-height: 1.1;
+}
+.related__body { color: var(--text-soft); max-width: 58ch; transition: color 0.25s var(--ease); }
+.related__go {
+  display: grid;
+  place-items: center;
+  width: 3.25rem; height: 3.25rem;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--white);
+  transition: transform 0.25s var(--ease), background-color 0.25s var(--ease);
+}
+.related__row:hover { background: var(--ink); color: var(--white); }
+.related__row:hover .related__body { color: rgba(255, 255, 255, 0.72); }
+.related__row:hover .related__media img { transform: scale(1.04); }
+.related__row:hover .related__go { transform: translateX(4px); }
+.related__row:active .related__go { transform: translateX(4px) scale(0.94); }
+@media (max-width: 700px) {
+  .related__row { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1rem; padding-right: 1rem; align-items: start; }
+  .related__go { display: none; }
+  .related__title { font-size: 1.3rem; }
+  .related__body { font-size: var(--fs-sm); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .related__media img, .related__go { transition: none; }
+}
