@@ -1,14 +1,15 @@
 ---
 import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
 import { COMPANY, NAV } from "../data/content";
-import { url, asset } from "../lib/site";
+import { url } from "../lib/site";
 interface Props { active: string }
 const { active } = Astro.props;
 ---
 <header class="nav">
   <div class="container nav__inner">
     <a class="nav__logo" href={url("")} aria-label={`${COMPANY.name} home`}>
-      <img src={asset("assets/img/logo/bm-horizontal-full-color.svg")} alt={COMPANY.name} width="200" height="66">
+      <Logo />
     </a>
     <nav class="nav__nav" aria-label="Primary"><ul class="nav__menu">{NAV.map((item) => {
       const isActive = active === item.key || active.startsWith(item.key + ":");

@@ -49,7 +49,7 @@ const ld = (s: object) => JSON.stringify(s).replace(/</g, "\\u003c");
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href={FONT_CSS}>
 <link rel="stylesheet" href={asset("assets/css/site.css")}>
-<script is:inline>if('IntersectionObserver' in window)document.documentElement.classList.add('reveal-on');</script>
+<script is:inline>if('IntersectionObserver' in window)document.documentElement.classList.add('reveal-on');try{if(!sessionStorage.getItem('bm-logo-intro')){document.documentElement.classList.add('logo-intro');sessionStorage.setItem('bm-logo-intro','1')}}catch(e){}</script>
 {schemas.map((s) => <script is:inline type="application/ld+json" set:html={ld(s)} />)}
 </head>
 <body>
