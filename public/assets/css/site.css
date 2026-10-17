@@ -312,7 +312,7 @@ ul, ol { padding: 0; list-style: none; }
   background: var(--red);
   flex: none;
   box-shadow: 0 0 0 0 rgba(206, 23, 30, 0.7);
-  animation: pulse 2.4s infinite;
+  animation: pulse 2.4s 2;  /* two beats, then still (WCAG 2.2.2) */
 }
 @keyframes pulse {
   70% { box-shadow: 0 0 0 9px rgba(206, 23, 30, 0); }
@@ -1269,7 +1269,7 @@ a.contact-item:hover { background: var(--red-tint); }
 }
 .reveal-on .reveal.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  .reveal-on .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal-on .reveal { transform: none; transition: opacity 0.2s ease-out; }
   .btn:hover, .card--link:hover, .area:hover, .bento__card:hover { transform: none; }
 }
 
@@ -1339,7 +1339,7 @@ a.contact-item:hover { background: var(--red-tint); }
   .related__body { font-size: var(--fs-sm); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .related__media img, .related__go { transition: none; }
+  .related__row:hover .related__media img, .related__row:hover .related__go { transform: none; }
 }
 
 /* --- Micro-interactions ---------------------------------------------------
@@ -1395,3 +1395,31 @@ a.contact-item:hover { background: var(--red-tint); }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes status-in { from { opacity: 0; transform: translateY(6px); } }
+
+/* --- Reduced motion --------------------------------------------------------
+   Tiered, not switched off. Tier 1 (large movement, spin, zoom) is removed;
+   tier 2 (small movement) becomes a short fade; tier 3 (colour, focus rings,
+   the sending spinner, small icon turns, press feedback) stays. The logo
+   intro, drawer item stagger and FAQ rise are only ever enabled under
+   no-preference, above. */
+@media (prefers-reduced-motion: reduce) {
+  /* Mobile menu: fade in place instead of sliding over the whole screen. */
+  .drawer { transform: none; opacity: 0; transition: opacity 0.15s ease-in, visibility 0.15s; }
+  .drawer.is-open { transform: none; opacity: 1; transition: opacity 0.2s ease-out, visibility 0s; }
+
+  /* Dropdown: fade only. */
+  .nav__panel,
+  .nav__item:is(:hover, :focus-within) .nav__panel { transform: translateX(-50%); }
+
+  /* FAQ: open at once, answer fades in. */
+  .faq details[open] .faq__body { animation: fade-in 0.15s ease-out; }
+
+  /* Form result: fade only. */
+  .form__status.is-visible { animation: fade-in 0.15s ease-out; }
+}
+@supports selector(::details-content) {
+  @media (prefers-reduced-motion: reduce) {
+    .faq details::details-content { transition: none; }
+  }
+}
+@keyframes fade-in { from { opacity: 0; } }

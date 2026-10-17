@@ -42,7 +42,19 @@
 
   /* --- Scroll reveal ----------------------------------------------------- */
   var reveals = document.querySelectorAll(".reveal");
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var reduced = motionQuery.matches;
+
+  // If reduced motion is switched on while the page is open, show anything
+  // still waiting to reveal rather than animating it later.
+  if (motionQuery.addEventListener) {
+    motionQuery.addEventListener("change", function (e) {
+      if (!e.matches) return;
+      document.querySelectorAll(".reveal:not(.is-in)").forEach(function (el) {
+        el.classList.add("is-in");
+      });
+    });
+  }
 
   if (!reveals.length) {
     /* nothing to do */
