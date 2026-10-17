@@ -42,6 +42,21 @@
 
   /* --- Scroll reveal ----------------------------------------------------- */
   var reveals = document.querySelectorAll(".reveal");
+
+  // Show an element, then retire the reveal classes once its entrance is
+  // done, so the element's own hover and press transforms apply again (the
+  // settled reveal state would otherwise pin transform: none over them).
+  function show(el) {
+    if (el.classList.contains("is-in")) return;
+    el.classList.add("is-in");
+    var retire = function () {
+      el.removeEventListener("transitionend", onEnd);
+      el.classList.remove("reveal", "is-in");
+    };
+    var onEnd = function (e) { if (e.target === el && e.propertyName === "opacity") retire(); };
+    el.addEventListener("transitionend", onEnd);
+    setTimeout(retire, 1200);
+  }
   var motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   var reduced = motionQuery.matches;
 
@@ -51,7 +66,7 @@
     motionQuery.addEventListener("change", function (e) {
       if (!e.matches) return;
       document.querySelectorAll(".reveal:not(.is-in)").forEach(function (el) {
-        el.classList.add("is-in");
+        show(el);
       });
     });
   }
@@ -59,12 +74,12 @@
   if (!reveals.length) {
     /* nothing to do */
   } else if (reduced || !("IntersectionObserver" in window)) {
-    reveals.forEach(function (el) { el.classList.add("is-in"); });
+    reveals.forEach(show);
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-in");
+        show(entry.target);
         io.unobserve(entry.target);
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
@@ -75,7 +90,7 @@
     // anyway. Content must never be permanently invisible.
     setTimeout(function () {
       document.querySelectorAll(".reveal:not(.is-in)").forEach(function (el) {
-        el.classList.add("is-in");
+        show(el);
       });
     }, 2500);
   }
