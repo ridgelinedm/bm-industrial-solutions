@@ -116,7 +116,7 @@
 
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
-      if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+      if (btn) { btn.disabled = true; btn.setAttribute("aria-busy", "true"); btn.textContent = "Sending…"; }
 
       fetch(endpoint, {
         method: "POST",
@@ -129,7 +129,7 @@
       }).catch(function () {
         say("That didn't go through. Please call 843-401-9670 or email bmindustrialsolutionsllc@gmail.com.", false);
       }).finally(function () {
-        if (btn) { btn.disabled = false; btn.textContent = "Send request"; }
+        if (btn) { btn.disabled = false; btn.removeAttribute("aria-busy"); btn.textContent = "Send request"; }
       });
     });
   }

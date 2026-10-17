@@ -67,6 +67,7 @@
   --shadow-lg: 0 8px 24px rgba(35, 31, 32, 0.1), 0 32px 72px rgba(35, 31, 32, 0.13);
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* --- Reset ---------------------------------------------------------------- */
@@ -407,13 +408,14 @@ ul, ol { padding: 0; list-style: none; }
   padding: 0.6rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s;
+  transition: opacity 0.14s ease-in, transform 0.14s ease-in, visibility 0.14s;
 }
 .nav__item:hover .nav__panel,
 .nav__item:focus-within .nav__panel {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out), visibility 0s;
 }
 .nav__panel a {
   display: block;
@@ -426,7 +428,7 @@ ul, ol { padding: 0; list-style: none; }
 .nav__panel a span { display: block; font-size: var(--fs-xs); color: var(--text-muted); margin-top: 0.15rem; }
 .nav__panel strong { font-weight: 600; }
 .nav__caret { transition: transform 0.2s var(--ease); }
-.nav__item:hover .nav__caret { transform: rotate(180deg); }
+.nav__item:is(:hover, :focus-within) .nav__caret { transform: rotate(180deg); }
 
 /* Mobile drawer */
 .nav__toggle {
@@ -438,7 +440,9 @@ ul, ol { padding: 0; list-style: none; }
   border-radius: 12px;
   background: var(--white);
   cursor: pointer;
+  transition: transform 0.12s var(--ease);
 }
+.nav__toggle:active { transform: scale(0.94); }
 .nav__toggle span {
   display: block;
   position: relative;
@@ -471,9 +475,13 @@ ul, ol { padding: 0; list-style: none; }
   overflow-y: auto;
   transform: translateY(-100%);
   visibility: hidden;
-  transition: transform 0.35s var(--ease), visibility 0.35s;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 1, 1), visibility 0.22s;
 }
-.drawer.is-open { transform: translateY(0); visibility: visible; }
+.drawer.is-open {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 0.32s var(--ease-out), visibility 0s;
+}
 .drawer__link {
   display: block;
   padding: 1rem 0;
@@ -994,7 +1002,7 @@ a.contact-item:hover { background: var(--red-tint); }
 }
 .form__note { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 1rem; }
 .form__status { margin-top: 1rem; padding: 0.9rem 1.1rem; border-radius: var(--radius-sm); font-size: var(--fs-sm); display: none; }
-.form__status.is-visible { display: block; }
+.form__status.is-visible { display: block; animation: status-in 0.24s var(--ease-out); }
 .form__status--ok { background: #eef7f0; color: #1c6b34; }
 .form__status--err { background: var(--red-tint); color: var(--red-700); }
 /* Spam honeypot */
@@ -1333,3 +1341,57 @@ a.contact-item:hover { background: var(--red-tint); }
 @media (prefers-reduced-motion: reduce) {
   .related__media img, .related__go { transition: none; }
 }
+
+/* --- Micro-interactions ---------------------------------------------------
+   Feedback, kept in the 100-250ms band and to transform/opacity. */
+
+/* Press feedback on every tappable surface, not just buttons. */
+.area:active { transform: translateY(-1px) scale(0.985); transition-duration: 0.08s; }
+.card--link:active { transform: translateY(-2px) scale(0.985); transition-duration: 0.08s; }
+.bento__card:active { transform: translateY(-2px) scale(0.99); transition-duration: 0.08s; }
+.related__row { transition: background-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.12s var(--ease); }
+.related__row:active { transform: scale(0.99); transition-duration: 0.08s; }
+.faq summary:active .faq__icon { transform: scale(0.85); }
+.faq__icon { transition: transform 0.12s var(--ease); }
+
+/* FAQ answers expand and collapse instead of jumping, where the browser can
+   animate a <details> element; elsewhere they open instantly as before. */
+@supports selector(::details-content) {
+  .faq { interpolate-size: allow-keywords; }
+  .faq details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size 0.24s var(--ease-out), content-visibility 0.24s allow-discrete;
+  }
+  .faq details[open]::details-content { block-size: auto; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .faq details[open] .faq__body { animation: faq-in 0.24s var(--ease-out); }
+}
+@keyframes faq-in { from { opacity: 0; transform: translateY(-4px); } }
+
+/* Mobile menu items follow the panel in, a beat apart. */
+@media (prefers-reduced-motion: no-preference) {
+  .drawer.is-open nav > *, .drawer.is-open .drawer__actions {
+    animation: drawer-item 0.3s var(--ease-out) both;
+  }
+  .drawer.is-open nav > :nth-child(1) { animation-delay: 0.06s; }
+  .drawer.is-open nav > :nth-child(2) { animation-delay: 0.1s; }
+  .drawer.is-open nav > :nth-child(3) { animation-delay: 0.14s; }
+  .drawer.is-open nav > :nth-child(4) { animation-delay: 0.18s; }
+  .drawer.is-open .drawer__actions { animation-delay: 0.22s; }
+}
+@keyframes drawer-item { from { opacity: 0; transform: translateY(-8px); } }
+
+/* Contact form: a spinner while sending, then the result eases in. */
+.btn[aria-busy="true"] { cursor: progress; }
+.btn[aria-busy="true"]::before {
+  content: "";
+  width: 1em; height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes status-in { from { opacity: 0; transform: translateY(6px); } }
