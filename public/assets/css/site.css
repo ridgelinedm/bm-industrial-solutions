@@ -642,7 +642,7 @@ ul, ol { padding: 0; list-style: none; }
 .card h3 { margin-bottom: 0.7rem; }
 .card p { color: var(--text-muted); font-size: var(--fs-sm); }
 .card__foot { margin-top: auto; padding-top: 1.5rem; }
-.card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
 .card--link > a.card__hit { position: absolute; inset: 0; border-radius: inherit; z-index: 1; }
 
 /* Tinted variants used to break up long card runs */
