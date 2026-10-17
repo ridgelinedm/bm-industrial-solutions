@@ -1423,3 +1423,21 @@ a.contact-item:hover { background: var(--red-tint); }
   }
 }
 @keyframes fade-in { from { opacity: 0; } }
+
+/* --- Page transitions -------------------------------------------------------
+   Cross-document View Transitions: when both pages opt in (every page loads
+   this file), the browser crossfades between them instead of flashing white.
+   Browsers without support navigate normally. Opacity only: the sticky header
+   sits at different heights depending on scroll, so any movement would make
+   it jump. Areas identical on both pages (the header) stay solid through the
+   blend. Old page leaves quickly, new page arrives a touch slower. */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-out 0.15s cubic-bezier(0.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: vt-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) 0.03s both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; } }
+/* A crossfade is tier-3 motion, so it stays with reduced motion, just shorter. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root) { animation-duration: 0.1s; }
+  ::view-transition-new(root) { animation-duration: 0.15s; animation-delay: 0s; }
+}
