@@ -1,0 +1,136 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import Photo from "../components/Photo.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Brandwall from "../components/Brandwall.astro";
+import Split from "../components/Split.astro";
+import Steps from "../components/Steps.astro";
+import PromoDuo from "../components/PromoDuo.astro";
+import FaqSection from "../components/sections/FaqSection.astro";
+import CtaPanel from "../components/CtaPanel.astro";
+import ServicesShowcase from "../components/sections/ServicesShowcase.astro";
+import EmergencyBand from "../components/sections/EmergencyBand.astro";
+import ReviewsSection from "../components/sections/ReviewsSection.astro";
+import AreasStrip from "../components/sections/AreasStrip.astro";
+import { COMPANY, type Faq as FaqT } from "../data/content";
+import { url } from "../lib/site";
+import { localBusinessSchema, faqSchema } from "../lib/schema";
+
+const faqs: FaqT[] = [
+  ["What areas do you cover?",
+   `<p>We are based in Holly Hill, South Carolina, and run regular field service across South Carolina, Georgia and North Carolina, including Charleston, North Charleston, Summerville, Columbia, Greenville, Spartanburg, Aiken, Sumter, Augusta, Savannah and the Charlotte area. <a href="${url("service-areas")}">See all service areas</a>.</p>`],
+  ["Do you really answer the phone at night?",
+   `<p>Yes. The emergency line runs 24 hours a day, including weekends and holidays. You reach someone who can assess the problem and dispatch. Call <a href="tel:${COMPANY.phone_href}">${COMPANY.phone}</a>.</p>`],
+  ["Which compressor brands do you service?",
+   "<p>Gardner Denver, Sullair, Ingersoll Rand, Kaeser, Atlas Copco, CompAir/LeRoi, Quincy, Champion, Curtis and Saylor-Beall, plus most other platforms. We are independent, so the recommendation answers to your application.</p>"],
+  ["Can you handle a whole project, or only service calls?",
+   `<p>Both. We do emergency repairs, scheduled maintenance, and complete installation projects including rigging, equipment setting and the process piping that connects it. <a href="${url("services/mechanical-contracting")}">See mechanical contracting</a>.</p>`],
+  ["Do you work around production schedules?",
+   "<p>Routinely. Most installation and changeover work happens on weekends, night shifts or planned shutdowns so the disruptive part fits the window you actually have.</p>"],
+];
+---
+<Base
+  title="BM Industrial Solutions | Air Compressors & Hydraulics, SC GA NC"
+  description="Owner-operated industrial service across SC, GA and NC. Air compressor repair, hydraulics, mechanical contracting and process piping. 24/7 emergency: 843-401-9670."
+  path=""
+  schemas={[localBusinessSchema(), faqSchema(faqs)]}>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <h1 class="display-1">Your plant runs on air, oil and pressure. We keep all three <em>moving</em>.</h1>
+        <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping from one owner-operated crew, with a 24/7 emergency line that a technician actually answers.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary btn--lg" href={url("contact")}>Request a Quote</a>
+          <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>
+        </div>
+        <ul class="hero__trust">
+          <li>Owner-operated, 10+ years in the field</li>
+          <li>4 service lines, 1 number to call</li>
+          <li>Regular field service in SC, GA and NC</li>
+          <li>24/7 emergency response</li>
+        </ul>
+      </div>
+      <div class="hero__media">
+        <Photo slug="compressor-warehouse-system"
+               alt="Industrial rotary screw air compressor system and process piping installed in a manufacturing plant"
+               sizes="(max-width: 900px) 100vw, 46vw" loading="eager" fetchpriority="high" />
+        <div class="hero__badge">
+          <span class="hero__badge-num">24/7</span>
+          <span class="hero__badge-txt"><strong>Emergency service</strong>Nights, weekends and holidays</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<Brandwall />
+
+<ServicesShowcase
+  title="Everything your plant needs from <em>one contractor</em>"
+  lead="Four service lines that overlap constantly in practice. Most customers start with one and consolidate the rest once they see how much coordination it removes." />
+
+<EmergencyBand />
+
+<section class="section">
+  <div class="container">
+    <SectionHead
+      title="Why plants hand us <em>the whole job</em>"
+      lead="When compressed air, hydraulics, rigging and piping are split across four vendors, every problem lands in the gap between them. We close the gap by covering all four." />
+    <Split photo={["rigging-vessel-lift", "Crane lifting a large industrial vessel into position during an equipment installation"]} title="The crew that installs it also services it"
+      cta={["See all services", "services"]}>
+      <p class="lead">A compressor installation is really four jobs: setting the equipment, piping the distribution, connecting the utilities and commissioning the system.</p>
+      <p>Split those across separate contractors and you own the coordination risk. We take the whole scope, which means when something needs adjusting six months later, there is one number to call and no argument about whose scope it was.</p>
+    </Split>
+    <Split photo={["hydraulic-field-repair", "Technician carrying out a hydraulic repair on heavy equipment in the field"]} title="You talk to the person doing the work" flip>
+      <p>BM Industrial Solutions is run by {COMPANY.owner}, a hands-on technician with over a decade in the field. There is no service manager relaying messages between you and a technician who has never seen your plant.</p>
+      <p>That has a practical consequence: the person who quotes the job is the person accountable for it, and decisions get made on the floor where the work is.</p>
+    </Split>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <SectionHead title="What happens when you call"
+      lead="The same process whether it is a 2am breakdown or a planned installation." />
+    <Steps items={[
+      ["You call", "One number, answered 24/7. Tell us what stopped and we will tell you what it likely is and when we can be there."],
+      ["We diagnose", "On site, we work the whole system, so the repair addresses whatever caused the failure."],
+      ["You get options", "Repair cost, replacement cost and the reasoning behind our recommendation. The decision stays yours."],
+      ["We finish and document", "The work gets completed, tested and written up, so you know what was done and what to watch."],
+    ]} />
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <PromoDuo
+      a={{
+        surface: "ink",
+        title: "Nearly every emergency we get called to was <em>preventable</em>",
+        body: "Scheduled inspections across your compressed air, hydraulic and mechanical equipment, on intervals set by your run hours, plus priority response on the day something fails anyway.",
+        label: "How agreements work",
+        href: "services/preventive-maintenance",
+      }}
+      b={{
+        surface: "red",
+        title: "Stopped production does not wait for <em>business hours</em>",
+        body: "The emergency line runs 24 hours a day, seven days a week, including holidays. You reach someone who can diagnose and dispatch.",
+        label: `Call ${COMPANY.phone}`,
+        href: `tel:${COMPANY.phone_href}`,
+      }} />
+  </div>
+</section>
+
+<ReviewsSection />
+
+<AreasStrip alt={false} />
+
+<FaqSection title="Straight answers" items={faqs} />
+
+<CtaPanel
+  title="Tell us what stopped working"
+  lead="Send the details and we will come back with a straight answer on scope, timing and cost. If it is down right now, call instead and we will pick up." />
+</Base>

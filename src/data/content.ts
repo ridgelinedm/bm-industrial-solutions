@@ -1,0 +1,819 @@
+// Types for the content below. A photo is [slug, alt text]; a FAQ is
+// [question, answer HTML].
+export type Photo = [string, string];
+export type Faq = [string, string];
+
+export interface Split {
+  photo: Photo;
+  title: string;
+  body: string;
+  extra_ticks?: string[];
+  flip?: boolean;
+}
+
+export interface Service {
+  path: string;
+  key: string;
+  parent?: string;
+  nav_title: string;
+  card_title: string;
+  title: string;
+  icon: string;
+  cta?: string;
+  in_footer?: boolean;
+  short: string;
+  meta_title: string;
+  meta_desc: string;
+  hero_photo: Photo;
+  lead: string;
+  intro: string[];
+  capabilities_title: string;
+  capabilities: string[];
+  splits?: Split[];
+  faqs: Faq[];
+  gallery?: Photo[];
+  children?: string[];
+}
+
+export interface Area {
+  path: string;
+  key: string;
+  city: string;
+  state: string;
+  meta: string;
+  distance: string;
+  meta_title: string;
+  meta_desc: string;
+  photo: Photo;
+  intro: string[];
+  local: string[];
+}
+
+export interface NavItem {
+  key: string;
+  label: string;
+  path: string;
+  children?: { label: string; path: string; blurb: string }[];
+}
+
+// All site copy and data in one place. Edit here; every page reads from it.
+// Ported from _build/content.py. Inline HTML in strings (<strong>, <em>, <p>) is rendered as-is.
+
+export const COMPANY = {
+  name: "BM Industrial Solutions",
+  legal_name: "BM Industrial Solutions LLC",
+  tagline: "Locally owned. Personally committed. Professionally built.",
+  owner: "Bradley McLaughlin",
+  phone: "843-401-9670",
+  phone_href: "+18434019670",
+  email: "bmindustrialsolutionsllc@gmail.com",
+  street: "Holly Hill",
+  city: "Holly Hill",
+  state: "SC",
+  zip: "29059",
+  google_reviews_url: "https://www.google.com/search?q=BM+Industrial+Solutions+Holly+Hill+SC",
+};
+
+export const BRANDS = [
+  "Gardner Denver",
+  "Sullair",
+  "Ingersoll Rand",
+  "Kaeser",
+  "Atlas Copco",
+  "CompAir / LeRoi",
+  "Quincy",
+  "Champion",
+  "Curtis",
+  "Saylor-Beall",
+];
+
+export const SERVICES: Service[] = [
+  {
+    path: "services/air-compressor-services",
+    key: "air-compressor-services",
+    nav_title: "Air Compressor Services",
+    card_title: "Air Compressor Systems",
+    title: "Air compressor service, repair and installation",
+    icon: "gauge",
+    cta: "Explore",
+    short: "Rotary screw and reciprocating systems. Emergency repair, scheduled service, and full installations sized to the work your plant actually does.",
+    meta_title: "Air Compressor Services in SC, GA & NC | BM Industrial Solutions",
+    meta_desc: "Rotary screw and reciprocating air compressor repair, installation and maintenance across SC, GA and NC. 24/7 emergency response. Call 843-401-9670.",
+    hero_photo: ["compressor-warehouse-system", "Industrial rotary screw air compressor system with receiver tank and process piping in a manufacturing facility"],
+    lead: "Compressed air is the utility nobody notices until it stops. We keep rotary screw and reciprocating systems running across three states. When one goes down at 2am, a technician picks up the phone.",
+    intro: [
+      "BM Industrial Solutions services every major compressor platform on the market: Gardner Denver, Sullair, Ingersoll Rand, Kaeser, Atlas Copco, CompAir/LeRoi, Quincy, Champion, Curtis and Saylor-Beall. We hold no factory dealership, so the recommendation you get answers to your application and nothing else.",
+      "Most of the calls we take turn out to be dryer problems, drain problems, filtration problems or piping problems that surface at the compressor. We diagnose the whole system, so the fix holds.",
+    ],
+    capabilities_title: "What we handle",
+    capabilities: [
+      "<strong>Rotary screw service.</strong> Oil and separator changes, air/oil filters, coolers, bearings, airend inspection and rebuild, VSD drive troubleshooting.",
+      "<strong>Reciprocating service.</strong> Valve service, rings and gaskets, unloaders, pressure switches, belt drives and pump rebuilds.",
+      "<strong>Air treatment.</strong> Refrigerated and desiccant dryer service, coalescing and particulate filtration, condensate drains and oil-water separators.",
+      "<strong>Controls and monitoring.</strong> Pressure and load-hour troubleshooting, sequencing between multiple units, alarm and shutdown diagnosis.",
+      "<strong>System installation.</strong> Sizing, foundations, electrical coordination, receiver tanks and complete air distribution piping.",
+      "<strong>Emergency response.</strong> 24/7 breakdown coverage, including temporary air where production cannot wait for a repair.",
+    ],
+    splits: [
+      {
+        photo: ["compressor-dual-system", "Two matched rotary screw air compressors with receiver tanks installed side by side"],
+        title: "Sized to the air your plant actually uses",
+        body: "<p class=\"lead\">An oversized compressor short-cycles, wastes energy and wears out early. An undersized one starves your tools and never unloads.</p><p>We measure actual demand before we quote anything: running pressure, pressure drop across the system, load and unload behaviour, and where your air is genuinely being consumed. Sometimes the answer is a smaller compressor and better piping. We will tell you when that is the case.</p>",
+        flip: false,
+      },
+      {
+        photo: ["compressor-controller-panel", "Gardner Denver compressor controller and instrumentation panel"],
+        title: "We work back to what caused it",
+        body: "<p>High discharge temperature, water in the lines, pressure that will not hold, a unit that trips on overload. These are symptoms with several possible causes. We work through the system methodically until the evidence points somewhere.</p>",
+        extra_ticks: [
+          "Water at the tool usually traces back to the dryer or a failed drain.",
+          "Pressure complaints at the far end of a plant usually come down to piping.",
+          "Repeat overload trips often trace to the airend, cooler or supply voltage.",
+        ],
+        flip: true,
+      },
+    ],
+    faqs: [
+      ["How quickly can you get to a compressor that is down?", "<p>We run 24/7 emergency coverage across South Carolina, Georgia and North Carolina. Response time depends on where you are and what the failure is. Call <a href=\"tel:+18434019670\">843-401-9670</a> and we will give you a straight answer about arrival time.</p>"],
+      ["Do you only work on certain brands?", "<p>No. We service Gardner Denver, Sullair, Ingersoll Rand, Kaeser, Atlas Copco, CompAir/LeRoi, Quincy, Champion, Curtis and Saylor-Beall, plus most other platforms you are likely to have. We are independent, so we are not steering you toward one manufacturer.</p>"],
+      ["How often should a rotary screw compressor be serviced?", "<p>Interval depends on run hours, ambient conditions and the lubricant in use, but most units need attention at set hour intervals for oil, separators and filters, with a fuller inspection annually. Dusty or hot environments shorten that considerably. We set the interval from your actual run hours and adjust it as the unit tells us more.</p>"],
+      ["Can you install a new system as well as repair the one we have?", "<p>Yes. Full installations including compressor, dryer, receiver, filtration and the distribution piping that connects it all. We handle the mechanical scope and coordinate with your electrician, or bring one in.</p>"],
+      ["Is it worth repairing an older compressor?", "<p>Often, yes. A well-built reciprocating unit or an older rotary screw with a sound airend can be worth rebuilding. We will give you the honest comparison between repair cost, expected remaining life and the energy cost of continuing to run it.</p>"],
+    ],
+    gallery: [
+      ["compressor-matched-pair", "Matched pair of rotary screw compressors and receiver tanks in a finished plant room"],
+      ["compressor-exterior-install", "Exterior compressed air installation with vertical receiver tank and refrigerated dryer"],
+      ["compressor-recip-and-rotary", "Reciprocating and rotary screw compressors installed side by side"],
+      ["compressor-barn-airstation", "Gardner Denver air station with integrated dryer and receiver"],
+      ["compressor-clean-facility", "Compressed air equipment and blue distribution piping in a clean manufacturing space"],
+      ["compressor-guarded-rotary", "Rotary screw compressor with receiver tank behind machine guarding"],
+    ],
+    children: [
+      "services/air-compressor-repair",
+      "services/air-compressor-installation",
+      "services/air-compressor-maintenance",
+    ],
+  },
+  {
+    path: "services/air-compressor-repair",
+    key: "air-compressor-repair",
+    parent: "services/air-compressor-services",
+    nav_title: "Air Compressor Repair",
+    card_title: "Air Compressor Repair",
+    title: "Air compressor repair",
+    icon: "wrench",
+    cta: "Read more",
+    in_footer: false,
+    short: "Breakdown diagnosis and repair on rotary screw and reciprocating compressors, 24 hours a day, on your floor.",
+    meta_title: "Air Compressor Repair | 24/7 Emergency | BM Industrial Solutions",
+    meta_desc: "Emergency and scheduled air compressor repair on all major brands across SC, GA and NC. Airend, dryer, controls and electrical diagnosis. Call 843-401-9670.",
+    hero_photo: ["compressor-gardner-denver-l37", "Gardner Denver L37 rotary screw compressor being serviced in a plant"],
+    lead: "When a compressor stops, production stops with it. We diagnose the actual failure and get you running, then tell you what it will take to keep it that way.",
+    intro: [
+      "We repair rotary screw and reciprocating compressors from every major manufacturer, in the field, on your schedule. Emergency calls are answered 24 hours a day.",
+      "A compressor that has failed once will usually tell you why if you look properly. We check the supporting system (cooling, filtration, drains, supply voltage, ambient conditions) before we hand back a unit that is only going to fail the same way again.",
+    ],
+    capabilities_title: "Common repairs",
+    capabilities: [
+      "<strong>Airend failure and rebuild.</strong> Bearing noise, rotor contact, seized units and full replacement.",
+      "<strong>Overheating.</strong> Coolers, thermostatic valves, oil condition, ventilation and ambient loading.",
+      "<strong>Pressure faults.</strong> Inlet valves, unloaders, minimum-pressure valves, regulators and leaks.",
+      "<strong>Oil carryover.</strong> Separator elements, scavenge lines, return orifices and overfilled sumps.",
+      "<strong>Electrical and control faults.</strong> Starters, contactors, VSD drives, sensors and shutdown alarms.",
+      "<strong>Dryers and drains.</strong> Refrigerated and desiccant dryer repair, failed drains and water in the lines.",
+    ],
+    splits: [
+      {
+        photo: ["compressor-tank-and-filter", "Compressed air receiver tank, filtration and dryer package"],
+        title: "Down at 2am is still a phone call",
+        body: "<p class=\"lead\">Our emergency line runs 24/7, including weekends and holidays.</p><p>You reach someone who can assess the problem and dispatch on the spot. Where a repair cannot be completed the same day and production cannot wait, we can look at temporary air to bridge the gap.</p>",
+        flip: false,
+      },
+    ],
+    faqs: [
+      ["Do you charge a call-out fee?", "<p>Pricing depends on distance, time of day and scope. We give you the rate structure up front before we dispatch, so there are no surprises on the invoice.</p>"],
+      ["Can you repair a compressor you did not install?", "<p>Yes. Most of the equipment we service was installed by someone else, often years ago.</p>"],
+      ["What if the compressor is not worth repairing?", "<p>We will say so. You will get the repair estimate alongside a replacement option and the reasoning behind the recommendation, so the decision sits with you.</p>"],
+      ["Do you carry common parts on the truck?", "<p>We stock the wear items and consumables that cover most service calls. Major components are sourced quickly through our supplier network, and we will tell you the realistic lead time when we diagnose.</p>"],
+    ],
+    gallery: [
+      ["compressor-vintage-recip", "Older reciprocating air compressor with horizontal receiver tank in a plant"],
+      ["compressor-ingersoll-dryer", "Ingersoll Rand rotary screw compressor with refrigerated dryer and vertical tank"],
+      ["compressor-wall-retrofit", "Exterior wall-mounted compressed air retrofit with receiver and dryer"],
+    ],
+  },
+  {
+    path: "services/air-compressor-installation",
+    key: "air-compressor-installation",
+    parent: "services/air-compressor-services",
+    nav_title: "Air Compressor Installation",
+    card_title: "Air Compressor Installation",
+    title: "Air compressor installation",
+    icon: "layers",
+    cta: "Read more",
+    in_footer: false,
+    short: "New systems and replacements: sized, set, piped and commissioned as one complete scope.",
+    meta_title: "Air Compressor Installation | SC, GA & NC | BM Industrial Solutions",
+    meta_desc: "Complete air compressor installation: sizing, rigging, receivers, dryers, filtration and distribution piping. Serving SC, GA and NC. Call 843-401-9670.",
+    hero_photo: ["compressor-exterior-install", "Newly installed exterior compressed air system with vertical receiver, dryer and two compressors"],
+    lead: "A compressor installation is a piping and layout job as much as an equipment job. We do the whole scope, so there is no gap between the machine and the tool that uses it.",
+    intro: [
+      "We install complete compressed air systems: compressor, receiver, dryer, filtration, condensate management and the distribution piping that carries air to the point of use. If anything needs adjusting afterwards, you call the same crew that did the install.",
+      "Because we also do process piping and mechanical contracting, we are not handing off the hardest part of the job to somebody else. The pad, the rigging, the piping and the commissioning are all ours.",
+    ],
+    capabilities_title: "What an installation includes",
+    capabilities: [
+      "<strong>Demand assessment.</strong> Actual CFM and pressure requirements measured before equipment is specified.",
+      "<strong>Layout and siting.</strong> Ventilation, ambient temperature, service access, noise and future expansion.",
+      "<strong>Rigging and setting.</strong> Moving equipment into place, pads, isolation and anchoring.",
+      "<strong>Air treatment.</strong> Dryer and filtration selection matched to how dry your application actually needs the air.",
+      "<strong>Distribution piping.</strong> Correctly sized mains, drops taken from the top, isolation valves and drain points.",
+      "<strong>Commissioning.</strong> Start-up, pressure setting, drain and dryer verification, and a walk-through with your team.",
+    ],
+    splits: [
+      {
+        photo: ["compressor-rack-mounted-pair", "Two compressors mounted on structural racking above the plant floor"],
+        title: "Fitting new equipment into a plant that is already running",
+        body: "<p>Most installations are not greenfield. There is existing piping, an existing compressor doing the work until the day of the changeover, and a production schedule that cannot absorb a week of downtime.</p><p>We plan the cutover around your schedule, often over a weekend or a planned shutdown, and stage the work so the new system is piped, set and ready before the old one comes offline.</p>",
+        flip: true,
+      },
+    ],
+    faqs: [
+      ["How do you decide what size compressor we need?", "<p>By measuring. We look at your actual air consumption, the pressure you genuinely need at the tool, how your demand varies through a shift, and what your existing piping can carry. Oversizing is one of the most common and most expensive mistakes in compressed air.</p>"],
+      ["Do you handle the electrical work?", "<p>We handle the mechanical scope and coordinate closely with your electrician on disconnects, feeders and starters. If you do not have one, we can bring a licensed electrical contractor into the project.</p>"],
+      ["Can you install a compressor outdoors or in an enclosure?", "<p>Yes. We do exterior installations, wall-mounted retrofits and dedicated equipment enclosures where floor space inside is at a premium. Freeze protection and ventilation get designed in from the start.</p>"],
+      ["How much downtime should we plan for?", "<p>On a straight replacement where the new unit can be piped in ahead of time, changeover is often measured in hours rather than days. We will give you a realistic window during the site visit.</p>"],
+    ],
+    gallery: [
+      ["compressor-metal-trades-site", "Exterior compressed air equipment installation in progress at an industrial site"],
+      ["compressor-outdoor-canopy", "Two vertical tank compressors installed under an outdoor equipment canopy"],
+      ["compressor-warehouse-racking", "Rotary screw compressor installed in an active distribution warehouse"],
+    ],
+  },
+  {
+    path: "services/air-compressor-maintenance",
+    key: "air-compressor-maintenance",
+    parent: "services/air-compressor-services",
+    nav_title: "Air Compressor Maintenance",
+    card_title: "Air Compressor Maintenance",
+    title: "Air compressor maintenance",
+    icon: "settings",
+    cta: "Read more",
+    in_footer: false,
+    short: "Scheduled service built around your run hours. The cheapest compressed air you will ever buy.",
+    meta_title: "Air Compressor Maintenance & PM Service | BM Industrial Solutions",
+    meta_desc: "Scheduled air compressor maintenance across SC, GA and NC. Oil, separators, filters, dryers and drains on an interval matched to your run hours. Call 843-401-9670.",
+    hero_photo: ["compressor-clean-facility", "Well-maintained compressed air equipment and distribution piping in a clean industrial facility"],
+    lead: "Nearly every emergency compressor call we take was preventable. Maintenance is the difference between a scheduled two-hour visit and an unscheduled two-day shutdown.",
+    intro: [
+      "We service compressors on an interval built around your actual run hours, duty cycle and environment. A unit running two shifts in a dusty plant does not need the same schedule as one running intermittently in a clean shop.",
+      "Every visit is documented, so you know what was changed, what was measured and what is trending toward a problem before it becomes one.",
+    ],
+    capabilities_title: "On a maintenance visit",
+    capabilities: [
+      "<strong>Lubricant and separator.</strong> Oil change, separator element, oil filter and sample condition check.",
+      "<strong>Filtration.</strong> Inlet air filter, coalescing and particulate elements, differential pressure recorded.",
+      "<strong>Cooling.</strong> Cooler cleaning, thermostatic valve check, discharge temperature logged.",
+      "<strong>Air treatment.</strong> Dryer performance verified, dew point checked, drains tested and cleared.",
+      "<strong>Mechanical.</strong> Belts, couplings, mounts, fasteners, leak check around the package.",
+      "<strong>Reporting.</strong> Hours, pressures, temperatures and any developing issues written down and handed over.",
+    ],
+    splits: [
+      {
+        photo: ["piping-blue-process-lines", "Compressed air distribution piping with filtration vessels and isolation valves"],
+        title: "The cheapest air is the air you stop losing",
+        body: "<p class=\"lead\">Leaks are the single largest avoidable cost in most compressed air systems, and they get worse quietly.</p><p>As part of maintenance we walk the distribution system (fittings, drops, quick-connects, hose whips, regulators and dead legs) and tag what is leaking so it can be fixed while we are already on site.</p>",
+        flip: false,
+      },
+    ],
+    faqs: [
+      ["What interval should we be on?", "<p>It depends on run hours, ambient temperature, dust loading and the lubricant type. We set the interval from your actual conditions and adjust it as we see how the unit behaves. A generic annual schedule is usually either wasting money or missing failures.</p>"],
+      ["Do we have to sign an agreement?", "<p>No. You can book maintenance visit by visit. A <a href=\"/services/preventive-maintenance/\">preventive maintenance agreement</a> gets you scheduled visits and priority emergency response, but it is not a requirement for service.</p>"],
+      ["Will you service equipment you did not install?", "<p>Yes, on every major brand. We will document the condition we find it in on the first visit so there is a clear baseline.</p>"],
+      ["Can you maintain the dryer and drains too?", "<p>Yes, and you should. Most water-in-the-line complaints trace back to a failed drain or an undersized dryer. Air treatment is part of every maintenance visit we do.</p>"],
+    ],
+    gallery: [
+      ["compressor-guarded-rotary", "Rotary screw compressor and receiver tank maintained behind machine guarding"],
+      ["hydraulic-system-inspection", "Technician inspecting air treatment equipment during a scheduled maintenance visit"],
+      ["compressor-warehouse-racking", "Compressor package serviced in an operating distribution facility"],
+    ],
+  },
+  {
+    path: "services/hydraulics-services",
+    key: "hydraulics-services",
+    nav_title: "Hydraulics Services",
+    card_title: "Hydraulics",
+    title: "Industrial and mobile hydraulics",
+    icon: "hydraulic",
+    cta: "Explore",
+    short: "Cylinder, pump and hose repair for production equipment and heavy machinery, in the plant or in the field.",
+    meta_title: "Hydraulic Repair & Service | SC, GA & NC | BM Industrial Solutions",
+    meta_desc: "Hydraulic cylinder, pump, valve and hose repair for production equipment and heavy machinery across SC, GA and NC. Field service and 24/7 emergency. Call 843-401-9670.",
+    hero_photo: ["hydraulic-hose-bundle", "Hydraulic hose bundle and fittings on heavy mobile equipment"],
+    lead: "Hydraulics fail at the worst possible moment and usually in the least accessible place on the machine. We do this work in the field, on production equipment and on heavy machinery.",
+    intro: [
+      "We repair and maintain hydraulic systems on plant equipment (presses, balers, compactors, lifts, conveyors and machine tools) as well as mobile equipment including excavators, loaders, forklifts and haulers.",
+      "Most hydraulic failures are contamination failures wearing a different mask. When we repair a component we look at what killed it, because a new pump fed by dirty oil is a new pump with a short life.",
+    ],
+    capabilities_title: "What we handle",
+    capabilities: [
+      "<strong>Cylinders.</strong> Reseal, rod and gland service, barrel honing, rod replacement, pin and bushing repair.",
+      "<strong>Pumps and motors.</strong> Diagnosis, replacement and setup on gear, vane and piston units.",
+      "<strong>Hose and tube assemblies.</strong> Built and replaced on site, JIC, ORFS, NPT and metric fittings.",
+      "<strong>Valves and manifolds.</strong> Directional, relief and proportional valve troubleshooting and replacement.",
+      "<strong>Reservoirs and filtration.</strong> Cleaning, filter service, breathers, cooling and contamination control.",
+      "<strong>Diagnosis.</strong> Pressure and flow testing to locate the fault before anything comes apart.",
+    ],
+    splits: [
+      {
+        photo: ["hydraulic-field-repair", "Technician performing hydraulic repair on heavy equipment in the field"],
+        title: "We come to the machine",
+        body: "<p class=\"lead\">Heavy equipment does not travel well when the hydraulics are the reason it stopped.</p><p>We work on site, in your plant, on the yard or at the job, with the tooling to build hose assemblies, pull and reseal cylinders and test pressures where the machine sits.</p>",
+        flip: false,
+      },
+      {
+        photo: ["hydraulic-cylinder-fittings", "Hydraulic fittings and lines on an industrial cylinder"],
+        title: "Clean oil is the whole game",
+        body: "<p>Particle contamination is behind the majority of hydraulic component failures. It wears pump and motor clearances, erodes valve spools, scores cylinder bores and cuts seals.</p>",
+        extra_ticks: [
+          "Filters and breathers serviced on a set interval.",
+          "Reservoirs cleaned when a major component is replaced.",
+          "New assemblies flushed before they go into service.",
+        ],
+        flip: true,
+      },
+    ],
+    faqs: [
+      ["Do you work on mobile equipment as well as plant equipment?", "<p>Both. Production hydraulics inside a plant and mobile hydraulics on excavators, loaders, forklifts and haulers are the same fundamentals, and we service both in the field.</p>"],
+      ["Can you make hose assemblies on site?", "<p>Yes. We build hose assemblies in the field with the common fitting types, so a blown hose does not mean waiting on a supplier the next morning.</p>"],
+      ["Can a cylinder be repaired or does it need replacing?", "<p>Most cylinders are repairable. Seals, glands, rods and bushings are all serviceable, and a rod can often be replaced far more cheaply than the whole assembly. If the barrel is badly scored or the mounting is damaged, we will tell you when replacement is the better spend.</p>"],
+      ["Our system keeps failing in the same place. Why?", "<p>Repeat failures in the same component almost always point to something upstream: contamination, a relief valve set wrong, heat, aeration or a mechanical alignment problem loading the cylinder sideways. We chase down the cause so the repair holds.</p>"],
+    ],
+    gallery: [
+      ["hydraulic-hauler-service", "Hydraulic service on an articulated hauler in the field"],
+      ["hydraulic-forklift-service", "Field hydraulic repair on heavy lifting equipment"],
+      ["hydraulic-system-inspection", "Hydraulic and air system inspection inside a commercial facility"],
+    ],
+    children: [
+      "services/hydraulics-repair",
+      "services/hydraulics-maintenance",
+    ],
+  },
+  {
+    path: "services/hydraulics-repair",
+    key: "hydraulics-repair",
+    parent: "services/hydraulics-services",
+    nav_title: "Hydraulics Repair",
+    card_title: "Hydraulic Repair",
+    title: "Hydraulic repair",
+    icon: "wrench",
+    cta: "Read more",
+    in_footer: false,
+    short: "Cylinders, pumps, valves and hose failures diagnosed and repaired on site.",
+    meta_title: "Hydraulic Repair Services | Field Service | BM Industrial Solutions",
+    meta_desc: "On-site hydraulic repair for cylinders, pumps, motors, valves and hose assemblies on plant and mobile equipment across SC, GA and NC. Call 843-401-9670.",
+    hero_photo: ["hydraulic-hauler-service", "Hydraulic repair work being carried out on heavy equipment"],
+    lead: "A hydraulic failure is rarely just the part that broke. We repair the component and identify what caused it, so the same failure does not come back next quarter.",
+    intro: [
+      "We repair hydraulic systems on production equipment and heavy machinery, in the plant, in the yard or on the job site. Emergency calls are covered 24 hours a day.",
+      "Diagnosis comes first. Pressure and flow testing tells us whether we are looking at a pump, a relief setting, an internal leak past a cylinder seal or a control problem, before anything gets disassembled.",
+    ],
+    capabilities_title: "Common repairs",
+    capabilities: [
+      "<strong>Cylinder reseal and rebuild.</strong> Leaking rod seals, drifting cylinders, scored rods and worn glands.",
+      "<strong>Pump and motor replacement.</strong> Noise, cavitation, loss of pressure and loss of flow.",
+      "<strong>Blown hose and tube failures.</strong> Replaced on site with correctly rated assemblies.",
+      "<strong>Valve faults.</strong> Sticking spools, incorrect relief settings, solenoid and pilot problems.",
+      "<strong>Overheating.</strong> Cooler condition, oil condition, internal bypass and reservoir capacity.",
+      "<strong>Contamination cleanup.</strong> Flushing, filter service and reservoir cleaning after a component failure.",
+    ],
+    faqs: [
+      ["Can you get to us the same day?", "<p>For breakdowns, usually. We run 24/7 emergency coverage. Call <a href=\"tel:+18434019670\">843-401-9670</a> and we will tell you honestly when we can be there.</p>"],
+      ["Do you need the machine brought to a shop?", "<p>Almost never. We are set up to work on site, including building hose assemblies and pulling cylinders where the equipment sits.</p>"],
+      ["What causes a cylinder to drift down under load?", "<p>Usually internal leakage past the piston seal, though it can also be a holding valve or a leaking directional valve. Testing tells the difference quickly, and the fix is very different in each case.</p>"],
+    ],
+    gallery: [
+      ["hydraulic-hose-bundle", "Hydraulic hose bundle on heavy mobile equipment"],
+      ["hydraulic-cylinder-fittings", "Hydraulic cylinder fittings and connections"],
+      ["hydraulic-forklift-service", "Technicians performing hydraulic repair on lifting equipment"],
+    ],
+  },
+  {
+    path: "services/hydraulics-maintenance",
+    key: "hydraulics-maintenance",
+    parent: "services/hydraulics-services",
+    nav_title: "Hydraulics Maintenance",
+    card_title: "Hydraulic Maintenance",
+    title: "Hydraulic maintenance",
+    icon: "settings",
+    cta: "Read more",
+    in_footer: false,
+    short: "Oil, filtration and inspection intervals that keep hydraulic components from dying young.",
+    meta_title: "Hydraulic Maintenance & Fluid Service | BM Industrial Solutions",
+    meta_desc: "Scheduled hydraulic maintenance: oil and filter service, contamination control, hose inspection and pressure verification across SC, GA and NC. Call 843-401-9670.",
+    hero_photo: ["hydraulic-system-inspection", "Scheduled hydraulic system inspection inside a commercial facility"],
+    lead: "Hydraulic components fail from heat, contamination and pressure settings nobody has checked in five years. Scheduled maintenance finds each of these before it costs you a pump.",
+    intro: [
+      "Scheduled hydraulic maintenance is inexpensive compared with a pump replacement, and far cheaper than the production hours a failure takes with it.",
+      "We build the interval around duty cycle and environment, and we document what we find so you can see components trending toward trouble.",
+    ],
+    capabilities_title: "On a maintenance visit",
+    capabilities: [
+      "<strong>Fluid service.</strong> Oil condition assessment, changes on interval, correct grade verified.",
+      "<strong>Filtration.</strong> Element changes, breather service, bypass indicator checks.",
+      "<strong>Hose inspection.</strong> Abrasion, routing, bend radius, age and fitting condition.",
+      "<strong>Pressure verification.</strong> Relief and system settings checked against specification.",
+      "<strong>Temperature and cooling.</strong> Cooler condition, fan operation, running temperature logged.",
+      "<strong>Leak and cylinder check.</strong> Rod seals, glands, fittings and mounting condition.",
+    ],
+    faqs: [
+      ["How often should hydraulic oil be changed?", "<p>By condition wherever possible. Duty cycle, operating temperature and how well the reservoir is sealed against ingress matter far more than elapsed months. We will set a sensible starting interval and refine it.</p>"],
+      ["Is hydraulic maintenance worth it on older equipment?", "<p>Particularly on older equipment. Components are harder to source and more expensive when they fail, which raises the value of preventing it.</p>"],
+      ["Can hydraulic maintenance be combined with our compressor visits?", "<p>Yes, and it usually should be. Combining them means a single visit and a single invoice, which is the main reason customers use us for both.</p>"],
+    ],
+    gallery: [
+      ["hydraulic-cylinder-fittings", "Hydraulic cylinder fittings inspected during scheduled maintenance"],
+      ["hydraulic-hauler-service", "Mobile equipment hydraulic maintenance in the field"],
+      ["mechanical-panel-wiring", "Control panel and system inspection during a maintenance visit"],
+    ],
+  },
+  {
+    path: "services/mechanical-contracting",
+    key: "mechanical-contracting",
+    nav_title: "Mechanical Contracting",
+    card_title: "Mechanical Contracting",
+    title: "Mechanical contracting and equipment installation",
+    icon: "truck",
+    cta: "Explore",
+    short: "Equipment installation, relocation, rigging and mechanical repair. The work that gets machinery in place and running.",
+    meta_title: "Mechanical Contracting & Equipment Installation | BM Industrial Solutions",
+    meta_desc: "Industrial equipment installation, relocation, rigging and mechanical repair across SC, GA and NC. Owner-operated, 24/7 response. Call 843-401-9670.",
+    hero_photo: ["rigging-vessel-lift", "Crane rigging a large pressure vessel for installation at an industrial site"],
+    lead: "Machinery has to be moved, set, aligned, connected and commissioned before it makes anything. That is the part we do.",
+    intro: [
+      "We install, relocate and repair industrial equipment: compressors, pumps, tanks and vessels, conveyors, gearboxes, dust collection and production machinery. Rigging, setting, mechanical connection and commissioning are all in scope.",
+      "Plant relocations and line moves are where having one contractor matters most. Disconnecting, moving, resetting and re-piping a line involves too many handoffs when it is split between three vendors.",
+    ],
+    capabilities_title: "What we handle",
+    capabilities: [
+      "<strong>Equipment installation.</strong> Setting, levelling, anchoring, baseplates and isolation.",
+      "<strong>Rigging and machinery moving.</strong> Cranes, telehandlers, forklifts and skates for equipment up to heavy vessel scale.",
+      "<strong>Plant relocations.</strong> Disconnect, move, reset and reconnect production lines and support equipment.",
+      "<strong>Mechanical repair.</strong> Pumps, gearboxes, drives, couplings, bearings and conveyor components.",
+      "<strong>Fabrication.</strong> Welding, cutting and structural steel work in support of installations.",
+      "<strong>Coordination.</strong> Working alongside your electrical, controls and facilities trades to close out the whole job.",
+    ],
+    splits: [
+      {
+        photo: ["rigging-telehandler-container", "Telehandler positioning equipment beside a shipping container at an industrial yard"],
+        title: "Getting it in the door is half the job",
+        body: "<p class=\"lead\">Access is usually the hard constraint: a doorway, a roof height, a floor loading limit or a machine that has to travel past equipment that cannot be moved.</p><p>We plan the lift and the route before anything is picked, and we bring the equipment the pick calls for.</p>",
+        flip: false,
+      },
+      {
+        photo: ["fabrication-welding-shop", "Welding and fabrication work supporting an industrial equipment installation"],
+        title: "Steel work that supports the install",
+        body: "<p>Installations rarely fit the space exactly as drawn. Stands, frames, supports, guarding, platforms and brackets get fabricated as part of the job, so the equipment ends up properly supported.</p>",
+        flip: true,
+      },
+    ],
+    faqs: [
+      ["Do you do plant relocations?", "<p>Yes. Disconnecting, moving, resetting and reconnecting equipment, including the compressed air and process piping that supports it. Having one contractor across the whole scope removes most of the coordination risk.</p>"],
+      ["Can you work around our production schedule?", "<p>Most of our installation work happens on weekends, night shifts or planned shutdowns. We plan the sequence so that the disruptive portion fits the window you have.</p>"],
+      ["What size equipment can you handle?", "<p>From small pumps and skids up to large tanks and vessels requiring crane work. If a lift is outside what we can safely handle, we will say so and bring in a rigging partner who can.</p>"],
+      ["Do you handle the electrical connections?", "<p>We cover the mechanical scope and coordinate the electrical work with your electrician or a licensed electrical contractor we bring in. You still deal with one point of contact.</p>"],
+    ],
+    gallery: [
+      ["rigging-forklift-equipment", "Forklift moving large mechanical equipment inside a plant"],
+      ["mechanical-equipment-install", "Newly installed mechanical equipment with control stand"],
+      ["mechanical-blue-equipment", "Industrial equipment installation with electrical panel connection"],
+      ["fabrication-torch-cutting", "Torch cutting during structural steel fabrication"],
+      ["mechanical-panel-wiring", "Control panel wiring during equipment commissioning"],
+      ["service-truck-trailer", "Service truck and equipment trailer at a job site"],
+    ],
+  },
+  {
+    path: "services/process-piping",
+    key: "process-piping",
+    nav_title: "Process Piping",
+    card_title: "Process Piping",
+    title: "Process piping fabrication and installation",
+    icon: "pipe",
+    cta: "Explore",
+    short: "Compressed air, water and industrial process lines, fabricated and installed so pressure gets where it is needed.",
+    meta_title: "Process Piping & Compressed Air Piping | BM Industrial Solutions",
+    meta_desc: "Process piping fabrication and installation for compressed air, water and industrial lines across SC, GA and NC. Call 843-401-9670.",
+    hero_photo: ["piping-blue-process-lines", "Industrial process piping with isolation valves and filtration vessels"],
+    lead: "You can buy the right compressor and still starve the far end of the plant. Piping is where compressed air systems are usually won or lost.",
+    intro: [
+      "We fabricate and install process piping for compressed air, water and industrial process lines: new distribution systems, extensions to existing plants, and replacement of piping that has quietly become the bottleneck.",
+      "Undersized mains, long runs of small-bore pipe, drops taken from the bottom of the header and decades of accumulated tees all cost pressure. We size the system for the flow it actually carries and lay it out so it can be isolated, drained and extended later.",
+    ],
+    capabilities_title: "What we handle",
+    capabilities: [
+      "<strong>Compressed air distribution.</strong> Mains, headers, drops, isolation valves and point-of-use connections.",
+      "<strong>Water and process lines.</strong> Cooling water, wash-down and general industrial process piping.",
+      "<strong>Pipe fabrication.</strong> Cutting, threading, welding and assembly for the run as it is actually installed.",
+      "<strong>System extensions.</strong> Adding capacity or new drops to a plant that is still operating.",
+      "<strong>Condensate management.</strong> Drip legs, drain points and drains that actually discharge.",
+      "<strong>Supports and routing.</strong> Hangers, supports and routing planned around existing plant services.",
+    ],
+    splits: [
+      {
+        photo: ["piping-air-lines-lighting", "Overhead compressed air lines and lighting installed through a warehouse"],
+        title: "Pressure drop is a design problem",
+        body: "<p class=\"lead\">If your compressor discharges at 110 PSI and your tool sees 78, you are paying to compress air that never reaches the work.</p><p>Correct main sizing, drops taken from the top of the header, generous radius at direction changes and sensibly placed isolation valves recover pressure you already paid for, usually for far less than a bigger compressor.</p>",
+        flip: false,
+      },
+      {
+        photo: ["piping-conduit-install", "Compressed air lines and electrical conduit installed together through a facility"],
+        title: "Air, conduit and lighting on one pass",
+        body: "<p>Overhead work costs what it costs because of the access. When air lines, conduit and lighting are installed together, you pay for the lift once.</p><p>We routinely run compressed air distribution alongside facility work so the whole overhead scope gets closed out in a single mobilisation.</p>",
+        flip: true,
+      },
+    ],
+    faqs: [
+      ["What pipe material do you use for compressed air?", "<p>It depends on the application, the pressure and what is already in the plant. We will walk through the trade-offs (cost, corrosion, future modification and installation time) and recommend accordingly, job by job.</p>"],
+      ["Can you extend our existing system without shutting the plant down?", "<p>Usually yes. A properly valved system can be extended live in sections. Where the existing piping has no isolation, we often add it as part of the work so future changes do not require a shutdown.</p>"],
+      ["We keep getting water at the tools. Is that a piping problem?", "<p>Sometimes. It can be a dryer that is undersized or failed, drains that are not discharging, or piping that has no drip legs and no fall. We diagnose the whole system before calling it.</p>"],
+      ["Do you do the compressor and the piping, or just one?", "<p>Both, and that is the point. When the same contractor sizes the compressor and installs the distribution, nobody gets to blame the other half of the system.</p>"],
+    ],
+    gallery: [
+      ["piping-exterior-enclosure", "Exterior mechanical enclosure with process piping connections"],
+      ["facility-lighting-install", "Overhead facility installation with new lighting and services"],
+      ["facility-warehouse-beams", "Warehouse air system and lighting installation in progress"],
+      ["piping-white-conduit-room", "Clean conduit and piping installation in a finished equipment room"],
+      ["facility-lighting-lifts", "Lifts positioned for overhead piping and lighting installation"],
+      ["compressor-clean-facility", "Finished compressed air distribution piping in a clean facility"],
+    ],
+  },
+  {
+    path: "services/preventive-maintenance",
+    key: "preventive-maintenance",
+    nav_title: "Preventive Maintenance",
+    card_title: "Preventive Maintenance",
+    title: "Preventive maintenance agreements",
+    icon: "shield",
+    cta: "Explore",
+    short: "Scheduled inspections across your compressed air, hydraulic and mechanical equipment, with priority emergency response.",
+    meta_title: "Preventive Maintenance Agreements | BM Industrial Solutions",
+    meta_desc: "Preventive maintenance agreements covering compressed air, hydraulics and mechanical equipment, with priority 24/7 emergency response. SC, GA and NC. Call 843-401-9670.",
+    hero_photo: ["compressor-matched-pair", "Well-maintained compressed air equipment under a preventive maintenance agreement"],
+    lead: "A preventive maintenance agreement buys two things: equipment that fails less often, and a place at the front of the queue on the day something fails anyway.",
+    intro: [
+      "We build agreements around what you actually run: compressed air, hydraulics, and the mechanical equipment that supports production. Visits are scheduled on your intervals and documented every time.",
+      "Agreement customers get priority emergency response. When two plants call at the same time on a Sunday morning, the agreement decides who we get to first, and that is worth more than the agreement usually costs.",
+    ],
+    capabilities_title: "What an agreement covers",
+    capabilities: [
+      "<strong>Scheduled visits.</strong> Intervals set by run hours and environment, booked ahead so they actually happen.",
+      "<strong>Documented inspections.</strong> Pressures, temperatures, hours and condition recorded each visit.",
+      "<strong>Priority emergency response.</strong> Agreement customers go to the front of the queue, 24/7.",
+      "<strong>Consumables planning.</strong> Filters, separators, oil and elements ordered ahead of the visit.",
+      "<strong>Budget visibility.</strong> Developing problems flagged early enough to plan the spend.",
+      "<strong>One vendor.</strong> Air, hydraulics and mechanical equipment on a single schedule and a single invoice.",
+    ],
+    splits: [
+      {
+        photo: ["compressor-controller-panel", "Compressor controller readings recorded during a documented maintenance visit"],
+        title: "A written record you can actually use",
+        body: "<p>Every visit leaves you with what was checked, what was changed, what the numbers were, and what is trending. That record is what turns an unexpected failure into a planned replacement three months out.</p>",
+        flip: true,
+      },
+    ],
+    faqs: [
+      ["What does an agreement cost?", "<p>It depends on how much equipment is covered and how often it needs attention. We quote after a site walk, because pricing an agreement without seeing the equipment is guesswork.</p>"],
+      ["Are we locked in?", "<p>Agreements are built to fit the customer. We will talk through terms that make sense for your operation.</p>"],
+      ["Does the agreement include parts?", "<p>That is one of the things we scope with you. Some customers want consumables included for predictable budgeting; others prefer labour-only with parts billed as used.</p>"],
+      ["Can you cover equipment across more than one site?", "<p>Yes. We run field service across South Carolina, Georgia and North Carolina, and multi-site agreements are straightforward to schedule.</p>"],
+    ],
+    gallery: [
+      ["compressor-dual-system", "Dual compressor installation covered by a preventive maintenance agreement"],
+      ["hydraulic-system-inspection", "Hydraulic and air system inspection during a scheduled visit"],
+      ["compressor-clean-facility", "Maintained compressed air system in an operating plant"],
+    ],
+  },
+];
+
+export const PILLARS = [
+  "services/air-compressor-services",
+  "services/hydraulics-services",
+  "services/mechanical-contracting",
+  "services/process-piping",
+];
+
+export const NAV: NavItem[] = [
+  {
+    key: "services",
+    label: "Services",
+    path: "services",
+    children: [
+      {
+        label: "Air Compressor Systems",
+        path: "services/air-compressor-services",
+        blurb: "Repair, installation and maintenance",
+      },
+      {
+        label: "Hydraulics",
+        path: "services/hydraulics-services",
+        blurb: "Cylinders, pumps, hoses and valves",
+      },
+      {
+        label: "Mechanical Contracting",
+        path: "services/mechanical-contracting",
+        blurb: "Installation, relocation and rigging",
+      },
+      {
+        label: "Process Piping",
+        path: "services/process-piping",
+        blurb: "Compressed air, water and process lines",
+      },
+      {
+        label: "Preventive Maintenance",
+        path: "services/preventive-maintenance",
+        blurb: "Scheduled visits, priority response",
+      },
+    ],
+  },
+  {
+    key: "service-areas",
+    label: "Service Areas",
+    path: "service-areas",
+    children: [
+      {
+        label: "Charleston, SC",
+        path: "service-areas/charleston-sc",
+        blurb: "Port, marine and manufacturing",
+      },
+      {
+        label: "North Charleston, SC",
+        path: "service-areas/north-charleston-sc",
+        blurb: "Aerospace and heavy industry",
+      },
+      {
+        label: "Summerville, SC",
+        path: "service-areas/summerville-sc",
+        blurb: "Automotive and distribution",
+      },
+      {
+        label: "Columbia, SC",
+        path: "service-areas/columbia-sc",
+        blurb: "Midlands manufacturing and logistics",
+      },
+      {
+        label: "Greenville, SC",
+        path: "service-areas/greenville-sc",
+        blurb: "Upstate manufacturing corridor",
+      },
+      {
+        label: "Sumter, SC",
+        path: "service-areas/sumter-sc",
+        blurb: "Manufacturing and agriculture",
+      },
+    ],
+  },
+  {
+    key: "about",
+    label: "About",
+    path: "about",
+  },
+  {
+    key: "contact",
+    label: "Contact",
+    path: "contact",
+  },
+];
+
+export const AREAS: Area[] = [
+  {
+    path: "service-areas/charleston-sc",
+    key: "charleston-sc",
+    city: "Charleston",
+    state: "SC",
+    meta: "Port, marine and manufacturing",
+    distance: "About 50 miles from our base in Holly Hill",
+    meta_title: "Industrial Services in Charleston, SC | BM Industrial Solutions",
+    meta_desc: "Air compressor repair, hydraulics, mechanical contracting and process piping in Charleston, SC. 24/7 emergency response. Call 843-401-9670.",
+    photo: ["compressor-metal-trades-site", "Industrial compressed air installation at a facility in the Charleston area"],
+    intro: [
+      "Charleston runs on a mix of port logistics, marine and shipyard work, cold storage, food production and general manufacturing. These are operations where compressed air and hydraulics carry real production load.",
+      "We cover Charleston with the same four service lines we run everywhere else: air compressors, hydraulics, mechanical contracting and process piping. You reach the same contractor for all of it, at any hour.",
+    ],
+    local: [
+      "Coastal humidity is hard on compressed air systems. Undersized or neglected dryers show up here as water at the tool far more often than they do inland.",
+      "Salt air accelerates corrosion on outdoor installations, receiver tanks and exposed piping, which is worth factoring into both material choice and inspection interval.",
+      "Port-adjacent operations often run around the clock, which is exactly why 24/7 emergency coverage matters more here than on a single-shift site.",
+    ],
+  },
+  {
+    path: "service-areas/north-charleston-sc",
+    key: "north-charleston-sc",
+    city: "North Charleston",
+    state: "SC",
+    meta: "Aerospace and heavy industry",
+    distance: "About 42 miles from our base in Holly Hill",
+    meta_title: "Industrial Services in North Charleston, SC | BM Industrial Solutions",
+    meta_desc: "Air compressor service, hydraulic repair, mechanical contracting and process piping in North Charleston, SC. 24/7 emergency. Call 843-401-9670.",
+    photo: ["compressor-warehouse-system", "Compressed air system serving a manufacturing facility in the North Charleston industrial corridor"],
+    intro: [
+      "North Charleston carries a dense concentration of aerospace, heavy manufacturing, distribution and industrial park tenants, and a corresponding density of compressed air systems, hydraulic equipment and production machinery that has to keep moving.",
+      "We service the corridor across all four of our lines, from single-compressor shops to multi-unit plants running continuous shifts.",
+    ],
+    local: [
+      "Multi-unit compressor rooms are common here, and sequencing between units is one of the most frequently misconfigured things we find.",
+      "Distribution and warehouse operations often expand faster than their compressed air piping does. The plant grows, the mains do not.",
+      "Continuous-shift facilities need service scheduled around production, which is why most of our installation work here happens on weekends and planned shutdowns.",
+    ],
+  },
+  {
+    path: "service-areas/summerville-sc",
+    key: "summerville-sc",
+    city: "Summerville",
+    state: "SC",
+    meta: "Automotive and distribution",
+    distance: "About 32 miles from our base in Holly Hill",
+    meta_title: "Industrial Services in Summerville, SC | BM Industrial Solutions",
+    meta_desc: "Air compressor repair, hydraulics, mechanical contracting and process piping in Summerville, SC. 24/7 emergency response. Call 843-401-9670.",
+    photo: ["compressor-clean-facility", "Compressed air equipment installed in a modern facility in the Summerville area"],
+    intro: [
+      "Summerville sits in the middle of the automotive and distribution growth that has reshaped the Lowcountry. Supplier plants, warehousing and light manufacturing, much of it in buildings newer than the equipment inside them.",
+      "It is also one of the closest major markets to our base in Holly Hill, which makes response times here about as short as we run anywhere.",
+    ],
+    local: [
+      "Newer facilities frequently inherit compressed air systems sized for whoever occupied the building first.",
+      "Automotive supply work runs to tight schedules, so unplanned air or hydraulic downtime propagates quickly down the line.",
+      "At roughly half an hour out, Summerville is among the fastest areas for us to reach on an emergency call.",
+    ],
+  },
+  {
+    path: "service-areas/columbia-sc",
+    key: "columbia-sc",
+    city: "Columbia",
+    state: "SC",
+    meta: "Midlands manufacturing and logistics",
+    distance: "About 48 miles from our base in Holly Hill",
+    meta_title: "Industrial Services in Columbia, SC | BM Industrial Solutions",
+    meta_desc: "Air compressor service, hydraulic repair, mechanical contracting and process piping in Columbia, SC and the Midlands. Call 843-401-9670.",
+    photo: ["compressor-dual-system", "Dual compressor installation at a Midlands manufacturing facility"],
+    intro: [
+      "The Midlands combine manufacturing, distribution, food processing and institutional facilities, which makes for a broad mix of compressed air demands, from clean dry air for packaging to general shop air for maintenance.",
+      "Columbia is a straight run from Holly Hill and a regular part of our service territory across all four lines.",
+    ],
+    local: [
+      "Food and packaging operations have far tighter air quality requirements than general manufacturing, so filtration and dryer selection matter more here.",
+      "Institutional and campus facilities often run ageing reciprocating compressors well past the point where a rebuild-versus-replace conversation is worth having.",
+      "Distribution centres tend to have long piping runs where pressure drop becomes the real constraint.",
+    ],
+  },
+  {
+    path: "service-areas/greenville-sc",
+    key: "greenville-sc",
+    city: "Greenville",
+    state: "SC",
+    meta: "Upstate manufacturing corridor",
+    distance: "Upstate field service, scheduled ahead",
+    meta_title: "Industrial Services in Greenville, SC | BM Industrial Solutions",
+    meta_desc: "Air compressor, hydraulic, mechanical contracting and process piping services in Greenville, SC and the Upstate. Call 843-401-9670.",
+    photo: ["compressor-recip-and-rotary", "Reciprocating and rotary screw compressors at an Upstate manufacturing plant"],
+    intro: [
+      "The Upstate is the densest manufacturing corridor in South Carolina: automotive supply, machine shops, textiles, plastics and precision manufacturing, almost all of it dependent on reliable compressed air and hydraulics.",
+      "Greenville is a scheduled field service market for us. Installations, planned maintenance and project work are booked ahead so we arrive with the right parts and enough time to finish.",
+    ],
+    local: [
+      "Machine shops and precision manufacturers often need drier air than their existing treatment can deliver.",
+      "Automotive supply plants run high-duty-cycle compressors where maintenance interval discipline pays back fastest.",
+      "The Upstate is a scheduled market for us, so planning ahead matters. A preventive maintenance agreement is the practical way to stay ahead of failures here.",
+    ],
+  },
+  {
+    path: "service-areas/sumter-sc",
+    key: "sumter-sc",
+    city: "Sumter",
+    state: "SC",
+    meta: "Manufacturing and agriculture",
+    distance: "About 45 miles from our base in Holly Hill",
+    meta_title: "Industrial Services in Sumter, SC | BM Industrial Solutions",
+    meta_desc: "Air compressor repair, hydraulics, mechanical contracting and process piping in Sumter, SC. 24/7 emergency response. Call 843-401-9670.",
+    photo: ["compressor-outdoor-canopy", "Compressed air equipment installed under an outdoor canopy at a Sumter area facility"],
+    intro: [
+      "Sumter combines established manufacturing with heavy agricultural and equipment operations, a mix where mobile hydraulics matter as much as plant compressed air.",
+      "It is well inside our regular service radius, and we cover it across all four lines.",
+    ],
+    local: [
+      "Agricultural and equipment operations mean more mobile hydraulic work: cylinders, hoses and pumps repaired on site.",
+      "Dusty environments shorten compressor filter and cooler service intervals considerably compared with a clean plant.",
+      "Seasonal peaks make scheduled maintenance ahead of the busy period far more valuable than reactive repair during it.",
+    ],
+  },
+];
+
+export const EXTENDED_AREAS: [string, string][] = [
+  ["Spartanburg", "SC"],
+  ["Aiken", "SC"],
+  ["Augusta", "GA"],
+  ["Savannah", "GA"],
+  ["Charlotte", "NC"],
+];
+
+export const SERVICE_BY_SLUG: Record<string, Service> = Object.fromEntries(SERVICES.map((s) => [s.path, s]));
+export const AREA_BY_SLUG: Record<string, Area> = Object.fromEntries(AREAS.map((a) => [a.path, a]));

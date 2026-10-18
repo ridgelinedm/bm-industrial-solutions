@@ -1,0 +1,18 @@
+---
+// One colour-blocked panel. `title` and `body` may contain inline HTML.
+import Icon from "./Icon.astro";
+import Photo from "./Photo.astro";
+import { url, stripTags } from "../lib/site";
+import type { Photo as PhotoT } from "../data/content";
+export interface BentoSpec {
+  path?: string; aria?: string; title: string; body: string; cta?: string;
+  span?: 1 | 2; surface?: "ink" | "red" | "bone" | "mist" | "photo";
+  media?: PhotoT; photo?: PhotoT;
+}
+interface Props { spec: BentoSpec }
+const { spec } = Astro.props;
+const surface = spec.surface ?? "bone";
+const classes = ["bento__card", `bento__card--w${spec.span ?? 1}`, `bento__card--${surface}`, "reveal"];
+if (spec.media) classes.push("has-media");
+---
+<article class={classes.join(" ")}>{spec.path && <a class="hit" href={url(spec.path)} aria-label={spec.aria || stripTags(spec.title)}></a>}{surface === "photo" && spec.photo && <div class="bento__bg"><Photo slug={spec.photo[0]} alt={spec.photo[1]} sizes="(max-width: 680px) 100vw, 55vw" /></div>}<div class="bento__body"><h3 class="bento__title" set:html={spec.title} /><p set:html={spec.body} />{spec.cta && <div class="bento__cta"><span class="arrow-link">{spec.cta} <Icon name="arrow" size={16} /></span></div>}</div>{spec.media && <div class="bento__media"><Photo slug={spec.media[0]} alt={spec.media[1]} sizes="(max-width: 680px) 100vw, 32vw" /></div>}</article>

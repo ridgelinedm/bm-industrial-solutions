@@ -1,0 +1,9 @@
+---
+import { url } from "../lib/site";
+// trail: [label, path or null]; null marks the current page.
+interface Props { trail: [string, string | null][] }
+const { trail } = Astro.props;
+---
+<nav aria-label="Breadcrumb"><ol class="crumbs">{trail.map(([label, path]) => path === null
+  ? <li><span aria-current="page">{label}</span></li>
+  : <li><a href={url(path)}>{label}</a></li>)}</ol></nav>

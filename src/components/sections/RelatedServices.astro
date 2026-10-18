@@ -1,0 +1,31 @@
+---
+// The other service lines as a photo-led list: one large row per service,
+// the whole row a link. Replaces a row of identical icon cards.
+import SectionHead from "../SectionHead.astro";
+import Photo from "../Photo.astro";
+import Icon from "../Icon.astro";
+import { PILLARS, SERVICE_BY_SLUG } from "../../data/content";
+import { url } from "../../lib/site";
+interface Props { current: string; heading?: string }
+const { current, heading = "Other services" } = Astro.props;
+const others = PILLARS.filter((p) => p !== current).slice(0, 3).map((p) => SERVICE_BY_SLUG[p]);
+---
+{others.length > 0 && (
+<section class="section section--alt">
+  <div class="container">
+    <SectionHead title={heading} lead="Most of our customers started with one of these and later moved the rest of their work to us, so a breakdown means a call to the same team." />
+    <ul class="related reveal">{others.map((s) => (
+      <li>
+        <a class="related__row" href={url(s.path)}>
+          <span class="related__media"><Photo slug={s.hero_photo[0]} alt="" sizes="(max-width: 700px) 30vw, 240px" /></span>
+          <span class="related__text">
+            <span class="related__title">{s.card_title}</span>
+            <span class="related__body" set:html={s.short} />
+          </span>
+          <span class="related__go"><Icon name="arrow" size={20} /></span>
+        </a>
+      </li>
+    ))}</ul>
+  </div>
+</section>
+)}

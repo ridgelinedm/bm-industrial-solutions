@@ -1,0 +1,91 @@
+---
+// One page per entry in AREAS (src/data/content.ts).
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import Photo from "../../components/Photo.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import Ticks from "../../components/Ticks.astro";
+import AreasGrid from "../../components/AreasGrid.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+import ServicesShowcase from "../../components/sections/ServicesShowcase.astro";
+import EmergencyBand from "../../components/sections/EmergencyBand.astro";
+import { AREAS, COMPANY, type Area } from "../../data/content";
+import { url, canonical, SITE_URL } from "../../lib/site";
+import { breadcrumbSchema } from "../../lib/schema";
+
+export function getStaticPaths() {
+  return AREAS.map((a) => ({ params: { slug: a.path.replace(/^service-areas\//, "") }, props: { a } }));
+}
+
+const { a } = Astro.props as { a: Area };
+const trail: [string, string | null][] = [["Home", ""], ["Service Areas", "service-areas"], [`${a.city}, ${a.state}`, null]];
+const others = AREAS.filter((x) => x.path !== a.path);
+const schemas = [
+  breadcrumbSchema(trail),
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: `Industrial services in ${a.city}, ${a.state}`,
+    url: canonical(a.path),
+    description: a.meta_desc,
+    provider: { "@id": SITE_URL + "/#business" },
+    areaServed: { "@type": "City", name: a.city, addressRegion: a.state },
+  },
+];
+---
+<Base title={a.meta_title} description={a.meta_desc} path={a.path} active="service-areas" schemas={schemas}>
+
+<section class="pagehero">
+  <div class="container">
+    <div class="pagehero__inner">
+      <Crumbs trail={trail} />
+      <p class="eyebrow">{a.distance}</p>
+      <h1 class="display-1">Industrial services in {a.city}, {a.state}</h1>
+      <p class="lead">Air compressors, hydraulics, mechanical contracting and process piping. Owner-operated, with 24/7 emergency response across the {a.city} area.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--lg" href={url("contact")}>Request a Quote</a>
+        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="split reveal">
+      <div class="split__media"><Photo slug={a.photo[0]} alt={a.photo[1]} sizes="(max-width: 860px) 100vw, 45vw" loading="eager" /></div>
+      <div class="split__copy">
+        <h2 class="display-3">What we do here</h2>
+        <div class="prose">{a.intro.map((p) => <p set:html={p} />)}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ServicesShowcase
+  title={`Every service, available in ${a.city}`}
+  lead="The full scope travels with us. No sub-contracting the parts of the job that are inconvenient." />
+
+<section class="section section--tint">
+  <div class="container container--narrow">
+    <SectionHead title={"What tends to matter in " + a.city}
+      lead="Every market has its own failure patterns. These are the ones we see most around here." />
+    <div class="reveal"><Ticks items={a.local} /></div>
+  </div>
+</section>
+
+<EmergencyBand />
+
+<section class="section section--alt">
+  <div class="container">
+    <SectionHead title="Other areas we cover"
+      lead="Multi-site operations are straightforward for us to schedule, with one contractor across every location." />
+    <AreasGrid items={others} />
+  </div>
+</section>
+
+<CtaPanel
+  title={`Need a technician in ${a.city}?`}
+  lead="Tell us the equipment and the symptom. If it is down right now, call. The emergency line runs 24 hours a day." />
+</Base>

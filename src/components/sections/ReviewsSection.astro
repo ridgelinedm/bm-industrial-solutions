@@ -1,0 +1,40 @@
+---
+// Google reviews imported by _build/reviews.py into src/data/reviews.json.
+// Renders nothing if there are none. Review text is verbatim.
+import Icon from "../Icon.astro";
+import Stars from "../Stars.astro";
+import SectionHead from "../SectionHead.astro";
+import { COMPANY } from "../../data/content";
+import REVIEWS from "../../data/reviews.json";
+interface Props { limit?: number; alt?: boolean; title?: string; lead?: string }
+const { limit = 12, alt = true } = Astro.props;
+const R = REVIEWS as { reviews?: { name: string; rating: number; text: string; date?: string }[]; average?: number | null; total?: number; count?: number };
+const revs = R.reviews ?? [];
+// Keep one decimal on whole numbers so 5 reads "5.0", as on Google.
+const avg = R.average == null ? null : Number.isInteger(R.average) ? R.average.toFixed(1) : String(R.average);
+const total = R.total || R.count || revs.length;
+const title = Astro.props.title ?? "What customers actually <em>say</em>";
+const lead = Astro.props.lead ?? (avg && total
+  ? `${total} reviews on Google, averaging ${avg} out of 5. Pulled straight from our Google Business Profile.`
+  : "Pulled straight from our Google Business Profile.");
+const initials = (name: string) =>
+  name.split(/\s+/).filter(Boolean).slice(0, 2).filter((p) => /^\p{L}/u.test(p)).map((p) => p[0]).join("").toUpperCase() || "G";
+---
+{revs.length > 0 && (
+<section class={alt ? "section section--alt" : "section"}>
+  <div class="container">
+    <SectionHead title={title} lead={lead} />
+    {avg && <div class="reviews__summary reveal">
+      <span class="reviews__score">{avg}</span>
+      <span class="reviews__scoremeta">
+        <Stars rating={Number(avg)} />
+        <span class="reviews__count"><strong>{total} reviews</strong> on Google</span>
+      </span>
+      <a class="btn btn--outline" href={COMPANY.google_reviews_url} target="_blank" rel="noopener">Read them on Google <Icon name="arrow" size={16} /></a>
+    </div>}
+    <div class="reviews__grid reveal">{revs.slice(0, limit).map((r) => (
+      <article class="review"><Stars rating={r.rating} /><p>{r.text}</p><div class="review__by"><span class="review__avatar" aria-hidden="true">{initials(r.name)}</span><span><span class="review__name">{r.name}</span><span class="review__meta">{"Google review" + (r.date ? `, ${r.date}` : "")}</span></span></div></article>
+    ))}</div>
+  </div>
+</section>
+)}

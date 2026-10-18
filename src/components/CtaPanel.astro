@@ -1,0 +1,22 @@
+---
+import Icon from "./Icon.astro";
+import { COMPANY } from "../data/content";
+import { url, asset } from "../lib/site";
+interface Props { title: string; lead: string; primary?: [string, string]; secondary?: boolean }
+const { title, lead, primary = ["Request a Quote", "contact"], secondary = true } = Astro.props;
+---
+<section class="section">
+  <div class="container">
+    <div class="cta-panel reveal">
+      <img class="cta-panel__gear" src={asset("assets/img/logo/bm-icon-white.svg")} alt="" aria-hidden="true" loading="lazy" width="625" height="482">
+      <div class="cta-panel__inner">
+        <h2 class="display-2" set:html={title} />
+        <p class="lead" set:html={lead} />
+        <div class="btn-row" style="--ring-gap:var(--ink-900);--ring-line:#fff">
+          <a class="btn btn--primary btn--lg btn--ring" href={url(primary[1])}>{primary[0]}</a>
+          {secondary && <a class="btn btn--on-dark btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

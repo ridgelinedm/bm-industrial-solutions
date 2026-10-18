@@ -1,0 +1,15 @@
+---
+// Full-bleed photo band. Buttons go in the default slot.
+import Photo from "./Photo.astro";
+import type { Photo as PhotoT } from "../data/content";
+interface Props { photo: PhotoT; title: string; lead: string }
+const { photo, title, lead } = Astro.props;
+---
+<div class="band reveal">
+  <div class="band__bg"><Photo slug={photo[0]} alt={photo[1]} sizes="100vw" /></div>
+  <div class="band__inner">
+    <h2 class="display-2" set:html={title} />
+    <p class="lead" set:html={lead} />
+    <slot />
+  </div>
+</div>

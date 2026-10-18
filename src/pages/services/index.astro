@@ -1,0 +1,115 @@
+---
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import Brandwall from "../../components/Brandwall.astro";
+import PromoDuo from "../../components/PromoDuo.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import Steps from "../../components/Steps.astro";
+import FaqSection from "../../components/sections/FaqSection.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+import ServicesShowcase from "../../components/sections/ServicesShowcase.astro";
+import EmergencyBand from "../../components/sections/EmergencyBand.astro";
+import { COMPANY, SERVICE_BY_SLUG, type Faq as FaqT } from "../../data/content";
+import { url } from "../../lib/site";
+import { breadcrumbSchema, faqSchema } from "../../lib/schema";
+
+const trail: [string, string | null][] = [["Home", ""], ["Services", null]];
+
+// Sub-service breakdown for the two pillars that have children.
+const pillarsWithKids = ["services/air-compressor-services", "services/hydraulics-services"].map((p) => {
+  const parent = SERVICE_BY_SLUG[p];
+  return { parent, kids: (parent.children ?? []).map((c) => SERVICE_BY_SLUG[c]) };
+});
+
+const faqs: FaqT[] = [
+  ["Do we have to use you for all four services?",
+   "<p>No. Plenty of customers use us only for compressed air. The four lines exist because they overlap constantly in practice, but you are not obligated to consolidate anything.</p>"],
+  ["Are you a dealer for a particular manufacturer?",
+   "<p>No, and that is deliberate. Being independent means we can recommend the equipment your application actually calls for.</p>"],
+  ["Can you quote a project from drawings?",
+   `<p>We can start from drawings, but for anything involving existing plant we will want a site walk before committing to a number. Send what you have through the <a href="${url("contact")}">contact form</a> and we will tell you what else we need.</p>`],
+  ["How do you charge?",
+   "<p>Service work is quoted on time and materials with the rate structure given up front. Projects and installations are quoted as a fixed scope after a site visit. Either way you know the basis before we start.</p>"],
+];
+---
+<Base
+  title="Services | Air, Hydraulics, Mechanical & Piping | BM Industrial"
+  description="Air compressor service, hydraulics, mechanical contracting, process piping and preventive maintenance across SC, GA and NC. Owner-operated, 24/7 emergency response."
+  path="services" active="services"
+  schemas={[breadcrumbSchema(trail), faqSchema(faqs)]}>
+
+<section class="pagehero pagehero--center">
+  <div class="container">
+    <div class="pagehero__inner">
+      <Crumbs trail={trail} />
+      <h1 class="display-1">The trades that keep a plant running, <em>handled by one crew</em></h1>
+      <p class="lead">Compressed air, hydraulics, mechanical contracting and process piping, plus preventive maintenance to keep all of it out of the emergency queue.</p>
+      <div class="btn-row btn-row--center">
+        <a class="btn btn--primary btn--lg" href={url("contact")}>Request a Quote</a>
+        <a class="btn btn--outline btn--lg" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={18} /> {COMPANY.phone}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<Brandwall />
+
+<!-- The hero above already carries the heading, so the showcase runs bare. -->
+<ServicesShowcase />
+
+<section class="section section--tight">
+  <div class="container">
+    <PromoDuo
+      a={{
+        surface: "ink",
+        title: "Not sure which one you <em>need</em>?",
+        body: "Most problems do not arrive neatly labelled. Water at the tool could be a dryer, a drain or the piping. Describe what is actually happening and we will work out which trade it belongs to.",
+        label: "Describe the problem",
+        href: "contact",
+      }}
+      b={{
+        surface: "red",
+        title: "Skip straight to a <em>quote</em>",
+        body: "Equipment make and model, what it is doing, and how urgent it is. That is enough for us to come back with scope, timing and a number.",
+        label: `Call ${COMPANY.phone}`,
+        href: `tel:${COMPANY.phone_href}`,
+      }} />
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <SectionHead title="Pages for each type of job"
+      lead="Air compressors and hydraulics each break down into repair, installation and scheduled maintenance. If you already know what you need, go straight to it." />
+    {pillarsWithKids.map(({ parent, kids }) => (
+      <div class="reveal" style="margin-top:clamp(2.5rem,1rem + 4vw,4rem)">
+        <h3 class="display-3" style="margin-bottom:1.75rem">{parent.card_title} in detail</h3>
+        <div class="grid grid--3">{kids.map((k) => <ServiceCard service={k} outline cta="Read more" />)}</div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<EmergencyBand />
+
+<section class="section">
+  <div class="container">
+    <SectionHead title="The same process every time"
+      lead="Whether it is an emergency call or a planned installation." />
+    <Steps items={[
+      ["You call", "One number, answered 24/7, by someone who can actually assess the problem."],
+      ["We diagnose", "The whole system gets checked, top to bottom."],
+      ["You get options", "Repair versus replace, with the reasoning and the cost of each."],
+      ["We finish and document", "Tested, commissioned and written up before we leave."],
+    ]} />
+  </div>
+</section>
+
+<FaqSection title="Before you call" items={faqs} alt />
+
+<CtaPanel
+  title="Get a quote on any of it"
+  lead="Describe the equipment and what it is doing. We will come back with scope, timing and a number, or tell you if it is not work we should be taking." />
+</Base>

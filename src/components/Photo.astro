@@ -1,0 +1,12 @@
+---
+// <picture> with a WebP srcset and a JPEG fallback. Images are pre-sized by
+// _build/images.py into public/assets/img/photos/.
+import { asset } from "../lib/site";
+interface Props {
+  slug: string; alt: string; sizes?: string; class?: string;
+  loading?: "lazy" | "eager"; ratio?: string; fetchpriority?: "high" | "low" | "auto";
+}
+const { slug, alt, sizes = "100vw", class: cls, loading = "lazy", ratio, fetchpriority } = Astro.props;
+const srcset = [400, 800, 1200, 1800].map((w) => `${asset(`assets/img/photos/${slug}-${w}.webp`)} ${w}w`).join(", ");
+---
+<picture><source type="image/webp" srcset={srcset} sizes={sizes}><img src={asset(`assets/img/photos/${slug}.jpg`)} alt={alt} class={cls} style={ratio ? `aspect-ratio:${ratio}` : undefined} loading={loading} decoding="async" fetchpriority={fetchpriority} width="1200" height="900"></picture>

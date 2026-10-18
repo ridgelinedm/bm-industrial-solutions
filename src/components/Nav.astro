@@ -1,0 +1,30 @@
+---
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+import { COMPANY, NAV } from "../data/content";
+import { url } from "../lib/site";
+interface Props { active: string }
+const { active } = Astro.props;
+---
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__logo" href={url("")} aria-label={`${COMPANY.name} home`}>
+      <Logo />
+    </a>
+    <nav class="nav__nav" aria-label="Primary"><ul class="nav__menu">{NAV.map((item) => {
+      const isActive = active === item.key || active.startsWith(item.key + ":");
+      const cls = isActive ? "nav__link is-active" : "nav__link";
+      const cur = active === item.key ? "page" : undefined;
+      return item.children ? (
+        <li class="nav__item"><a class={cls} href={url(item.path)} aria-current={cur}>{item.label}<Icon name="chevron" size={15} class="nav__caret" /></a><div class="nav__panel">{item.children.map((c) => (<a href={url(c.path)}><strong>{c.label}</strong><span>{c.blurb}</span></a>))}</div></li>
+      ) : (
+        <li><a class={cls} href={url(item.path)} aria-current={cur}>{item.label}</a></li>
+      );
+    })}</ul></nav>
+    <div class="nav__actions">
+      <a class="nav__phone" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={16} />{COMPANY.phone}</a>
+      <a class="btn btn--primary btn--sm" href={url("contact")}>Request a Quote</a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,67 @@
+---
+// Page shell: head metadata, site chrome and structured data.
+import Topbar from "../components/Topbar.astro";
+import Nav from "../components/Nav.astro";
+import Drawer from "../components/Drawer.astro";
+import Footer from "../components/Footer.astro";
+import Callbar from "../components/Callbar.astro";
+import { COMPANY } from "../data/content";
+import { SITE_URL, canonical, asset } from "../lib/site";
+interface Props { title: string; description: string; path: string; active?: string; schemas?: object[]; ogImage?: string }
+const { title, description, path, active = "", schemas = [], ogImage } = Astro.props;
+const og = ogImage ?? SITE_URL + "/assets/img/og-image.jpg";
+// Site typeface. To bring Archivo back for headlines, add
+// "family=Archivo:ital,wght@0,500;0,600;0,700;0,800;1,700&" to this URL and set
+// --font-display to "Archivo" in public/assets/css/site.css.
+const FONT_CSS = "https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..800;1,9..40,400..800&display=swap";
+// "<" inside JSON-LD would let a string close the script tag early.
+const ld = (s: object) => JSON.stringify(s).replace(/</g, "\\u003c");
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical(path)}>
+<meta name="theme-color" content="#231f20">
+<meta name="format-detection" content="telephone=yes">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content={COMPANY.name}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={canonical(path)}>
+<meta property="og:image" content={og}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href={asset("favicon.ico")} sizes="48x48">
+<link rel="icon" href={asset("assets/img/logo/favicon.svg")} type="image/svg+xml">
+<link rel="icon" href={asset("assets/img/logo/favicon-32x32.png")} type="image/png" sizes="32x32">
+<link rel="icon" href={asset("assets/img/logo/favicon-16x16.png")} type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href={asset("assets/img/logo/apple-touch-icon.png")} sizes="180x180">
+<link rel="manifest" href={asset("site.webmanifest")}>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href={FONT_CSS}>
+<link rel="stylesheet" href={asset("assets/css/site.css")}>
+<script is:inline>if('IntersectionObserver' in window)document.documentElement.classList.add('reveal-on');try{if(!sessionStorage.getItem('bm-logo-intro')){document.documentElement.classList.add('logo-intro');sessionStorage.setItem('bm-logo-intro','1')}}catch(e){}</script>
+{schemas.map((s) => <script is:inline type="application/ld+json" set:html={ld(s)} />)}
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<Topbar />
+<Nav active={active} />
+<Drawer />
+<main id="main">
+<slot />
+</main>
+<Footer />
+<Callbar />
+<script is:inline src={asset("assets/js/site.js")} defer></script>
+</body>
+</html>

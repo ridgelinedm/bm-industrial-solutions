@@ -1,5 +1,5 @@
 // Cloudflare Workers Builds serves the site from dist/, built by
-// `bash _build/pages.sh`. Every branch, including ticket branches, gets a
+// `bash _build/pages.sh` (Astro). Every branch, including ticket branches, gets a
 // preview at <branch>-bm-industrial-solutions.zach-s-portfolio.workers.dev.
 {
   "name": "bm-industrial-solutions",

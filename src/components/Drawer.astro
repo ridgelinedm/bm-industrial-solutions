@@ -1,0 +1,16 @@
+---
+import Icon from "./Icon.astro";
+import { COMPANY, NAV } from "../data/content";
+import { url } from "../lib/site";
+---
+<div class="drawer" id="drawer">
+  <nav aria-label="Mobile">{NAV.map((item) => item.children ? (
+    <div class="drawer__group"><a class="drawer__link" href={url(item.path)}>{item.label}</a>{item.children.map((c) => <a class="drawer__sub" href={url(c.path)}>{c.label}</a>)}</div>
+  ) : (
+    <a class="drawer__link" href={url(item.path)}>{item.label}</a>
+  ))}</nav>
+  <div class="drawer__actions">
+    <a class="btn btn--primary" href={url("contact")}>Request a Quote</a>
+    <a class="btn btn--outline" href={`tel:${COMPANY.phone_href}`}><Icon name="phone" size={17} /> {COMPANY.phone}</a>
+  </div>
+</div>

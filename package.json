@@ -1,0 +1,21 @@
+{
+  "name": "bm-industrial-solutions",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "python3 _build/check.py --root dist --base \"\""
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "dependencies": {
+    "astro": "^7.4.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  }
+}

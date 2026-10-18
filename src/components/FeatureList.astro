@@ -1,0 +1,7 @@
+---
+// [icon, title, body HTML]. Deliberately no card chrome.
+import Icon from "./Icon.astro";
+interface Props { items: [string, string, string][] }
+const { items } = Astro.props;
+---
+<div class="featurelist">{items.map(([ic, title, body]) => <div class="featurelist__item reveal"><div class="featurelist__icon"><Icon name={ic} size={28} /></div><h3>{title}</h3><p set:html={body} /></div>)}</div>

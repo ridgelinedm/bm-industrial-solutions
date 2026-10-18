@@ -1,0 +1,17 @@
+---
+import SectionHead from "../SectionHead.astro";
+import AreasGrid from "../AreasGrid.astro";
+import { AREAS, EXTENDED_AREAS } from "../../data/content";
+import { url } from "../../lib/site";
+interface Props { exclude?: string; alt?: boolean }
+const { exclude, alt = true } = Astro.props;
+const items = AREAS.filter((a) => a.path !== exclude);
+const extra = EXTENDED_AREAS.map(([c, s]) => `${c}, ${s}`).join(", ");
+---
+<section class={alt ? "section section--alt" : "section"}>
+  <div class="container">
+    <SectionHead title="Field service across three states" lead="Based in Holly Hill, South Carolina, with regular field service throughout South Carolina, Georgia and North Carolina." />
+    <AreasGrid items={items} />
+    <p class="muted" style="margin-top:2rem;font-size:var(--fs-sm)">We also cover {extra} and the surrounding industrial areas. If you are outside these markets, <a href={url("contact")} style="color:var(--red);text-decoration:underline;text-underline-offset:3px">ask anyway</a>. We travel for the right project.</p>
+  </div>
+</section>

@@ -18,3 +18,7 @@ __pycache__/
 
 # Cloudflare Pages build output (_build/pages.sh)
 dist/
+
+# Astro
+node_modules/
+.astro/

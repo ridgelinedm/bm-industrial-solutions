@@ -1,0 +1,18 @@
+---
+// The header logo, inlined so CSS can animate its parts (see .logo-intro in
+// site.css). Built from the kit master in brand/svg at build time. The four
+// shapes are tagged: logo-gear, logo-solid (black BM), logo-inline (red BM
+// detail), logo-text (wordmark).
+import raw from "../../brand/svg/bm-horizontal-full-color.svg?raw";
+
+const PARTS: Record<string, string> = { gear: "logo-gear", solid: "logo-solid", inline: "logo-inline", text: "logo-text" };
+const svg = raw
+  .replace(/<metadata>[\s\S]*?<\/metadata>/, "")
+  // The link around the logo names it; drop the file's own <title>/<desc>.
+  .replace(/<(title|desc)>[\s\S]*?<\/\1>/g, "")
+  .replace(/\s+xmlns:c2pa="[^"]*"/, "")
+  .replace(/\s(width|height)="[^"]*"/g, "")
+  .replace(/<svg\b/, '<svg class="logo" width="1460" height="482" aria-hidden="true" focusable="false"')
+  .replace(/\sid="(gear|solid|inline|text)"/g, (_, id: string) => ` class="${PARTS[id]}"`);
+---
+<Fragment set:html={svg} />

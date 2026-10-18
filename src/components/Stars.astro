@@ -1,0 +1,10 @@
+---
+// Filled stars up to `rating`, greyed for the remainder.
+import { STAR_PATH } from "./icons";
+interface Props { rating: number | null | undefined; outOf?: number }
+const { rating, outOf = 5 } = Astro.props;
+const r = Math.max(0, Math.min(outOf, Math.round(rating || 0)));
+---
+<span class="stars" role="img" aria-label={`${r} out of ${outOf}`}>{Array.from({ length: outOf }, (_, i) => (
+  <svg class={i >= r ? "is-empty" : undefined} width="17" height="17" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" set:html={STAR_PATH} />
+))}</span>

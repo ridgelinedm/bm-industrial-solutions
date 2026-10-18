@@ -1,0 +1,6 @@
+---
+// [title, body HTML]. Large numerals carry the sequence.
+interface Props { items: [string, string][] }
+const { items } = Astro.props;
+---
+<ol class="steps">{items.map(([title, body], i) => <li class="step reveal"><span class="step__num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span><h3 class="h4">{title}</h3><p set:html={body} /></li>)}</ol>

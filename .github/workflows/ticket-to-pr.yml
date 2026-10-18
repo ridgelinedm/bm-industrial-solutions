@@ -44,6 +44,14 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
       - name: Read the ticket
         run: |
           if ! [[ "$TASK_ID" =~ ^[A-Za-z0-9_-]{1,40}$ ]]; then
@@ -101,12 +109,12 @@ jobs:
             process details such as builds, checks and commits.
           claude_args: |
             --max-turns 40
-            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(python3 _build/build.py:*),Bash(python3 _build/check.py:*),Bash(git diff:*),Bash(git status:*)"
+            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(npm run build:*),Bash(npm run check:*),Bash(git diff:*),Bash(git status:*)"
 
       - name: Rebuild and check
         run: |
-          python3 _build/build.py
-          python3 _build/check.py
+          npm run build
+          npm run check
 
       - name: Commit and push
         run: |
