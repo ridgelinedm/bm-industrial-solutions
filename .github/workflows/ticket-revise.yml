@@ -84,6 +84,16 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: actions/setup-node@v4
+        if: env.SKIP != '1'
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install dependencies
+        if: env.SKIP != '1'
+        run: npm ci --no-audit --no-fund
+
       - name: Claude revises the change
         if: env.SKIP != '1'
         uses: anthropics/claude-code-action@v1
@@ -118,7 +128,7 @@ jobs:
             checks and commits.
           claude_args: |
             --max-turns 40
-            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(python3 _build/build.py:*),Bash(python3 _build/check.py:*),Bash(git diff:*),Bash(git status:*)"
+            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(npm run build:*),Bash(npm run check:*),Bash(git diff:*),Bash(git status:*)"
 
       - name: Rebuild, check and push
         if: env.SKIP != '1'
@@ -130,8 +140,8 @@ jobs:
             echo "(Claude left no summary.)" > "$summary_file"
           fi
 
-          python3 _build/build.py
-          python3 _build/check.py
+          npm run build
+          npm run check
 
           git add -A
           if git diff --cached --quiet; then

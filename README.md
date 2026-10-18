@@ -138,15 +138,17 @@ Two environment variables control the build (see `astro.config.mjs`):
 | `SITE_URL` | `https://www.bmindustrialsolutionsllc.com` | Canonicals, sitemap, Open Graph and structured data |
 | `BASE_PATH` | empty | Prefix for every internal link, for serving from a subpath |
 
-The GitHub Pages project URL serves from a subpath:
+### GitHub Pages
+
+`.github/workflows/pages.yml` builds the site for the project URL
+(https://ridgelinedm.github.io/bm-industrial-solutions/) and publishes `dist/`
+on every push to `main`. Ticket deploys start it themselves, because merges
+made by a workflow do not fire push events. To build the same thing locally:
 
 ```bash
-SITE_URL=https://ridgelinedm.github.io BASE_PATH=/bm-industrial-solutions npm run build
+BASE_PATH=/bm-industrial-solutions npm run build
 python3 _build/check.py --base /bm-industrial-solutions
 ```
-
-GitHub Pages would need an Actions workflow to build and publish `dist/`,
-since the HTML is no longer committed. Cloudflare already builds it.
 
 ## Ticket automation
 

@@ -33,6 +33,14 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -40,5 +48,5 @@ jobs:
           github_token: ${{ github.token }}
           claude_args: |
             --max-turns 40
-            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(python3 _build/build.py:*),Bash(python3 _build/check.py:*),Bash(git diff:*),Bash(git status:*)"
-            --append-system-prompt "Follow CLAUDE.md. Run python3 _build/build.py and python3 _build/check.py after every change, and include the regenerated HTML in your commit."
+            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(npm run build:*),Bash(npm run check:*),Bash(git diff:*),Bash(git status:*)"
+            --append-system-prompt "Follow CLAUDE.md. Run npm run build and npm run check after every change. Commit only source files; dist/ is build output and is never committed."
